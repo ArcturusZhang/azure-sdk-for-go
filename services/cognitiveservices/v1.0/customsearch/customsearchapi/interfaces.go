@@ -18,13 +18,13 @@ package customsearchapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/cognitiveservices/v1.0/customsearch"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/cognitiveservices/v1.0/customsearch"
 )
 
-// CustomInstanceClientAPI contains the set of methods on the CustomInstanceClient type.
-type CustomInstanceClientAPI interface {
-	Search(ctx context.Context, customConfig string, query string, acceptLanguage string, userAgent string, clientID string, clientIP string, location string, countryCode string, count *int32, market string, offset *int32, safeSearch customsearch.SafeSearch, setLang string, textDecorations *bool, textFormat customsearch.TextFormat) (result customsearch.SearchResponse, err error)
-}
+        // CustomInstanceClientAPI contains the set of methods on the CustomInstanceClient type.
+        type CustomInstanceClientAPI interface {
+            Search(ctx context.Context, customConfig string, query string, acceptLanguage string, userAgent string, clientID string, clientIP string, location string, countryCode string, count *int32, market string, offset *int32, safeSearch customsearch.SafeSearch, setLang string, textDecorations *bool, textFormat customsearch.TextFormat) (result customsearch.SearchResponse, err error)
+        }
 
-var _ CustomInstanceClientAPI = (*customsearch.CustomInstanceClient)(nil)
+        var _ CustomInstanceClientAPI = (*customsearch.CustomInstanceClient)(nil)

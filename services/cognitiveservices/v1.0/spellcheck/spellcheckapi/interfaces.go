@@ -18,13 +18,13 @@ package spellcheckapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/cognitiveservices/v1.0/spellcheck"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/cognitiveservices/v1.0/spellcheck"
 )
 
-// BaseClientAPI contains the set of methods on the BaseClient type.
-type BaseClientAPI interface {
-	SpellCheckerMethod(ctx context.Context, textParameter string, acceptLanguage string, pragma string, userAgent string, clientID string, clientIP string, location string, actionType spellcheck.ActionType, appName string, countryCode string, clientMachineName string, docID string, market string, sessionID string, setLang string, userID string, mode spellcheck.Mode, preContextText string, postContextText string) (result spellcheck.SpellCheck, err error)
-}
+        // BaseClientAPI contains the set of methods on the BaseClient type.
+        type BaseClientAPI interface {
+            SpellCheckerMethod(ctx context.Context, textParameter string, acceptLanguage string, pragma string, userAgent string, clientID string, clientIP string, location string, actionType spellcheck.ActionType, appName string, countryCode string, clientMachineName string, docID string, market string, sessionID string, setLang string, userID string, mode spellcheck.Mode, preContextText string, postContextText string) (result spellcheck.SpellCheck, err error)
+        }
 
-var _ BaseClientAPI = (*spellcheck.BaseClient)(nil)
+        var _ BaseClientAPI = (*spellcheck.BaseClient)(nil)

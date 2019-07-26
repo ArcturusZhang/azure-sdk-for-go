@@ -18,39 +18,37 @@ package jobapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/datalake/analytics/2017-09-01-preview/job"
-	"github.com/Azure/go-autorest/autorest/date"
-	"github.com/satori/go.uuid"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/datalake/analytics/2017-09-01-preview/job"
+    "github.com/satori/go.uuid"
+    "github.com/Azure/go-autorest/autorest/date"
 )
 
-// ClientAPI contains the set of methods on the Client type.
-type ClientAPI interface {
-	Build(ctx context.Context, accountName string, parameters job.BuildJobParameters) (result job.Information, err error)
-	Cancel(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.CancelFuture, err error)
-	Create(ctx context.Context, accountName string, jobIdentity uuid.UUID, parameters job.CreateJobParameters) (result job.Information, err error)
-	Get(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.Information, err error)
-	GetDebugDataPath(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.DataPath, err error)
-	GetStatistics(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.Statistics, err error)
-	List(ctx context.Context, accountName string, filter string, top *int32, skip *int32, selectParameter string, orderby string, count *bool) (result job.InfoListResultPage, err error)
-	Update(ctx context.Context, accountName string, jobIdentity uuid.UUID, parameters *job.UpdateJobParameters) (result job.UpdateFuture, err error)
-	Yield(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.YieldFuture, err error)
-}
+        // ClientAPI contains the set of methods on the Client type.
+        type ClientAPI interface {
+            Build(ctx context.Context, accountName string, parameters job.BuildJobParameters) (result job.Information, err error)
+            Cancel(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.CancelFuture, err error)
+            Create(ctx context.Context, accountName string, jobIdentity uuid.UUID, parameters job.CreateJobParameters) (result job.Information, err error)
+            Get(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.Information, err error)
+            GetDebugDataPath(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.DataPath, err error)
+            GetStatistics(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.Statistics, err error)
+            List(ctx context.Context, accountName string, filter string, top *int32, skip *int32, selectParameter string, orderby string, count *bool) (result job.InfoListResultPage, err error)
+            Update(ctx context.Context, accountName string, jobIdentity uuid.UUID, parameters *job.UpdateJobParameters) (result job.UpdateFuture, err error)
+            Yield(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.YieldFuture, err error)
+        }
 
-var _ ClientAPI = (*job.Client)(nil)
+        var _ ClientAPI = (*job.Client)(nil)
+        // PipelineClientAPI contains the set of methods on the PipelineClient type.
+        type PipelineClientAPI interface {
+            Get(ctx context.Context, accountName string, pipelineIdentity uuid.UUID, startDateTime *date.Time, endDateTime *date.Time) (result job.PipelineInformation, err error)
+            List(ctx context.Context, accountName string, startDateTime *date.Time, endDateTime *date.Time) (result job.PipelineInformationListResultPage, err error)
+        }
 
-// PipelineClientAPI contains the set of methods on the PipelineClient type.
-type PipelineClientAPI interface {
-	Get(ctx context.Context, accountName string, pipelineIdentity uuid.UUID, startDateTime *date.Time, endDateTime *date.Time) (result job.PipelineInformation, err error)
-	List(ctx context.Context, accountName string, startDateTime *date.Time, endDateTime *date.Time) (result job.PipelineInformationListResultPage, err error)
-}
+        var _ PipelineClientAPI = (*job.PipelineClient)(nil)
+        // RecurrenceClientAPI contains the set of methods on the RecurrenceClient type.
+        type RecurrenceClientAPI interface {
+            Get(ctx context.Context, accountName string, recurrenceIdentity uuid.UUID, startDateTime *date.Time, endDateTime *date.Time) (result job.RecurrenceInformation, err error)
+            List(ctx context.Context, accountName string, startDateTime *date.Time, endDateTime *date.Time) (result job.RecurrenceInformationListResultPage, err error)
+        }
 
-var _ PipelineClientAPI = (*job.PipelineClient)(nil)
-
-// RecurrenceClientAPI contains the set of methods on the RecurrenceClient type.
-type RecurrenceClientAPI interface {
-	Get(ctx context.Context, accountName string, recurrenceIdentity uuid.UUID, startDateTime *date.Time, endDateTime *date.Time) (result job.RecurrenceInformation, err error)
-	List(ctx context.Context, accountName string, startDateTime *date.Time, endDateTime *date.Time) (result job.RecurrenceInformationListResultPage, err error)
-}
-
-var _ RecurrenceClientAPI = (*job.RecurrenceClient)(nil)
+        var _ RecurrenceClientAPI = (*job.RecurrenceClient)(nil)

@@ -18,13 +18,13 @@ package monitorapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/monitor/2018-09-01-preview/monitor"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/monitor/2018-09-01-preview/monitor"
 )
 
-// MetricsClientAPI contains the set of methods on the MetricsClient type.
-type MetricsClientAPI interface {
-	Create(ctx context.Context, contentType string, contentLength int32, subscriptionID string, resourceGroupName string, resourceProvider string, resourceTypeName string, resourceName string, body monitor.AzureMetricsDocument) (result monitor.AzureMetricsResult, err error)
-}
+        // MetricsClientAPI contains the set of methods on the MetricsClient type.
+        type MetricsClientAPI interface {
+            Create(ctx context.Context, contentType string, contentLength int32, subscriptionID string, resourceGroupName string, resourceProvider string, resourceTypeName string, resourceName string, body monitor.AzureMetricsDocument) (result monitor.AzureMetricsResult, err error)
+        }
 
-var _ MetricsClientAPI = (*monitor.MetricsClient)(nil)
+        var _ MetricsClientAPI = (*monitor.MetricsClient)(nil)

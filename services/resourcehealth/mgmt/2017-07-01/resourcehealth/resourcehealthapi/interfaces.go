@@ -18,38 +18,35 @@ package resourcehealthapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/resourcehealth/mgmt/2017-07-01/resourcehealth"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/resourcehealth/mgmt/2017-07-01/resourcehealth"
 )
 
-// AvailabilityStatusesClientAPI contains the set of methods on the AvailabilityStatusesClient type.
-type AvailabilityStatusesClientAPI interface {
-	GetByResource(ctx context.Context, resourceURI string, filter string, expand string) (result resourcehealth.AvailabilityStatus, err error)
-	List(ctx context.Context, resourceURI string, filter string, expand string) (result resourcehealth.AvailabilityStatusListResultPage, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string, filter string, expand string) (result resourcehealth.AvailabilityStatusListResultPage, err error)
-	ListBySubscriptionID(ctx context.Context, filter string, expand string) (result resourcehealth.AvailabilityStatusListResultPage, err error)
-}
+        // AvailabilityStatusesClientAPI contains the set of methods on the AvailabilityStatusesClient type.
+        type AvailabilityStatusesClientAPI interface {
+            GetByResource(ctx context.Context, resourceURI string, filter string, expand string) (result resourcehealth.AvailabilityStatus, err error)
+            List(ctx context.Context, resourceURI string, filter string, expand string) (result resourcehealth.AvailabilityStatusListResultPage, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string, filter string, expand string) (result resourcehealth.AvailabilityStatusListResultPage, err error)
+            ListBySubscriptionID(ctx context.Context, filter string, expand string) (result resourcehealth.AvailabilityStatusListResultPage, err error)
+        }
 
-var _ AvailabilityStatusesClientAPI = (*resourcehealth.AvailabilityStatusesClient)(nil)
+        var _ AvailabilityStatusesClientAPI = (*resourcehealth.AvailabilityStatusesClient)(nil)
+        // ChildAvailabilityStatusesClientAPI contains the set of methods on the ChildAvailabilityStatusesClient type.
+        type ChildAvailabilityStatusesClientAPI interface {
+            GetByResource(ctx context.Context, resourceURI string, filter string, expand string) (result resourcehealth.AvailabilityStatus, err error)
+            List(ctx context.Context, resourceURI string, filter string, expand string) (result resourcehealth.AvailabilityStatusListResultPage, err error)
+        }
 
-// ChildAvailabilityStatusesClientAPI contains the set of methods on the ChildAvailabilityStatusesClient type.
-type ChildAvailabilityStatusesClientAPI interface {
-	GetByResource(ctx context.Context, resourceURI string, filter string, expand string) (result resourcehealth.AvailabilityStatus, err error)
-	List(ctx context.Context, resourceURI string, filter string, expand string) (result resourcehealth.AvailabilityStatusListResultPage, err error)
-}
+        var _ ChildAvailabilityStatusesClientAPI = (*resourcehealth.ChildAvailabilityStatusesClient)(nil)
+        // ChildResourcesClientAPI contains the set of methods on the ChildResourcesClient type.
+        type ChildResourcesClientAPI interface {
+            List(ctx context.Context, resourceURI string, filter string, expand string) (result resourcehealth.AvailabilityStatusListResultPage, err error)
+        }
 
-var _ ChildAvailabilityStatusesClientAPI = (*resourcehealth.ChildAvailabilityStatusesClient)(nil)
+        var _ ChildResourcesClientAPI = (*resourcehealth.ChildResourcesClient)(nil)
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result resourcehealth.OperationListResult, err error)
+        }
 
-// ChildResourcesClientAPI contains the set of methods on the ChildResourcesClient type.
-type ChildResourcesClientAPI interface {
-	List(ctx context.Context, resourceURI string, filter string, expand string) (result resourcehealth.AvailabilityStatusListResultPage, err error)
-}
-
-var _ ChildResourcesClientAPI = (*resourcehealth.ChildResourcesClient)(nil)
-
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result resourcehealth.OperationListResult, err error)
-}
-
-var _ OperationsClientAPI = (*resourcehealth.OperationsClient)(nil)
+        var _ OperationsClientAPI = (*resourcehealth.OperationsClient)(nil)

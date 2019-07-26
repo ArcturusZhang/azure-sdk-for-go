@@ -18,30 +18,28 @@ package searchapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/search/mgmt/2015-02-28/search"
-	"github.com/Azure/go-autorest/autorest"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/search/mgmt/2015-02-28/search"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// AdminKeysClientAPI contains the set of methods on the AdminKeysClient type.
-type AdminKeysClientAPI interface {
-	List(ctx context.Context, resourceGroupName string, serviceName string) (result search.AdminKeyResult, err error)
-}
+        // AdminKeysClientAPI contains the set of methods on the AdminKeysClient type.
+        type AdminKeysClientAPI interface {
+            List(ctx context.Context, resourceGroupName string, serviceName string) (result search.AdminKeyResult, err error)
+        }
 
-var _ AdminKeysClientAPI = (*search.AdminKeysClient)(nil)
+        var _ AdminKeysClientAPI = (*search.AdminKeysClient)(nil)
+        // QueryKeysClientAPI contains the set of methods on the QueryKeysClient type.
+        type QueryKeysClientAPI interface {
+            List(ctx context.Context, resourceGroupName string, serviceName string) (result search.ListQueryKeysResult, err error)
+        }
 
-// QueryKeysClientAPI contains the set of methods on the QueryKeysClient type.
-type QueryKeysClientAPI interface {
-	List(ctx context.Context, resourceGroupName string, serviceName string) (result search.ListQueryKeysResult, err error)
-}
+        var _ QueryKeysClientAPI = (*search.QueryKeysClient)(nil)
+        // ServicesClientAPI contains the set of methods on the ServicesClient type.
+        type ServicesClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, serviceName string, parameters search.ServiceCreateOrUpdateParameters) (result search.ServiceResource, err error)
+            Delete(ctx context.Context, resourceGroupName string, serviceName string) (result autorest.Response, err error)
+            List(ctx context.Context, resourceGroupName string) (result search.ServiceListResult, err error)
+        }
 
-var _ QueryKeysClientAPI = (*search.QueryKeysClient)(nil)
-
-// ServicesClientAPI contains the set of methods on the ServicesClient type.
-type ServicesClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, serviceName string, parameters search.ServiceCreateOrUpdateParameters) (result search.ServiceResource, err error)
-	Delete(ctx context.Context, resourceGroupName string, serviceName string) (result autorest.Response, err error)
-	List(ctx context.Context, resourceGroupName string) (result search.ServiceListResult, err error)
-}
-
-var _ ServicesClientAPI = (*search.ServicesClient)(nil)
+        var _ ServicesClientAPI = (*search.ServicesClient)(nil)

@@ -18,22 +18,22 @@ package predictionapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/cognitiveservices/v3.0/customvision/prediction"
-	"github.com/satori/go.uuid"
-	"io"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/cognitiveservices/v3.0/customvision/prediction"
+    "github.com/satori/go.uuid"
+    "io"
 )
 
-// BaseClientAPI contains the set of methods on the BaseClient type.
-type BaseClientAPI interface {
-	ClassifyImage(ctx context.Context, projectID uuid.UUID, publishedName string, imageData io.ReadCloser, application string) (result prediction.ImagePrediction, err error)
-	ClassifyImageURL(ctx context.Context, projectID uuid.UUID, publishedName string, imageURL prediction.ImageURL, application string) (result prediction.ImagePrediction, err error)
-	ClassifyImageURLWithNoStore(ctx context.Context, projectID uuid.UUID, publishedName string, imageURL prediction.ImageURL, application string) (result prediction.ImagePrediction, err error)
-	ClassifyImageWithNoStore(ctx context.Context, projectID uuid.UUID, publishedName string, imageData io.ReadCloser, application string) (result prediction.ImagePrediction, err error)
-	DetectImage(ctx context.Context, projectID uuid.UUID, publishedName string, imageData io.ReadCloser, application string) (result prediction.ImagePrediction, err error)
-	DetectImageURL(ctx context.Context, projectID uuid.UUID, publishedName string, imageURL prediction.ImageURL, application string) (result prediction.ImagePrediction, err error)
-	DetectImageURLWithNoStore(ctx context.Context, projectID uuid.UUID, publishedName string, imageURL prediction.ImageURL, application string) (result prediction.ImagePrediction, err error)
-	DetectImageWithNoStore(ctx context.Context, projectID uuid.UUID, publishedName string, imageData io.ReadCloser, application string) (result prediction.ImagePrediction, err error)
-}
+        // BaseClientAPI contains the set of methods on the BaseClient type.
+        type BaseClientAPI interface {
+            ClassifyImage(ctx context.Context, projectID uuid.UUID, publishedName string, imageData io.ReadCloser, application string) (result prediction.ImagePrediction, err error)
+            ClassifyImageURL(ctx context.Context, projectID uuid.UUID, publishedName string, imageURL prediction.ImageURL, application string) (result prediction.ImagePrediction, err error)
+            ClassifyImageURLWithNoStore(ctx context.Context, projectID uuid.UUID, publishedName string, imageURL prediction.ImageURL, application string) (result prediction.ImagePrediction, err error)
+            ClassifyImageWithNoStore(ctx context.Context, projectID uuid.UUID, publishedName string, imageData io.ReadCloser, application string) (result prediction.ImagePrediction, err error)
+            DetectImage(ctx context.Context, projectID uuid.UUID, publishedName string, imageData io.ReadCloser, application string) (result prediction.ImagePrediction, err error)
+            DetectImageURL(ctx context.Context, projectID uuid.UUID, publishedName string, imageURL prediction.ImageURL, application string) (result prediction.ImagePrediction, err error)
+            DetectImageURLWithNoStore(ctx context.Context, projectID uuid.UUID, publishedName string, imageURL prediction.ImageURL, application string) (result prediction.ImagePrediction, err error)
+            DetectImageWithNoStore(ctx context.Context, projectID uuid.UUID, publishedName string, imageData io.ReadCloser, application string) (result prediction.ImagePrediction, err error)
+        }
 
-var _ BaseClientAPI = (*prediction.BaseClient)(nil)
+        var _ BaseClientAPI = (*prediction.BaseClient)(nil)

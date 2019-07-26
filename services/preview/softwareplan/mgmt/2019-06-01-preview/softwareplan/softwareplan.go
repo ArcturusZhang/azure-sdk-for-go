@@ -18,102 +18,102 @@ package softwareplan
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/azure"
-	"github.com/Azure/go-autorest/autorest/validation"
-	"github.com/Azure/go-autorest/tracing"
-	"net/http"
+    "github.com/Azure/go-autorest/autorest"
+    "github.com/Azure/go-autorest/autorest/azure"
+    "net/http"
+    "context"
+    "github.com/Azure/go-autorest/tracing"
+    "github.com/Azure/go-autorest/autorest/validation"
 )
 
 // Client is the azure software plans let users create and manage licenses for various software used in Azure.
 type Client struct {
-	BaseClient
+    BaseClient
 }
-
 // NewClient creates an instance of the Client client.
 func NewClient(subscriptionID string) Client {
-	return NewClientWithBaseURI(DefaultBaseURI, subscriptionID)
+    return NewClientWithBaseURI(DefaultBaseURI, subscriptionID)
 }
 
 // NewClientWithBaseURI creates an instance of the Client client.
-func NewClientWithBaseURI(baseURI string, subscriptionID string) Client {
-	return Client{NewWithBaseURI(baseURI, subscriptionID)}
-}
+    func NewClientWithBaseURI(baseURI string, subscriptionID string) Client {
+        return Client{ NewWithBaseURI(baseURI, subscriptionID)}
+    }
 
 // Register register to Microsoft.SoftwarePlan resource provider.
 func (client Client) Register(ctx context.Context) (result autorest.Response, err error) {
-	if tracing.IsEnabled() {
-		ctx = tracing.StartSpan(ctx, fqdn+"/Client.Register")
-		defer func() {
-			sc := -1
-			if result.Response != nil {
-				sc = result.Response.StatusCode
-			}
-			tracing.EndSpan(ctx, sc, err)
-		}()
-	}
-	if err := validation.Validate([]validation.Validation{
-		{TargetValue: client.SubscriptionID,
-			Constraints: []validation.Constraint{{Target: "client.SubscriptionID", Name: validation.MinLength, Rule: 1, Chain: nil}}}}); err != nil {
-		return result, validation.NewError("softwareplan.Client", "Register", err.Error())
-	}
+    if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/Client.Register")
+        defer func() {
+            sc := -1
+            if result.Response != nil {
+                sc = result.Response.StatusCode
+            }
+            tracing.EndSpan(ctx, sc, err)
+        }()
+    }
+            if err := validation.Validate([]validation.Validation{
+            { TargetValue: client.SubscriptionID,
+             Constraints: []validation.Constraint{	{Target: "client.SubscriptionID", Name: validation.MinLength, Rule: 1, Chain: nil }}}}); err != nil {
+            return result, validation.NewError("softwareplan.Client", "Register", err.Error())
+            }
 
-	req, err := client.RegisterPreparer(ctx)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "softwareplan.Client", "Register", nil, "Failure preparing request")
-		return
-	}
+                req, err := client.RegisterPreparer(ctx)
+    if err != nil {
+    err = autorest.NewErrorWithError(err, "softwareplan.Client", "Register", nil , "Failure preparing request")
+    return
+    }
 
-	resp, err := client.RegisterSender(req)
-	if err != nil {
-		result.Response = resp
-		err = autorest.NewErrorWithError(err, "softwareplan.Client", "Register", resp, "Failure sending request")
-		return
-	}
+            resp, err := client.RegisterSender(req)
+            if err != nil {
+            result.Response = resp
+            err = autorest.NewErrorWithError(err, "softwareplan.Client", "Register", resp, "Failure sending request")
+            return
+            }
 
-	result, err = client.RegisterResponder(resp)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "softwareplan.Client", "Register", resp, "Failure responding to request")
-	}
+            result, err = client.RegisterResponder(resp)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "softwareplan.Client", "Register", resp, "Failure responding to request")
+            }
 
-	return
-}
+    return
+    }
 
-// RegisterPreparer prepares the Register request.
-func (client Client) RegisterPreparer(ctx context.Context) (*http.Request, error) {
-	pathParameters := map[string]interface{}{
-		"subscriptionId": autorest.Encode("path", client.SubscriptionID),
-	}
+    // RegisterPreparer prepares the Register request.
+    func (client Client) RegisterPreparer(ctx context.Context) (*http.Request, error) {
+            pathParameters := map[string]interface{} {
+            "subscriptionId": autorest.Encode("path",client.SubscriptionID),
+            }
 
-	const APIVersion = "2019-06-01-preview"
-	queryParameters := map[string]interface{}{
-		"api-version": APIVersion,
-	}
+                        const APIVersion = "2019-06-01-preview"
+        queryParameters := map[string]interface{} {
+        "api-version": APIVersion,
+        }
 
-	preparer := autorest.CreatePreparer(
-		autorest.AsPost(),
-		autorest.WithBaseURL(client.BaseURI),
-		autorest.WithPathParameters("/subscriptions/{subscriptionId}/providers/Microsoft.SoftwarePlan/register", pathParameters),
-		autorest.WithQueryParameters(queryParameters))
-	return preparer.Prepare((&http.Request{}).WithContext(ctx))
-}
+        preparer := autorest.CreatePreparer(
+    autorest.AsPost(),
+    autorest.WithBaseURL(client.BaseURI),
+    autorest.WithPathParameters("/subscriptions/{subscriptionId}/providers/Microsoft.SoftwarePlan/register",pathParameters),
+    autorest.WithQueryParameters(queryParameters))
+    return preparer.Prepare((&http.Request{}).WithContext(ctx))
+    }
 
-// RegisterSender sends the Register request. The method will close the
-// http.Response Body if it receives an error.
-func (client Client) RegisterSender(req *http.Request) (*http.Response, error) {
-	sd := autorest.GetSendDecorators(req.Context(), azure.DoRetryWithRegistration(client.Client))
-	return autorest.SendWithSender(client, req, sd...)
-}
+    // RegisterSender sends the Register request. The method will close the
+    // http.Response Body if it receives an error.
+    func (client Client) RegisterSender(req *http.Request) (*http.Response, error) {
+        sd := autorest.GetSendDecorators(req.Context(), azure.DoRetryWithRegistration(client.Client))
+            return autorest.SendWithSender(client, req, sd...)
+            }
 
 // RegisterResponder handles the response to the Register request. The method always
 // closes the http.Response Body.
 func (client Client) RegisterResponder(resp *http.Response) (result autorest.Response, err error) {
-	err = autorest.Respond(
-		resp,
-		client.ByInspecting(),
-		azure.WithErrorUnlessStatusCode(http.StatusOK, http.StatusNoContent),
-		autorest.ByClosing())
-	result.Response = resp
-	return
-}
+    err = autorest.Respond(
+    resp,
+    client.ByInspecting(),
+    azure.WithErrorUnlessStatusCode(http.StatusOK,http.StatusNoContent),
+    autorest.ByClosing())
+    result.Response = resp
+        return
+    }
+

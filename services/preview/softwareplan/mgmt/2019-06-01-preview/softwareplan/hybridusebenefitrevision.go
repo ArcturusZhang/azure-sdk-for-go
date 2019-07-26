@@ -18,140 +18,140 @@ package softwareplan
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/azure"
-	"github.com/Azure/go-autorest/tracing"
-	"net/http"
+    "github.com/Azure/go-autorest/autorest"
+    "github.com/Azure/go-autorest/autorest/azure"
+    "net/http"
+    "context"
+    "github.com/Azure/go-autorest/tracing"
 )
 
 // HybridUseBenefitRevisionClient is the azure software plans let users create and manage licenses for various software
 // used in Azure.
 type HybridUseBenefitRevisionClient struct {
-	BaseClient
+    BaseClient
 }
-
 // NewHybridUseBenefitRevisionClient creates an instance of the HybridUseBenefitRevisionClient client.
 func NewHybridUseBenefitRevisionClient(subscriptionID string) HybridUseBenefitRevisionClient {
-	return NewHybridUseBenefitRevisionClientWithBaseURI(DefaultBaseURI, subscriptionID)
+    return NewHybridUseBenefitRevisionClientWithBaseURI(DefaultBaseURI, subscriptionID)
 }
 
 // NewHybridUseBenefitRevisionClientWithBaseURI creates an instance of the HybridUseBenefitRevisionClient client.
-func NewHybridUseBenefitRevisionClientWithBaseURI(baseURI string, subscriptionID string) HybridUseBenefitRevisionClient {
-	return HybridUseBenefitRevisionClient{NewWithBaseURI(baseURI, subscriptionID)}
-}
+    func NewHybridUseBenefitRevisionClientWithBaseURI(baseURI string, subscriptionID string) HybridUseBenefitRevisionClient {
+        return HybridUseBenefitRevisionClient{ NewWithBaseURI(baseURI, subscriptionID)}
+    }
 
 // List gets the version history of a hybrid use benefit
-// Parameters:
-// scope - the scope at which the operation is performed. This is limited to Microsoft.Compute/virtualMachines
-// and Microsoft.Compute/hostGroups/hosts for now
-// planID - this is a unique identifier for a plan. Should be a guid.
+    // Parameters:
+        // scope - the scope at which the operation is performed. This is limited to Microsoft.Compute/virtualMachines
+        // and Microsoft.Compute/hostGroups/hosts for now
+        // planID - this is a unique identifier for a plan. Should be a guid.
 func (client HybridUseBenefitRevisionClient) List(ctx context.Context, scope string, planID string) (result HybridUseBenefitListResultPage, err error) {
-	if tracing.IsEnabled() {
-		ctx = tracing.StartSpan(ctx, fqdn+"/HybridUseBenefitRevisionClient.List")
-		defer func() {
-			sc := -1
-			if result.hublr.Response.Response != nil {
-				sc = result.hublr.Response.Response.StatusCode
-			}
-			tracing.EndSpan(ctx, sc, err)
-		}()
-	}
-	result.fn = client.listNextResults
-	req, err := client.ListPreparer(ctx, scope, planID)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "softwareplan.HybridUseBenefitRevisionClient", "List", nil, "Failure preparing request")
-		return
-	}
+    if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/HybridUseBenefitRevisionClient.List")
+        defer func() {
+            sc := -1
+            if result.hublr.Response.Response != nil {
+                sc = result.hublr.Response.Response.StatusCode
+            }
+            tracing.EndSpan(ctx, sc, err)
+        }()
+    }
+                result.fn = client.listNextResults
+    req, err := client.ListPreparer(ctx, scope, planID)
+    if err != nil {
+    err = autorest.NewErrorWithError(err, "softwareplan.HybridUseBenefitRevisionClient", "List", nil , "Failure preparing request")
+    return
+    }
 
-	resp, err := client.ListSender(req)
-	if err != nil {
-		result.hublr.Response = autorest.Response{Response: resp}
-		err = autorest.NewErrorWithError(err, "softwareplan.HybridUseBenefitRevisionClient", "List", resp, "Failure sending request")
-		return
-	}
+            resp, err := client.ListSender(req)
+            if err != nil {
+            result.hublr.Response = autorest.Response{Response: resp}
+            err = autorest.NewErrorWithError(err, "softwareplan.HybridUseBenefitRevisionClient", "List", resp, "Failure sending request")
+            return
+            }
 
-	result.hublr, err = client.ListResponder(resp)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "softwareplan.HybridUseBenefitRevisionClient", "List", resp, "Failure responding to request")
-	}
+            result.hublr, err = client.ListResponder(resp)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "softwareplan.HybridUseBenefitRevisionClient", "List", resp, "Failure responding to request")
+            }
 
-	return
-}
+    return
+    }
 
-// ListPreparer prepares the List request.
-func (client HybridUseBenefitRevisionClient) ListPreparer(ctx context.Context, scope string, planID string) (*http.Request, error) {
-	pathParameters := map[string]interface{}{
-		"planId": autorest.Encode("path", planID),
-		"scope":  autorest.Encode("path", scope),
-	}
+    // ListPreparer prepares the List request.
+    func (client HybridUseBenefitRevisionClient) ListPreparer(ctx context.Context, scope string, planID string) (*http.Request, error) {
+            pathParameters := map[string]interface{} {
+            "planId": autorest.Encode("path",planID),
+            "scope": autorest.Encode("path",scope),
+            }
 
-	const APIVersion = "2019-06-01-preview"
-	queryParameters := map[string]interface{}{
-		"api-version": APIVersion,
-	}
+                        const APIVersion = "2019-06-01-preview"
+        queryParameters := map[string]interface{} {
+        "api-version": APIVersion,
+        }
 
-	preparer := autorest.CreatePreparer(
-		autorest.AsGet(),
-		autorest.WithBaseURL(client.BaseURI),
-		autorest.WithPathParameters("/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}/revisions", pathParameters),
-		autorest.WithQueryParameters(queryParameters))
-	return preparer.Prepare((&http.Request{}).WithContext(ctx))
-}
+        preparer := autorest.CreatePreparer(
+    autorest.AsGet(),
+    autorest.WithBaseURL(client.BaseURI),
+    autorest.WithPathParameters("/{scope}/providers/Microsoft.SoftwarePlan/hybridUseBenefits/{planId}/revisions",pathParameters),
+    autorest.WithQueryParameters(queryParameters))
+    return preparer.Prepare((&http.Request{}).WithContext(ctx))
+    }
 
-// ListSender sends the List request. The method will close the
-// http.Response Body if it receives an error.
-func (client HybridUseBenefitRevisionClient) ListSender(req *http.Request) (*http.Response, error) {
-	sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
-	return autorest.SendWithSender(client, req, sd...)
-}
+    // ListSender sends the List request. The method will close the
+    // http.Response Body if it receives an error.
+    func (client HybridUseBenefitRevisionClient) ListSender(req *http.Request) (*http.Response, error) {
+        sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
+            return autorest.SendWithSender(client, req, sd...)
+            }
 
 // ListResponder handles the response to the List request. The method always
 // closes the http.Response Body.
 func (client HybridUseBenefitRevisionClient) ListResponder(resp *http.Response) (result HybridUseBenefitListResult, err error) {
-	err = autorest.Respond(
-		resp,
-		client.ByInspecting(),
-		azure.WithErrorUnlessStatusCode(http.StatusOK),
-		autorest.ByUnmarshallingJSON(&result),
-		autorest.ByClosing())
-	result.Response = autorest.Response{Response: resp}
-	return
-}
+    err = autorest.Respond(
+    resp,
+    client.ByInspecting(),
+    azure.WithErrorUnlessStatusCode(http.StatusOK),
+    autorest.ByUnmarshallingJSON(&result),
+    autorest.ByClosing())
+    result.Response = autorest.Response{Response: resp}
+        return
+    }
 
-// listNextResults retrieves the next set of results, if any.
-func (client HybridUseBenefitRevisionClient) listNextResults(ctx context.Context, lastResults HybridUseBenefitListResult) (result HybridUseBenefitListResult, err error) {
-	req, err := lastResults.hybridUseBenefitListResultPreparer(ctx)
-	if err != nil {
-		return result, autorest.NewErrorWithError(err, "softwareplan.HybridUseBenefitRevisionClient", "listNextResults", nil, "Failure preparing next results request")
-	}
-	if req == nil {
-		return
-	}
-	resp, err := client.ListSender(req)
-	if err != nil {
-		result.Response = autorest.Response{Response: resp}
-		return result, autorest.NewErrorWithError(err, "softwareplan.HybridUseBenefitRevisionClient", "listNextResults", resp, "Failure sending next results request")
-	}
-	result, err = client.ListResponder(resp)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "softwareplan.HybridUseBenefitRevisionClient", "listNextResults", resp, "Failure responding to next results request")
-	}
-	return
-}
+            // listNextResults retrieves the next set of results, if any.
+            func (client HybridUseBenefitRevisionClient) listNextResults(ctx context.Context, lastResults HybridUseBenefitListResult) (result HybridUseBenefitListResult, err error) {
+            req, err := lastResults.hybridUseBenefitListResultPreparer(ctx)
+            if err != nil {
+            return result, autorest.NewErrorWithError(err, "softwareplan.HybridUseBenefitRevisionClient", "listNextResults", nil , "Failure preparing next results request")
+            }
+            if req == nil {
+            return
+            }
+            resp, err := client.ListSender(req)
+            if err != nil {
+            result.Response = autorest.Response{Response: resp}
+            return result, autorest.NewErrorWithError(err, "softwareplan.HybridUseBenefitRevisionClient", "listNextResults", resp, "Failure sending next results request")
+            }
+            result, err = client.ListResponder(resp)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "softwareplan.HybridUseBenefitRevisionClient", "listNextResults", resp, "Failure responding to next results request")
+            }
+            return
+                    }
 
-// ListComplete enumerates all values, automatically crossing page boundaries as required.
-func (client HybridUseBenefitRevisionClient) ListComplete(ctx context.Context, scope string, planID string) (result HybridUseBenefitListResultIterator, err error) {
-	if tracing.IsEnabled() {
-		ctx = tracing.StartSpan(ctx, fqdn+"/HybridUseBenefitRevisionClient.List")
-		defer func() {
-			sc := -1
-			if result.Response().Response.Response != nil {
-				sc = result.page.Response().Response.Response.StatusCode
-			}
-			tracing.EndSpan(ctx, sc, err)
-		}()
-	}
-	result.page, err = client.List(ctx, scope, planID)
-	return
-}
+    // ListComplete enumerates all values, automatically crossing page boundaries as required.
+    func (client HybridUseBenefitRevisionClient) ListComplete(ctx context.Context, scope string, planID string) (result HybridUseBenefitListResultIterator, err error) {
+        if tracing.IsEnabled() {
+            ctx = tracing.StartSpan(ctx, fqdn + "/HybridUseBenefitRevisionClient.List")
+            defer func() {
+                sc := -1
+                if result.Response().Response.Response != nil {
+                    sc = result.page.Response().Response.Response.StatusCode
+                }
+                tracing.EndSpan(ctx, sc, err)
+            }()
+     }
+        result.page, err = client.List(ctx, scope, planID)
+                return
+        }
+

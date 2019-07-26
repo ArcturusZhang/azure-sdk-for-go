@@ -18,28 +18,26 @@ package serialconsoleapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/serialconsole/mgmt/2018-05-01/serialconsole"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/serialconsole/mgmt/2018-05-01/serialconsole"
 )
 
-// ListClientAPI contains the set of methods on the ListClient type.
-type ListClientAPI interface {
-	Operations(ctx context.Context) (result serialconsole.Operations, err error)
-}
+        // ListClientAPI contains the set of methods on the ListClient type.
+        type ListClientAPI interface {
+            Operations(ctx context.Context) (result serialconsole.Operations, err error)
+        }
 
-var _ ListClientAPI = (*serialconsole.ListClient)(nil)
+        var _ ListClientAPI = (*serialconsole.ListClient)(nil)
+        // ListConsoleClientAPI contains the set of methods on the ListConsoleClient type.
+        type ListConsoleClientAPI interface {
+            Disabled(ctx context.Context) (result serialconsole.GetDisabledResult, err error)
+        }
 
-// ListConsoleClientAPI contains the set of methods on the ListConsoleClient type.
-type ListConsoleClientAPI interface {
-	Disabled(ctx context.Context) (result serialconsole.GetDisabledResult, err error)
-}
+        var _ ListConsoleClientAPI = (*serialconsole.ListConsoleClient)(nil)
+        // ConsoleClientAPI contains the set of methods on the ConsoleClient type.
+        type ConsoleClientAPI interface {
+            DisableConsole(ctx context.Context) (result serialconsole.SetDisabledResult, err error)
+            EnableConsole(ctx context.Context) (result serialconsole.SetDisabledResult, err error)
+        }
 
-var _ ListConsoleClientAPI = (*serialconsole.ListConsoleClient)(nil)
-
-// ConsoleClientAPI contains the set of methods on the ConsoleClient type.
-type ConsoleClientAPI interface {
-	DisableConsole(ctx context.Context) (result serialconsole.SetDisabledResult, err error)
-	EnableConsole(ctx context.Context) (result serialconsole.SetDisabledResult, err error)
-}
-
-var _ ConsoleClientAPI = (*serialconsole.ConsoleClient)(nil)
+        var _ ConsoleClientAPI = (*serialconsole.ConsoleClient)(nil)

@@ -18,19 +18,19 @@ package webservicesapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/machinelearning/mgmt/2016-05-01-preview/webservices"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/machinelearning/mgmt/2016-05-01-preview/webservices"
 )
 
-// ClientAPI contains the set of methods on the Client type.
-type ClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, webServiceName string, createOrUpdatePayload webservices.WebService) (result webservices.CreateOrUpdateFuture, err error)
-	Get(ctx context.Context, resourceGroupName string, webServiceName string) (result webservices.WebService, err error)
-	List(ctx context.Context, skiptoken string) (result webservices.PaginatedWebServicesListPage, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string, skiptoken string) (result webservices.PaginatedWebServicesListPage, err error)
-	ListKeys(ctx context.Context, resourceGroupName string, webServiceName string) (result webservices.Keys, err error)
-	Patch(ctx context.Context, resourceGroupName string, webServiceName string, patchPayload webservices.WebService) (result webservices.PatchFuture, err error)
-	Remove(ctx context.Context, resourceGroupName string, webServiceName string) (result webservices.RemoveFuture, err error)
-}
+        // ClientAPI contains the set of methods on the Client type.
+        type ClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, webServiceName string, createOrUpdatePayload webservices.WebService) (result webservices.CreateOrUpdateFuture, err error)
+            Get(ctx context.Context, resourceGroupName string, webServiceName string) (result webservices.WebService, err error)
+            List(ctx context.Context, skiptoken string) (result webservices.PaginatedWebServicesListPage, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string, skiptoken string) (result webservices.PaginatedWebServicesListPage, err error)
+            ListKeys(ctx context.Context, resourceGroupName string, webServiceName string) (result webservices.Keys, err error)
+            Patch(ctx context.Context, resourceGroupName string, webServiceName string, patchPayload webservices.WebService) (result webservices.PatchFuture, err error)
+            Remove(ctx context.Context, resourceGroupName string, webServiceName string) (result webservices.RemoveFuture, err error)
+        }
 
-var _ ClientAPI = (*webservices.Client)(nil)
+        var _ ClientAPI = (*webservices.Client)(nil)

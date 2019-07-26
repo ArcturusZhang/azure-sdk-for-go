@@ -18,170 +18,170 @@ package serialconsole
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/azure"
-	"github.com/Azure/go-autorest/tracing"
-	"net/http"
+    "github.com/Azure/go-autorest/autorest"
+    "github.com/Azure/go-autorest/autorest/azure"
+    "net/http"
+    "context"
+    "github.com/Azure/go-autorest/tracing"
 )
 
 // ConsoleClient is the azure Virtual Machine Serial Console allows you to access serial console of a Virtual Machine
 type ConsoleClient struct {
-	BaseClient
+    BaseClient
 }
-
 // NewConsoleClient creates an instance of the ConsoleClient client.
 func NewConsoleClient(subscriptionID string) ConsoleClient {
-	return NewConsoleClientWithBaseURI(DefaultBaseURI, subscriptionID)
+    return NewConsoleClientWithBaseURI(DefaultBaseURI, subscriptionID)
 }
 
 // NewConsoleClientWithBaseURI creates an instance of the ConsoleClient client.
-func NewConsoleClientWithBaseURI(baseURI string, subscriptionID string) ConsoleClient {
-	return ConsoleClient{NewWithBaseURI(baseURI, subscriptionID)}
-}
+    func NewConsoleClientWithBaseURI(baseURI string, subscriptionID string) ConsoleClient {
+        return ConsoleClient{ NewWithBaseURI(baseURI, subscriptionID)}
+    }
 
 // DisableConsole disables Serial Console for a subscription
 func (client ConsoleClient) DisableConsole(ctx context.Context) (result SetDisabledResult, err error) {
-	if tracing.IsEnabled() {
-		ctx = tracing.StartSpan(ctx, fqdn+"/ConsoleClient.DisableConsole")
-		defer func() {
-			sc := -1
-			if result.Response.Response != nil {
-				sc = result.Response.Response.StatusCode
-			}
-			tracing.EndSpan(ctx, sc, err)
-		}()
-	}
-	req, err := client.DisableConsolePreparer(ctx)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "serialconsole.ConsoleClient", "DisableConsole", nil, "Failure preparing request")
-		return
-	}
+    if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/ConsoleClient.DisableConsole")
+        defer func() {
+            sc := -1
+            if result.Response.Response != nil {
+                sc = result.Response.Response.StatusCode
+            }
+            tracing.EndSpan(ctx, sc, err)
+        }()
+    }
+        req, err := client.DisableConsolePreparer(ctx)
+    if err != nil {
+    err = autorest.NewErrorWithError(err, "serialconsole.ConsoleClient", "DisableConsole", nil , "Failure preparing request")
+    return
+    }
 
-	resp, err := client.DisableConsoleSender(req)
-	if err != nil {
-		result.Response = autorest.Response{Response: resp}
-		err = autorest.NewErrorWithError(err, "serialconsole.ConsoleClient", "DisableConsole", resp, "Failure sending request")
-		return
-	}
+            resp, err := client.DisableConsoleSender(req)
+            if err != nil {
+            result.Response = autorest.Response{Response: resp}
+            err = autorest.NewErrorWithError(err, "serialconsole.ConsoleClient", "DisableConsole", resp, "Failure sending request")
+            return
+            }
 
-	result, err = client.DisableConsoleResponder(resp)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "serialconsole.ConsoleClient", "DisableConsole", resp, "Failure responding to request")
-	}
+            result, err = client.DisableConsoleResponder(resp)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "serialconsole.ConsoleClient", "DisableConsole", resp, "Failure responding to request")
+            }
 
-	return
-}
+    return
+    }
 
-// DisableConsolePreparer prepares the DisableConsole request.
-func (client ConsoleClient) DisableConsolePreparer(ctx context.Context) (*http.Request, error) {
-	pathParameters := map[string]interface{}{
-		"default":        autorest.Encode("path", "default"),
-		"subscriptionId": autorest.Encode("path", client.SubscriptionID),
-	}
+    // DisableConsolePreparer prepares the DisableConsole request.
+    func (client ConsoleClient) DisableConsolePreparer(ctx context.Context) (*http.Request, error) {
+            pathParameters := map[string]interface{} {
+            "default": autorest.Encode("path", "default"),
+            "subscriptionId": autorest.Encode("path",client.SubscriptionID),
+            }
 
-	const APIVersion = "2018-05-01"
-	queryParameters := map[string]interface{}{
-		"api-version": APIVersion,
-	}
+                        const APIVersion = "2018-05-01"
+        queryParameters := map[string]interface{} {
+        "api-version": APIVersion,
+        }
 
-	preparer := autorest.CreatePreparer(
-		autorest.AsPost(),
-		autorest.WithBaseURL(client.BaseURI),
-		autorest.WithPathParameters("/subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/disableConsole", pathParameters),
-		autorest.WithQueryParameters(queryParameters))
-	return preparer.Prepare((&http.Request{}).WithContext(ctx))
-}
+        preparer := autorest.CreatePreparer(
+    autorest.AsPost(),
+    autorest.WithBaseURL(client.BaseURI),
+    autorest.WithPathParameters("/subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/disableConsole",pathParameters),
+    autorest.WithQueryParameters(queryParameters))
+    return preparer.Prepare((&http.Request{}).WithContext(ctx))
+    }
 
-// DisableConsoleSender sends the DisableConsole request. The method will close the
-// http.Response Body if it receives an error.
-func (client ConsoleClient) DisableConsoleSender(req *http.Request) (*http.Response, error) {
-	sd := autorest.GetSendDecorators(req.Context(), azure.DoRetryWithRegistration(client.Client))
-	return autorest.SendWithSender(client, req, sd...)
-}
+    // DisableConsoleSender sends the DisableConsole request. The method will close the
+    // http.Response Body if it receives an error.
+    func (client ConsoleClient) DisableConsoleSender(req *http.Request) (*http.Response, error) {
+        sd := autorest.GetSendDecorators(req.Context(), azure.DoRetryWithRegistration(client.Client))
+            return autorest.SendWithSender(client, req, sd...)
+            }
 
 // DisableConsoleResponder handles the response to the DisableConsole request. The method always
 // closes the http.Response Body.
 func (client ConsoleClient) DisableConsoleResponder(resp *http.Response) (result SetDisabledResult, err error) {
-	err = autorest.Respond(
-		resp,
-		client.ByInspecting(),
-		azure.WithErrorUnlessStatusCode(http.StatusOK),
-		autorest.ByUnmarshallingJSON(&result),
-		autorest.ByClosing())
-	result.Response = autorest.Response{Response: resp}
-	return
-}
+    err = autorest.Respond(
+    resp,
+    client.ByInspecting(),
+    azure.WithErrorUnlessStatusCode(http.StatusOK),
+    autorest.ByUnmarshallingJSON(&result),
+    autorest.ByClosing())
+    result.Response = autorest.Response{Response: resp}
+        return
+    }
 
 // EnableConsole enables Serial Console for a subscription
 func (client ConsoleClient) EnableConsole(ctx context.Context) (result SetDisabledResult, err error) {
-	if tracing.IsEnabled() {
-		ctx = tracing.StartSpan(ctx, fqdn+"/ConsoleClient.EnableConsole")
-		defer func() {
-			sc := -1
-			if result.Response.Response != nil {
-				sc = result.Response.Response.StatusCode
-			}
-			tracing.EndSpan(ctx, sc, err)
-		}()
-	}
-	req, err := client.EnableConsolePreparer(ctx)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "serialconsole.ConsoleClient", "EnableConsole", nil, "Failure preparing request")
-		return
-	}
+    if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/ConsoleClient.EnableConsole")
+        defer func() {
+            sc := -1
+            if result.Response.Response != nil {
+                sc = result.Response.Response.StatusCode
+            }
+            tracing.EndSpan(ctx, sc, err)
+        }()
+    }
+        req, err := client.EnableConsolePreparer(ctx)
+    if err != nil {
+    err = autorest.NewErrorWithError(err, "serialconsole.ConsoleClient", "EnableConsole", nil , "Failure preparing request")
+    return
+    }
 
-	resp, err := client.EnableConsoleSender(req)
-	if err != nil {
-		result.Response = autorest.Response{Response: resp}
-		err = autorest.NewErrorWithError(err, "serialconsole.ConsoleClient", "EnableConsole", resp, "Failure sending request")
-		return
-	}
+            resp, err := client.EnableConsoleSender(req)
+            if err != nil {
+            result.Response = autorest.Response{Response: resp}
+            err = autorest.NewErrorWithError(err, "serialconsole.ConsoleClient", "EnableConsole", resp, "Failure sending request")
+            return
+            }
 
-	result, err = client.EnableConsoleResponder(resp)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "serialconsole.ConsoleClient", "EnableConsole", resp, "Failure responding to request")
-	}
+            result, err = client.EnableConsoleResponder(resp)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "serialconsole.ConsoleClient", "EnableConsole", resp, "Failure responding to request")
+            }
 
-	return
-}
+    return
+    }
 
-// EnableConsolePreparer prepares the EnableConsole request.
-func (client ConsoleClient) EnableConsolePreparer(ctx context.Context) (*http.Request, error) {
-	pathParameters := map[string]interface{}{
-		"default":        autorest.Encode("path", "default"),
-		"subscriptionId": autorest.Encode("path", client.SubscriptionID),
-	}
+    // EnableConsolePreparer prepares the EnableConsole request.
+    func (client ConsoleClient) EnableConsolePreparer(ctx context.Context) (*http.Request, error) {
+            pathParameters := map[string]interface{} {
+            "default": autorest.Encode("path", "default"),
+            "subscriptionId": autorest.Encode("path",client.SubscriptionID),
+            }
 
-	const APIVersion = "2018-05-01"
-	queryParameters := map[string]interface{}{
-		"api-version": APIVersion,
-	}
+                        const APIVersion = "2018-05-01"
+        queryParameters := map[string]interface{} {
+        "api-version": APIVersion,
+        }
 
-	preparer := autorest.CreatePreparer(
-		autorest.AsPost(),
-		autorest.WithBaseURL(client.BaseURI),
-		autorest.WithPathParameters("/subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/enableConsole", pathParameters),
-		autorest.WithQueryParameters(queryParameters))
-	return preparer.Prepare((&http.Request{}).WithContext(ctx))
-}
+        preparer := autorest.CreatePreparer(
+    autorest.AsPost(),
+    autorest.WithBaseURL(client.BaseURI),
+    autorest.WithPathParameters("/subscriptions/{subscriptionId}/providers/Microsoft.SerialConsole/consoleServices/{default}/enableConsole",pathParameters),
+    autorest.WithQueryParameters(queryParameters))
+    return preparer.Prepare((&http.Request{}).WithContext(ctx))
+    }
 
-// EnableConsoleSender sends the EnableConsole request. The method will close the
-// http.Response Body if it receives an error.
-func (client ConsoleClient) EnableConsoleSender(req *http.Request) (*http.Response, error) {
-	sd := autorest.GetSendDecorators(req.Context(), azure.DoRetryWithRegistration(client.Client))
-	return autorest.SendWithSender(client, req, sd...)
-}
+    // EnableConsoleSender sends the EnableConsole request. The method will close the
+    // http.Response Body if it receives an error.
+    func (client ConsoleClient) EnableConsoleSender(req *http.Request) (*http.Response, error) {
+        sd := autorest.GetSendDecorators(req.Context(), azure.DoRetryWithRegistration(client.Client))
+            return autorest.SendWithSender(client, req, sd...)
+            }
 
 // EnableConsoleResponder handles the response to the EnableConsole request. The method always
 // closes the http.Response Body.
 func (client ConsoleClient) EnableConsoleResponder(resp *http.Response) (result SetDisabledResult, err error) {
-	err = autorest.Respond(
-		resp,
-		client.ByInspecting(),
-		azure.WithErrorUnlessStatusCode(http.StatusOK),
-		autorest.ByUnmarshallingJSON(&result),
-		autorest.ByClosing())
-	result.Response = autorest.Response{Response: resp}
-	return
-}
+    err = autorest.Respond(
+    resp,
+    client.ByInspecting(),
+    azure.WithErrorUnlessStatusCode(http.StatusOK),
+    autorest.ByUnmarshallingJSON(&result),
+    autorest.ByClosing())
+    result.Response = autorest.Response{Response: resp}
+        return
+    }
+

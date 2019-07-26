@@ -18,182 +18,182 @@ package billing
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/azure"
-	"github.com/Azure/go-autorest/tracing"
-	"net/http"
+    "github.com/Azure/go-autorest/autorest"
+    "github.com/Azure/go-autorest/autorest/azure"
+    "net/http"
+    "context"
+    "github.com/Azure/go-autorest/tracing"
 )
 
 // AgreementsClient is the billing client provides access to billing resources for Azure subscriptions.
 type AgreementsClient struct {
-	BaseClient
+    BaseClient
 }
-
 // NewAgreementsClient creates an instance of the AgreementsClient client.
 func NewAgreementsClient(subscriptionID string) AgreementsClient {
-	return NewAgreementsClientWithBaseURI(DefaultBaseURI, subscriptionID)
+    return NewAgreementsClientWithBaseURI(DefaultBaseURI, subscriptionID)
 }
 
 // NewAgreementsClientWithBaseURI creates an instance of the AgreementsClient client.
-func NewAgreementsClientWithBaseURI(baseURI string, subscriptionID string) AgreementsClient {
-	return AgreementsClient{NewWithBaseURI(baseURI, subscriptionID)}
-}
+    func NewAgreementsClientWithBaseURI(baseURI string, subscriptionID string) AgreementsClient {
+        return AgreementsClient{ NewWithBaseURI(baseURI, subscriptionID)}
+    }
 
 // Get get the agreement by name.
-// Parameters:
-// billingAccountName - billing Account Id.
-// agreementName - agreement Id.
-// expand - may be used to expand the participants.
+    // Parameters:
+        // billingAccountName - billing Account Id.
+        // agreementName - agreement Id.
+        // expand - may be used to expand the participants.
 func (client AgreementsClient) Get(ctx context.Context, billingAccountName string, agreementName string, expand string) (result Agreement, err error) {
-	if tracing.IsEnabled() {
-		ctx = tracing.StartSpan(ctx, fqdn+"/AgreementsClient.Get")
-		defer func() {
-			sc := -1
-			if result.Response.Response != nil {
-				sc = result.Response.Response.StatusCode
-			}
-			tracing.EndSpan(ctx, sc, err)
-		}()
-	}
-	req, err := client.GetPreparer(ctx, billingAccountName, agreementName, expand)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "billing.AgreementsClient", "Get", nil, "Failure preparing request")
-		return
-	}
+    if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/AgreementsClient.Get")
+        defer func() {
+            sc := -1
+            if result.Response.Response != nil {
+                sc = result.Response.Response.StatusCode
+            }
+            tracing.EndSpan(ctx, sc, err)
+        }()
+    }
+        req, err := client.GetPreparer(ctx, billingAccountName, agreementName, expand)
+    if err != nil {
+    err = autorest.NewErrorWithError(err, "billing.AgreementsClient", "Get", nil , "Failure preparing request")
+    return
+    }
 
-	resp, err := client.GetSender(req)
-	if err != nil {
-		result.Response = autorest.Response{Response: resp}
-		err = autorest.NewErrorWithError(err, "billing.AgreementsClient", "Get", resp, "Failure sending request")
-		return
-	}
+            resp, err := client.GetSender(req)
+            if err != nil {
+            result.Response = autorest.Response{Response: resp}
+            err = autorest.NewErrorWithError(err, "billing.AgreementsClient", "Get", resp, "Failure sending request")
+            return
+            }
 
-	result, err = client.GetResponder(resp)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "billing.AgreementsClient", "Get", resp, "Failure responding to request")
-	}
+            result, err = client.GetResponder(resp)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "billing.AgreementsClient", "Get", resp, "Failure responding to request")
+            }
 
-	return
-}
+    return
+    }
 
-// GetPreparer prepares the Get request.
-func (client AgreementsClient) GetPreparer(ctx context.Context, billingAccountName string, agreementName string, expand string) (*http.Request, error) {
-	pathParameters := map[string]interface{}{
-		"agreementName":      autorest.Encode("path", agreementName),
-		"billingAccountName": autorest.Encode("path", billingAccountName),
-	}
+    // GetPreparer prepares the Get request.
+    func (client AgreementsClient) GetPreparer(ctx context.Context, billingAccountName string, agreementName string, expand string) (*http.Request, error) {
+            pathParameters := map[string]interface{} {
+            "agreementName": autorest.Encode("path",agreementName),
+            "billingAccountName": autorest.Encode("path",billingAccountName),
+            }
 
-	const APIVersion = "2018-11-01-preview"
-	queryParameters := map[string]interface{}{
-		"api-version": APIVersion,
-	}
-	if len(expand) > 0 {
-		queryParameters["$expand"] = autorest.Encode("query", expand)
-	}
+                        const APIVersion = "2018-11-01-preview"
+        queryParameters := map[string]interface{} {
+        "api-version": APIVersion,
+        }
+            if len(expand) > 0 {
+            queryParameters["$expand"] = autorest.Encode("query",expand)
+            }
 
-	preparer := autorest.CreatePreparer(
-		autorest.AsGet(),
-		autorest.WithBaseURL(client.BaseURI),
-		autorest.WithPathParameters("/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/agreements/{agreementName}", pathParameters),
-		autorest.WithQueryParameters(queryParameters))
-	return preparer.Prepare((&http.Request{}).WithContext(ctx))
-}
+        preparer := autorest.CreatePreparer(
+    autorest.AsGet(),
+    autorest.WithBaseURL(client.BaseURI),
+    autorest.WithPathParameters("/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/agreements/{agreementName}",pathParameters),
+    autorest.WithQueryParameters(queryParameters))
+    return preparer.Prepare((&http.Request{}).WithContext(ctx))
+    }
 
-// GetSender sends the Get request. The method will close the
-// http.Response Body if it receives an error.
-func (client AgreementsClient) GetSender(req *http.Request) (*http.Response, error) {
-	sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
-	return autorest.SendWithSender(client, req, sd...)
-}
+    // GetSender sends the Get request. The method will close the
+    // http.Response Body if it receives an error.
+    func (client AgreementsClient) GetSender(req *http.Request) (*http.Response, error) {
+        sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
+            return autorest.SendWithSender(client, req, sd...)
+            }
 
 // GetResponder handles the response to the Get request. The method always
 // closes the http.Response Body.
 func (client AgreementsClient) GetResponder(resp *http.Response) (result Agreement, err error) {
-	err = autorest.Respond(
-		resp,
-		client.ByInspecting(),
-		azure.WithErrorUnlessStatusCode(http.StatusOK),
-		autorest.ByUnmarshallingJSON(&result),
-		autorest.ByClosing())
-	result.Response = autorest.Response{Response: resp}
-	return
-}
+    err = autorest.Respond(
+    resp,
+    client.ByInspecting(),
+    azure.WithErrorUnlessStatusCode(http.StatusOK),
+    autorest.ByUnmarshallingJSON(&result),
+    autorest.ByClosing())
+    result.Response = autorest.Response{Response: resp}
+        return
+    }
 
 // ListByBillingAccountName lists all agreements for a billing account.
-// Parameters:
-// billingAccountName - billing Account Id.
-// expand - may be used to expand the participants.
+    // Parameters:
+        // billingAccountName - billing Account Id.
+        // expand - may be used to expand the participants.
 func (client AgreementsClient) ListByBillingAccountName(ctx context.Context, billingAccountName string, expand string) (result AgreementListResult, err error) {
-	if tracing.IsEnabled() {
-		ctx = tracing.StartSpan(ctx, fqdn+"/AgreementsClient.ListByBillingAccountName")
-		defer func() {
-			sc := -1
-			if result.Response.Response != nil {
-				sc = result.Response.Response.StatusCode
-			}
-			tracing.EndSpan(ctx, sc, err)
-		}()
-	}
-	req, err := client.ListByBillingAccountNamePreparer(ctx, billingAccountName, expand)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "billing.AgreementsClient", "ListByBillingAccountName", nil, "Failure preparing request")
-		return
-	}
+    if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/AgreementsClient.ListByBillingAccountName")
+        defer func() {
+            sc := -1
+            if result.Response.Response != nil {
+                sc = result.Response.Response.StatusCode
+            }
+            tracing.EndSpan(ctx, sc, err)
+        }()
+    }
+        req, err := client.ListByBillingAccountNamePreparer(ctx, billingAccountName, expand)
+    if err != nil {
+    err = autorest.NewErrorWithError(err, "billing.AgreementsClient", "ListByBillingAccountName", nil , "Failure preparing request")
+    return
+    }
 
-	resp, err := client.ListByBillingAccountNameSender(req)
-	if err != nil {
-		result.Response = autorest.Response{Response: resp}
-		err = autorest.NewErrorWithError(err, "billing.AgreementsClient", "ListByBillingAccountName", resp, "Failure sending request")
-		return
-	}
+            resp, err := client.ListByBillingAccountNameSender(req)
+            if err != nil {
+            result.Response = autorest.Response{Response: resp}
+            err = autorest.NewErrorWithError(err, "billing.AgreementsClient", "ListByBillingAccountName", resp, "Failure sending request")
+            return
+            }
 
-	result, err = client.ListByBillingAccountNameResponder(resp)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "billing.AgreementsClient", "ListByBillingAccountName", resp, "Failure responding to request")
-	}
+            result, err = client.ListByBillingAccountNameResponder(resp)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "billing.AgreementsClient", "ListByBillingAccountName", resp, "Failure responding to request")
+            }
 
-	return
-}
+    return
+    }
 
-// ListByBillingAccountNamePreparer prepares the ListByBillingAccountName request.
-func (client AgreementsClient) ListByBillingAccountNamePreparer(ctx context.Context, billingAccountName string, expand string) (*http.Request, error) {
-	pathParameters := map[string]interface{}{
-		"billingAccountName": autorest.Encode("path", billingAccountName),
-	}
+    // ListByBillingAccountNamePreparer prepares the ListByBillingAccountName request.
+    func (client AgreementsClient) ListByBillingAccountNamePreparer(ctx context.Context, billingAccountName string, expand string) (*http.Request, error) {
+            pathParameters := map[string]interface{} {
+            "billingAccountName": autorest.Encode("path",billingAccountName),
+            }
 
-	const APIVersion = "2018-11-01-preview"
-	queryParameters := map[string]interface{}{
-		"api-version": APIVersion,
-	}
-	if len(expand) > 0 {
-		queryParameters["$expand"] = autorest.Encode("query", expand)
-	}
+                        const APIVersion = "2018-11-01-preview"
+        queryParameters := map[string]interface{} {
+        "api-version": APIVersion,
+        }
+            if len(expand) > 0 {
+            queryParameters["$expand"] = autorest.Encode("query",expand)
+            }
 
-	preparer := autorest.CreatePreparer(
-		autorest.AsGet(),
-		autorest.WithBaseURL(client.BaseURI),
-		autorest.WithPathParameters("/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/agreements", pathParameters),
-		autorest.WithQueryParameters(queryParameters))
-	return preparer.Prepare((&http.Request{}).WithContext(ctx))
-}
+        preparer := autorest.CreatePreparer(
+    autorest.AsGet(),
+    autorest.WithBaseURL(client.BaseURI),
+    autorest.WithPathParameters("/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/agreements",pathParameters),
+    autorest.WithQueryParameters(queryParameters))
+    return preparer.Prepare((&http.Request{}).WithContext(ctx))
+    }
 
-// ListByBillingAccountNameSender sends the ListByBillingAccountName request. The method will close the
-// http.Response Body if it receives an error.
-func (client AgreementsClient) ListByBillingAccountNameSender(req *http.Request) (*http.Response, error) {
-	sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
-	return autorest.SendWithSender(client, req, sd...)
-}
+    // ListByBillingAccountNameSender sends the ListByBillingAccountName request. The method will close the
+    // http.Response Body if it receives an error.
+    func (client AgreementsClient) ListByBillingAccountNameSender(req *http.Request) (*http.Response, error) {
+        sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
+            return autorest.SendWithSender(client, req, sd...)
+            }
 
 // ListByBillingAccountNameResponder handles the response to the ListByBillingAccountName request. The method always
 // closes the http.Response Body.
 func (client AgreementsClient) ListByBillingAccountNameResponder(resp *http.Response) (result AgreementListResult, err error) {
-	err = autorest.Respond(
-		resp,
-		client.ByInspecting(),
-		azure.WithErrorUnlessStatusCode(http.StatusOK),
-		autorest.ByUnmarshallingJSON(&result),
-		autorest.ByClosing())
-	result.Response = autorest.Response{Response: resp}
-	return
-}
+    err = autorest.Respond(
+    resp,
+    client.ByInspecting(),
+    azure.WithErrorUnlessStatusCode(http.StatusOK),
+    autorest.ByUnmarshallingJSON(&result),
+    autorest.ByClosing())
+    result.Response = autorest.Response{Response: resp}
+        return
+    }
+

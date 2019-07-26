@@ -18,26 +18,25 @@ package msiapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/msi/mgmt/2015-08-31-preview/msi"
-	"github.com/Azure/go-autorest/autorest"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/msi/mgmt/2015-08-31-preview/msi"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result msi.OperationListResultPage, err error)
-}
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result msi.OperationListResultPage, err error)
+        }
 
-var _ OperationsClientAPI = (*msi.OperationsClient)(nil)
+        var _ OperationsClientAPI = (*msi.OperationsClient)(nil)
+        // UserAssignedIdentitiesClientAPI contains the set of methods on the UserAssignedIdentitiesClient type.
+        type UserAssignedIdentitiesClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, resourceName string, parameters msi.Identity) (result msi.Identity, err error)
+            Delete(ctx context.Context, resourceGroupName string, resourceName string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, resourceName string) (result msi.Identity, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string) (result msi.UserAssignedIdentitiesListResultPage, err error)
+            ListBySubscription(ctx context.Context) (result msi.UserAssignedIdentitiesListResultPage, err error)
+            Update(ctx context.Context, resourceGroupName string, resourceName string, parameters msi.Identity) (result msi.Identity, err error)
+        }
 
-// UserAssignedIdentitiesClientAPI contains the set of methods on the UserAssignedIdentitiesClient type.
-type UserAssignedIdentitiesClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, resourceName string, parameters msi.Identity) (result msi.Identity, err error)
-	Delete(ctx context.Context, resourceGroupName string, resourceName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, resourceName string) (result msi.Identity, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string) (result msi.UserAssignedIdentitiesListResultPage, err error)
-	ListBySubscription(ctx context.Context) (result msi.UserAssignedIdentitiesListResultPage, err error)
-	Update(ctx context.Context, resourceGroupName string, resourceName string, parameters msi.Identity) (result msi.Identity, err error)
-}
-
-var _ UserAssignedIdentitiesClientAPI = (*msi.UserAssignedIdentitiesClient)(nil)
+        var _ UserAssignedIdentitiesClientAPI = (*msi.UserAssignedIdentitiesClient)(nil)

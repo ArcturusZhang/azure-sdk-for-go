@@ -18,21 +18,21 @@ package jobapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/datalake/analytics/2016-03-20-preview/job"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/satori/go.uuid"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/datalake/analytics/2016-03-20-preview/job"
+    "github.com/satori/go.uuid"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// ClientAPI contains the set of methods on the Client type.
-type ClientAPI interface {
-	Build(ctx context.Context, accountName string, parameters job.Information) (result job.Information, err error)
-	Cancel(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result autorest.Response, err error)
-	Create(ctx context.Context, accountName string, jobIdentity uuid.UUID, parameters job.Information) (result job.Information, err error)
-	Get(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.Information, err error)
-	GetDebugDataPath(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.DataPath, err error)
-	GetStatistics(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.Statistics, err error)
-	List(ctx context.Context, accountName string, filter string, top *int32, skip *int32, expand string, selectParameter string, orderby string, count *bool, search string, formatParameter string) (result job.InfoListResultPage, err error)
-}
+        // ClientAPI contains the set of methods on the Client type.
+        type ClientAPI interface {
+            Build(ctx context.Context, accountName string, parameters job.Information) (result job.Information, err error)
+            Cancel(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result autorest.Response, err error)
+            Create(ctx context.Context, accountName string, jobIdentity uuid.UUID, parameters job.Information) (result job.Information, err error)
+            Get(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.Information, err error)
+            GetDebugDataPath(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.DataPath, err error)
+            GetStatistics(ctx context.Context, accountName string, jobIdentity uuid.UUID) (result job.Statistics, err error)
+            List(ctx context.Context, accountName string, filter string, top *int32, skip *int32, expand string, selectParameter string, orderby string, count *bool, search string, formatParameter string) (result job.InfoListResultPage, err error)
+        }
 
-var _ ClientAPI = (*job.Client)(nil)
+        var _ ClientAPI = (*job.Client)(nil)

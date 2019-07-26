@@ -18,70 +18,63 @@ package recoveryservicesapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/recoveryservices/mgmt/2016-06-01/recoveryservices"
-	"github.com/Azure/go-autorest/autorest"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/recoveryservices/mgmt/2016-06-01/recoveryservices"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// VaultCertificatesClientAPI contains the set of methods on the VaultCertificatesClient type.
-type VaultCertificatesClientAPI interface {
-	Create(ctx context.Context, resourceGroupName string, vaultName string, certificateName string, certificateRequest recoveryservices.CertificateRequest) (result recoveryservices.VaultCertificateResponse, err error)
-}
+        // VaultCertificatesClientAPI contains the set of methods on the VaultCertificatesClient type.
+        type VaultCertificatesClientAPI interface {
+            Create(ctx context.Context, resourceGroupName string, vaultName string, certificateName string, certificateRequest recoveryservices.CertificateRequest) (result recoveryservices.VaultCertificateResponse, err error)
+        }
 
-var _ VaultCertificatesClientAPI = (*recoveryservices.VaultCertificatesClient)(nil)
+        var _ VaultCertificatesClientAPI = (*recoveryservices.VaultCertificatesClient)(nil)
+        // RegisteredIdentitiesClientAPI contains the set of methods on the RegisteredIdentitiesClient type.
+        type RegisteredIdentitiesClientAPI interface {
+            Delete(ctx context.Context, resourceGroupName string, vaultName string, identityName string) (result autorest.Response, err error)
+        }
 
-// RegisteredIdentitiesClientAPI contains the set of methods on the RegisteredIdentitiesClient type.
-type RegisteredIdentitiesClientAPI interface {
-	Delete(ctx context.Context, resourceGroupName string, vaultName string, identityName string) (result autorest.Response, err error)
-}
+        var _ RegisteredIdentitiesClientAPI = (*recoveryservices.RegisteredIdentitiesClient)(nil)
+        // ReplicationUsagesClientAPI contains the set of methods on the ReplicationUsagesClient type.
+        type ReplicationUsagesClientAPI interface {
+            List(ctx context.Context, resourceGroupName string, vaultName string) (result recoveryservices.ReplicationUsageList, err error)
+        }
 
-var _ RegisteredIdentitiesClientAPI = (*recoveryservices.RegisteredIdentitiesClient)(nil)
+        var _ ReplicationUsagesClientAPI = (*recoveryservices.ReplicationUsagesClient)(nil)
+        // ClientAPI contains the set of methods on the Client type.
+        type ClientAPI interface {
+            CheckNameAvailability(ctx context.Context, resourceGroupName string, location string, input recoveryservices.CheckNameAvailabilityParameters) (result recoveryservices.CheckNameAvailabilityResultResource, err error)
+        }
 
-// ReplicationUsagesClientAPI contains the set of methods on the ReplicationUsagesClient type.
-type ReplicationUsagesClientAPI interface {
-	List(ctx context.Context, resourceGroupName string, vaultName string) (result recoveryservices.ReplicationUsageList, err error)
-}
+        var _ ClientAPI = (*recoveryservices.Client)(nil)
+        // VaultsClientAPI contains the set of methods on the VaultsClient type.
+        type VaultsClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, vaultName string, vault recoveryservices.Vault) (result recoveryservices.Vault, err error)
+            Delete(ctx context.Context, resourceGroupName string, vaultName string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, vaultName string) (result recoveryservices.Vault, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string) (result recoveryservices.VaultListPage, err error)
+            ListBySubscriptionID(ctx context.Context) (result recoveryservices.VaultListPage, err error)
+            Update(ctx context.Context, resourceGroupName string, vaultName string, vault recoveryservices.PatchVault) (result recoveryservices.Vault, err error)
+        }
 
-var _ ReplicationUsagesClientAPI = (*recoveryservices.ReplicationUsagesClient)(nil)
+        var _ VaultsClientAPI = (*recoveryservices.VaultsClient)(nil)
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result recoveryservices.ClientDiscoveryResponsePage, err error)
+        }
 
-// ClientAPI contains the set of methods on the Client type.
-type ClientAPI interface {
-	CheckNameAvailability(ctx context.Context, resourceGroupName string, location string, input recoveryservices.CheckNameAvailabilityParameters) (result recoveryservices.CheckNameAvailabilityResultResource, err error)
-}
+        var _ OperationsClientAPI = (*recoveryservices.OperationsClient)(nil)
+        // VaultExtendedInfoClientAPI contains the set of methods on the VaultExtendedInfoClient type.
+        type VaultExtendedInfoClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, vaultName string, resourceResourceExtendedInfoDetails recoveryservices.VaultExtendedInfoResource) (result recoveryservices.VaultExtendedInfoResource, err error)
+            Get(ctx context.Context, resourceGroupName string, vaultName string) (result recoveryservices.VaultExtendedInfoResource, err error)
+            Update(ctx context.Context, resourceGroupName string, vaultName string, resourceResourceExtendedInfoDetails recoveryservices.VaultExtendedInfoResource) (result recoveryservices.VaultExtendedInfoResource, err error)
+        }
 
-var _ ClientAPI = (*recoveryservices.Client)(nil)
+        var _ VaultExtendedInfoClientAPI = (*recoveryservices.VaultExtendedInfoClient)(nil)
+        // UsagesClientAPI contains the set of methods on the UsagesClient type.
+        type UsagesClientAPI interface {
+            ListByVaults(ctx context.Context, resourceGroupName string, vaultName string) (result recoveryservices.VaultUsageList, err error)
+        }
 
-// VaultsClientAPI contains the set of methods on the VaultsClient type.
-type VaultsClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, vaultName string, vault recoveryservices.Vault) (result recoveryservices.Vault, err error)
-	Delete(ctx context.Context, resourceGroupName string, vaultName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, vaultName string) (result recoveryservices.Vault, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string) (result recoveryservices.VaultListPage, err error)
-	ListBySubscriptionID(ctx context.Context) (result recoveryservices.VaultListPage, err error)
-	Update(ctx context.Context, resourceGroupName string, vaultName string, vault recoveryservices.PatchVault) (result recoveryservices.Vault, err error)
-}
-
-var _ VaultsClientAPI = (*recoveryservices.VaultsClient)(nil)
-
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result recoveryservices.ClientDiscoveryResponsePage, err error)
-}
-
-var _ OperationsClientAPI = (*recoveryservices.OperationsClient)(nil)
-
-// VaultExtendedInfoClientAPI contains the set of methods on the VaultExtendedInfoClient type.
-type VaultExtendedInfoClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, vaultName string, resourceResourceExtendedInfoDetails recoveryservices.VaultExtendedInfoResource) (result recoveryservices.VaultExtendedInfoResource, err error)
-	Get(ctx context.Context, resourceGroupName string, vaultName string) (result recoveryservices.VaultExtendedInfoResource, err error)
-	Update(ctx context.Context, resourceGroupName string, vaultName string, resourceResourceExtendedInfoDetails recoveryservices.VaultExtendedInfoResource) (result recoveryservices.VaultExtendedInfoResource, err error)
-}
-
-var _ VaultExtendedInfoClientAPI = (*recoveryservices.VaultExtendedInfoClient)(nil)
-
-// UsagesClientAPI contains the set of methods on the UsagesClient type.
-type UsagesClientAPI interface {
-	ListByVaults(ctx context.Context, resourceGroupName string, vaultName string) (result recoveryservices.VaultUsageList, err error)
-}
-
-var _ UsagesClientAPI = (*recoveryservices.UsagesClient)(nil)
+        var _ UsagesClientAPI = (*recoveryservices.UsagesClient)(nil)

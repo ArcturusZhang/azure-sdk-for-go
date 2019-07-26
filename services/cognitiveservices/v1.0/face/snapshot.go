@@ -18,23 +18,22 @@ package face
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/azure"
-	"github.com/Azure/go-autorest/autorest/validation"
-	"github.com/Azure/go-autorest/tracing"
-	"github.com/satori/go.uuid"
-	"net/http"
+    "github.com/Azure/go-autorest/autorest"
+    "github.com/Azure/go-autorest/autorest/azure"
+    "net/http"
+    "context"
+    "github.com/Azure/go-autorest/tracing"
+    "github.com/Azure/go-autorest/autorest/validation"
+    "github.com/satori/go.uuid"
 )
 
 // SnapshotClient is the an API for face detection, verification, and identification.
 type SnapshotClient struct {
-	BaseClient
+    BaseClient
 }
-
 // NewSnapshotClient creates an instance of the SnapshotClient client.
 func NewSnapshotClient(endpoint string) SnapshotClient {
-	return SnapshotClient{New(endpoint)}
+    return SnapshotClient{ New(endpoint)}
 }
 
 // Apply submit an operation to apply a snapshot to current subscription. For each snapshot, only subscriptions
@@ -62,385 +61,386 @@ func NewSnapshotClient(endpoint string) SnapshotClient {
 // the same objectId. Users can specify the "objectId" in request body to avoid such conflicts.<br />
 // * Free-tier subscription quota: 100 apply operations per month.
 // * S0-tier subscription quota: 100 apply operations per day.
-// Parameters:
-// snapshotID - id referencing a particular snapshot.
-// body - request body for applying a snapshot.
+    // Parameters:
+        // snapshotID - id referencing a particular snapshot.
+        // body - request body for applying a snapshot.
 func (client SnapshotClient) Apply(ctx context.Context, snapshotID uuid.UUID, body ApplySnapshotRequest) (result autorest.Response, err error) {
-	if tracing.IsEnabled() {
-		ctx = tracing.StartSpan(ctx, fqdn+"/SnapshotClient.Apply")
-		defer func() {
-			sc := -1
-			if result.Response != nil {
-				sc = result.Response.StatusCode
-			}
-			tracing.EndSpan(ctx, sc, err)
-		}()
-	}
-	if err := validation.Validate([]validation.Validation{
-		{TargetValue: body,
-			Constraints: []validation.Constraint{{Target: "body.ObjectID", Name: validation.Null, Rule: true,
-				Chain: []validation.Constraint{{Target: "body.ObjectID", Name: validation.MaxLength, Rule: 64, Chain: nil},
-					{Target: "body.ObjectID", Name: validation.Pattern, Rule: `^[a-z0-9-_]+$`, Chain: nil},
-				}}}}}); err != nil {
-		return result, validation.NewError("face.SnapshotClient", "Apply", err.Error())
-	}
+    if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/SnapshotClient.Apply")
+        defer func() {
+            sc := -1
+            if result.Response != nil {
+                sc = result.Response.StatusCode
+            }
+            tracing.EndSpan(ctx, sc, err)
+        }()
+    }
+            if err := validation.Validate([]validation.Validation{
+            { TargetValue: body,
+             Constraints: []validation.Constraint{	{Target: "body.ObjectID", Name: validation.Null, Rule: true ,
+            Chain: []validation.Constraint{	{Target: "body.ObjectID", Name: validation.MaxLength, Rule: 64, Chain: nil },
+            	{Target: "body.ObjectID", Name: validation.Pattern, Rule: `^[a-z0-9-_]+$`, Chain: nil },
+            }}}}}); err != nil {
+            return result, validation.NewError("face.SnapshotClient", "Apply", err.Error())
+            }
 
-	req, err := client.ApplyPreparer(ctx, snapshotID, body)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Apply", nil, "Failure preparing request")
-		return
-	}
+                req, err := client.ApplyPreparer(ctx, snapshotID, body)
+    if err != nil {
+    err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Apply", nil , "Failure preparing request")
+    return
+    }
 
-	resp, err := client.ApplySender(req)
-	if err != nil {
-		result.Response = resp
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Apply", resp, "Failure sending request")
-		return
-	}
+            resp, err := client.ApplySender(req)
+            if err != nil {
+            result.Response = resp
+            err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Apply", resp, "Failure sending request")
+            return
+            }
 
-	result, err = client.ApplyResponder(resp)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Apply", resp, "Failure responding to request")
-	}
+            result, err = client.ApplyResponder(resp)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Apply", resp, "Failure responding to request")
+            }
 
-	return
-}
+    return
+    }
 
-// ApplyPreparer prepares the Apply request.
-func (client SnapshotClient) ApplyPreparer(ctx context.Context, snapshotID uuid.UUID, body ApplySnapshotRequest) (*http.Request, error) {
-	urlParameters := map[string]interface{}{
-		"Endpoint": client.Endpoint,
-	}
+    // ApplyPreparer prepares the Apply request.
+    func (client SnapshotClient) ApplyPreparer(ctx context.Context, snapshotID uuid.UUID, body ApplySnapshotRequest) (*http.Request, error) {
+            urlParameters := map[string]interface{} {
+            "Endpoint": client.Endpoint,
+            }
 
-	pathParameters := map[string]interface{}{
-		"snapshotId": autorest.Encode("path", snapshotID),
-	}
+            pathParameters := map[string]interface{} {
+            "snapshotId": autorest.Encode("path",snapshotID),
+            }
 
-	preparer := autorest.CreatePreparer(
-		autorest.AsContentType("application/json; charset=utf-8"),
-		autorest.AsPost(),
-		autorest.WithCustomBaseURL("{Endpoint}/face/v1.0", urlParameters),
-		autorest.WithPathParameters("/snapshots/{snapshotId}/apply", pathParameters),
-		autorest.WithJSON(body))
-	return preparer.Prepare((&http.Request{}).WithContext(ctx))
-}
+        preparer := autorest.CreatePreparer(
+    autorest.AsContentType("application/json; charset=utf-8"),
+    autorest.AsPost(),
+    autorest.WithCustomBaseURL("{Endpoint}/face/v1.0", urlParameters),
+    autorest.WithPathParameters("/snapshots/{snapshotId}/apply",pathParameters),
+    autorest.WithJSON(body))
+    return preparer.Prepare((&http.Request{}).WithContext(ctx))
+    }
 
-// ApplySender sends the Apply request. The method will close the
-// http.Response Body if it receives an error.
-func (client SnapshotClient) ApplySender(req *http.Request) (*http.Response, error) {
-	sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
-	return autorest.SendWithSender(client, req, sd...)
-}
+    // ApplySender sends the Apply request. The method will close the
+    // http.Response Body if it receives an error.
+    func (client SnapshotClient) ApplySender(req *http.Request) (*http.Response, error) {
+        sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
+            return autorest.SendWithSender(client, req, sd...)
+            }
 
 // ApplyResponder handles the response to the Apply request. The method always
 // closes the http.Response Body.
 func (client SnapshotClient) ApplyResponder(resp *http.Response) (result autorest.Response, err error) {
-	err = autorest.Respond(
-		resp,
-		client.ByInspecting(),
-		azure.WithErrorUnlessStatusCode(http.StatusOK, http.StatusAccepted),
-		autorest.ByClosing())
-	result.Response = resp
-	return
-}
+    err = autorest.Respond(
+    resp,
+    client.ByInspecting(),
+    azure.WithErrorUnlessStatusCode(http.StatusOK,http.StatusAccepted),
+    autorest.ByClosing())
+    result.Response = resp
+        return
+    }
 
 // Delete delete an existing snapshot according to the snapshotId. All object data and information in the snapshot will
 // also be deleted. Only the source subscription who took the snapshot can delete the snapshot. If the user does not
 // delete a snapshot with this API, the snapshot will still be automatically deleted in 48 hours after creation.
-// Parameters:
-// snapshotID - id referencing a particular snapshot.
+    // Parameters:
+        // snapshotID - id referencing a particular snapshot.
 func (client SnapshotClient) Delete(ctx context.Context, snapshotID uuid.UUID) (result autorest.Response, err error) {
-	if tracing.IsEnabled() {
-		ctx = tracing.StartSpan(ctx, fqdn+"/SnapshotClient.Delete")
-		defer func() {
-			sc := -1
-			if result.Response != nil {
-				sc = result.Response.StatusCode
-			}
-			tracing.EndSpan(ctx, sc, err)
-		}()
-	}
-	req, err := client.DeletePreparer(ctx, snapshotID)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Delete", nil, "Failure preparing request")
-		return
-	}
+    if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/SnapshotClient.Delete")
+        defer func() {
+            sc := -1
+            if result.Response != nil {
+                sc = result.Response.StatusCode
+            }
+            tracing.EndSpan(ctx, sc, err)
+        }()
+    }
+        req, err := client.DeletePreparer(ctx, snapshotID)
+    if err != nil {
+    err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Delete", nil , "Failure preparing request")
+    return
+    }
 
-	resp, err := client.DeleteSender(req)
-	if err != nil {
-		result.Response = resp
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Delete", resp, "Failure sending request")
-		return
-	}
+            resp, err := client.DeleteSender(req)
+            if err != nil {
+            result.Response = resp
+            err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Delete", resp, "Failure sending request")
+            return
+            }
 
-	result, err = client.DeleteResponder(resp)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Delete", resp, "Failure responding to request")
-	}
+            result, err = client.DeleteResponder(resp)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Delete", resp, "Failure responding to request")
+            }
 
-	return
-}
+    return
+    }
 
-// DeletePreparer prepares the Delete request.
-func (client SnapshotClient) DeletePreparer(ctx context.Context, snapshotID uuid.UUID) (*http.Request, error) {
-	urlParameters := map[string]interface{}{
-		"Endpoint": client.Endpoint,
-	}
+    // DeletePreparer prepares the Delete request.
+    func (client SnapshotClient) DeletePreparer(ctx context.Context, snapshotID uuid.UUID) (*http.Request, error) {
+            urlParameters := map[string]interface{} {
+            "Endpoint": client.Endpoint,
+            }
 
-	pathParameters := map[string]interface{}{
-		"snapshotId": autorest.Encode("path", snapshotID),
-	}
+            pathParameters := map[string]interface{} {
+            "snapshotId": autorest.Encode("path",snapshotID),
+            }
 
-	preparer := autorest.CreatePreparer(
-		autorest.AsDelete(),
-		autorest.WithCustomBaseURL("{Endpoint}/face/v1.0", urlParameters),
-		autorest.WithPathParameters("/snapshots/{snapshotId}", pathParameters))
-	return preparer.Prepare((&http.Request{}).WithContext(ctx))
-}
+        preparer := autorest.CreatePreparer(
+    autorest.AsDelete(),
+    autorest.WithCustomBaseURL("{Endpoint}/face/v1.0", urlParameters),
+    autorest.WithPathParameters("/snapshots/{snapshotId}",pathParameters))
+    return preparer.Prepare((&http.Request{}).WithContext(ctx))
+    }
 
-// DeleteSender sends the Delete request. The method will close the
-// http.Response Body if it receives an error.
-func (client SnapshotClient) DeleteSender(req *http.Request) (*http.Response, error) {
-	sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
-	return autorest.SendWithSender(client, req, sd...)
-}
+    // DeleteSender sends the Delete request. The method will close the
+    // http.Response Body if it receives an error.
+    func (client SnapshotClient) DeleteSender(req *http.Request) (*http.Response, error) {
+        sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
+            return autorest.SendWithSender(client, req, sd...)
+            }
 
 // DeleteResponder handles the response to the Delete request. The method always
 // closes the http.Response Body.
 func (client SnapshotClient) DeleteResponder(resp *http.Response) (result autorest.Response, err error) {
-	err = autorest.Respond(
-		resp,
-		client.ByInspecting(),
-		azure.WithErrorUnlessStatusCode(http.StatusOK),
-		autorest.ByClosing())
-	result.Response = resp
-	return
-}
+    err = autorest.Respond(
+    resp,
+    client.ByInspecting(),
+    azure.WithErrorUnlessStatusCode(http.StatusOK),
+    autorest.ByClosing())
+    result.Response = resp
+        return
+    }
 
 // Get retrieve information about a snapshot. Snapshot is only accessible to the source subscription who took it, and
 // target subscriptions included in the applyScope in Snapshot - Take.
-// Parameters:
-// snapshotID - id referencing a particular snapshot.
+    // Parameters:
+        // snapshotID - id referencing a particular snapshot.
 func (client SnapshotClient) Get(ctx context.Context, snapshotID uuid.UUID) (result Snapshot, err error) {
-	if tracing.IsEnabled() {
-		ctx = tracing.StartSpan(ctx, fqdn+"/SnapshotClient.Get")
-		defer func() {
-			sc := -1
-			if result.Response.Response != nil {
-				sc = result.Response.Response.StatusCode
-			}
-			tracing.EndSpan(ctx, sc, err)
-		}()
-	}
-	req, err := client.GetPreparer(ctx, snapshotID)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Get", nil, "Failure preparing request")
-		return
-	}
+    if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/SnapshotClient.Get")
+        defer func() {
+            sc := -1
+            if result.Response.Response != nil {
+                sc = result.Response.Response.StatusCode
+            }
+            tracing.EndSpan(ctx, sc, err)
+        }()
+    }
+        req, err := client.GetPreparer(ctx, snapshotID)
+    if err != nil {
+    err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Get", nil , "Failure preparing request")
+    return
+    }
 
-	resp, err := client.GetSender(req)
-	if err != nil {
-		result.Response = autorest.Response{Response: resp}
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Get", resp, "Failure sending request")
-		return
-	}
+            resp, err := client.GetSender(req)
+            if err != nil {
+            result.Response = autorest.Response{Response: resp}
+            err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Get", resp, "Failure sending request")
+            return
+            }
 
-	result, err = client.GetResponder(resp)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Get", resp, "Failure responding to request")
-	}
+            result, err = client.GetResponder(resp)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Get", resp, "Failure responding to request")
+            }
 
-	return
-}
+    return
+    }
 
-// GetPreparer prepares the Get request.
-func (client SnapshotClient) GetPreparer(ctx context.Context, snapshotID uuid.UUID) (*http.Request, error) {
-	urlParameters := map[string]interface{}{
-		"Endpoint": client.Endpoint,
-	}
+    // GetPreparer prepares the Get request.
+    func (client SnapshotClient) GetPreparer(ctx context.Context, snapshotID uuid.UUID) (*http.Request, error) {
+            urlParameters := map[string]interface{} {
+            "Endpoint": client.Endpoint,
+            }
 
-	pathParameters := map[string]interface{}{
-		"snapshotId": autorest.Encode("path", snapshotID),
-	}
+            pathParameters := map[string]interface{} {
+            "snapshotId": autorest.Encode("path",snapshotID),
+            }
 
-	preparer := autorest.CreatePreparer(
-		autorest.AsGet(),
-		autorest.WithCustomBaseURL("{Endpoint}/face/v1.0", urlParameters),
-		autorest.WithPathParameters("/snapshots/{snapshotId}", pathParameters))
-	return preparer.Prepare((&http.Request{}).WithContext(ctx))
-}
+        preparer := autorest.CreatePreparer(
+    autorest.AsGet(),
+    autorest.WithCustomBaseURL("{Endpoint}/face/v1.0", urlParameters),
+    autorest.WithPathParameters("/snapshots/{snapshotId}",pathParameters))
+    return preparer.Prepare((&http.Request{}).WithContext(ctx))
+    }
 
-// GetSender sends the Get request. The method will close the
-// http.Response Body if it receives an error.
-func (client SnapshotClient) GetSender(req *http.Request) (*http.Response, error) {
-	sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
-	return autorest.SendWithSender(client, req, sd...)
-}
+    // GetSender sends the Get request. The method will close the
+    // http.Response Body if it receives an error.
+    func (client SnapshotClient) GetSender(req *http.Request) (*http.Response, error) {
+        sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
+            return autorest.SendWithSender(client, req, sd...)
+            }
 
 // GetResponder handles the response to the Get request. The method always
 // closes the http.Response Body.
 func (client SnapshotClient) GetResponder(resp *http.Response) (result Snapshot, err error) {
-	err = autorest.Respond(
-		resp,
-		client.ByInspecting(),
-		azure.WithErrorUnlessStatusCode(http.StatusOK),
-		autorest.ByUnmarshallingJSON(&result),
-		autorest.ByClosing())
-	result.Response = autorest.Response{Response: resp}
-	return
-}
+    err = autorest.Respond(
+    resp,
+    client.ByInspecting(),
+    azure.WithErrorUnlessStatusCode(http.StatusOK),
+    autorest.ByUnmarshallingJSON(&result),
+    autorest.ByClosing())
+    result.Response = autorest.Response{Response: resp}
+        return
+    }
 
 // GetOperationStatus retrieve the status of a take/apply snapshot operation.
-// Parameters:
-// operationID - id referencing a particular take/apply snapshot operation.
+    // Parameters:
+        // operationID - id referencing a particular take/apply snapshot operation.
 func (client SnapshotClient) GetOperationStatus(ctx context.Context, operationID uuid.UUID) (result OperationStatus, err error) {
-	if tracing.IsEnabled() {
-		ctx = tracing.StartSpan(ctx, fqdn+"/SnapshotClient.GetOperationStatus")
-		defer func() {
-			sc := -1
-			if result.Response.Response != nil {
-				sc = result.Response.Response.StatusCode
-			}
-			tracing.EndSpan(ctx, sc, err)
-		}()
-	}
-	req, err := client.GetOperationStatusPreparer(ctx, operationID)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "GetOperationStatus", nil, "Failure preparing request")
-		return
-	}
+    if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/SnapshotClient.GetOperationStatus")
+        defer func() {
+            sc := -1
+            if result.Response.Response != nil {
+                sc = result.Response.Response.StatusCode
+            }
+            tracing.EndSpan(ctx, sc, err)
+        }()
+    }
+        req, err := client.GetOperationStatusPreparer(ctx, operationID)
+    if err != nil {
+    err = autorest.NewErrorWithError(err, "face.SnapshotClient", "GetOperationStatus", nil , "Failure preparing request")
+    return
+    }
 
-	resp, err := client.GetOperationStatusSender(req)
-	if err != nil {
-		result.Response = autorest.Response{Response: resp}
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "GetOperationStatus", resp, "Failure sending request")
-		return
-	}
+            resp, err := client.GetOperationStatusSender(req)
+            if err != nil {
+            result.Response = autorest.Response{Response: resp}
+            err = autorest.NewErrorWithError(err, "face.SnapshotClient", "GetOperationStatus", resp, "Failure sending request")
+            return
+            }
 
-	result, err = client.GetOperationStatusResponder(resp)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "GetOperationStatus", resp, "Failure responding to request")
-	}
+            result, err = client.GetOperationStatusResponder(resp)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "face.SnapshotClient", "GetOperationStatus", resp, "Failure responding to request")
+            }
 
-	return
-}
+    return
+    }
 
-// GetOperationStatusPreparer prepares the GetOperationStatus request.
-func (client SnapshotClient) GetOperationStatusPreparer(ctx context.Context, operationID uuid.UUID) (*http.Request, error) {
-	urlParameters := map[string]interface{}{
-		"Endpoint": client.Endpoint,
-	}
+    // GetOperationStatusPreparer prepares the GetOperationStatus request.
+    func (client SnapshotClient) GetOperationStatusPreparer(ctx context.Context, operationID uuid.UUID) (*http.Request, error) {
+            urlParameters := map[string]interface{} {
+            "Endpoint": client.Endpoint,
+            }
 
-	pathParameters := map[string]interface{}{
-		"operationId": autorest.Encode("path", operationID),
-	}
+            pathParameters := map[string]interface{} {
+            "operationId": autorest.Encode("path",operationID),
+            }
 
-	preparer := autorest.CreatePreparer(
-		autorest.AsGet(),
-		autorest.WithCustomBaseURL("{Endpoint}/face/v1.0", urlParameters),
-		autorest.WithPathParameters("/operations/{operationId}", pathParameters))
-	return preparer.Prepare((&http.Request{}).WithContext(ctx))
-}
+        preparer := autorest.CreatePreparer(
+    autorest.AsGet(),
+    autorest.WithCustomBaseURL("{Endpoint}/face/v1.0", urlParameters),
+    autorest.WithPathParameters("/operations/{operationId}",pathParameters))
+    return preparer.Prepare((&http.Request{}).WithContext(ctx))
+    }
 
-// GetOperationStatusSender sends the GetOperationStatus request. The method will close the
-// http.Response Body if it receives an error.
-func (client SnapshotClient) GetOperationStatusSender(req *http.Request) (*http.Response, error) {
-	sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
-	return autorest.SendWithSender(client, req, sd...)
-}
+    // GetOperationStatusSender sends the GetOperationStatus request. The method will close the
+    // http.Response Body if it receives an error.
+    func (client SnapshotClient) GetOperationStatusSender(req *http.Request) (*http.Response, error) {
+        sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
+            return autorest.SendWithSender(client, req, sd...)
+            }
 
 // GetOperationStatusResponder handles the response to the GetOperationStatus request. The method always
 // closes the http.Response Body.
 func (client SnapshotClient) GetOperationStatusResponder(resp *http.Response) (result OperationStatus, err error) {
-	err = autorest.Respond(
-		resp,
-		client.ByInspecting(),
-		azure.WithErrorUnlessStatusCode(http.StatusOK),
-		autorest.ByUnmarshallingJSON(&result),
-		autorest.ByClosing())
-	result.Response = autorest.Response{Response: resp}
-	return
-}
+    err = autorest.Respond(
+    resp,
+    client.ByInspecting(),
+    azure.WithErrorUnlessStatusCode(http.StatusOK),
+    autorest.ByUnmarshallingJSON(&result),
+    autorest.ByClosing())
+    result.Response = autorest.Response{Response: resp}
+        return
+    }
 
 // List list all accessible snapshots with related information, including snapshots that were taken by the user, or
 // snapshots to be applied to the user (subscription id was included in the applyScope in Snapshot - Take).
-// Parameters:
-// typeParameter - user specified object type as a search filter.
-// applyScope - user specified snapshot apply scopes as a search filter. ApplyScope is an array of the target
-// Azure subscription ids for the snapshot, specified by the user who created the snapshot by Snapshot - Take.
+    // Parameters:
+        // typeParameter - user specified object type as a search filter.
+        // applyScope - user specified snapshot apply scopes as a search filter. ApplyScope is an array of the target
+        // Azure subscription ids for the snapshot, specified by the user who created the snapshot by Snapshot - Take.
 func (client SnapshotClient) List(ctx context.Context, typeParameter SnapshotObjectType, applyScope []uuid.UUID) (result ListSnapshot, err error) {
-	if tracing.IsEnabled() {
-		ctx = tracing.StartSpan(ctx, fqdn+"/SnapshotClient.List")
-		defer func() {
-			sc := -1
-			if result.Response.Response != nil {
-				sc = result.Response.Response.StatusCode
-			}
-			tracing.EndSpan(ctx, sc, err)
-		}()
-	}
-	req, err := client.ListPreparer(ctx, typeParameter, applyScope)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "List", nil, "Failure preparing request")
-		return
-	}
+    if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/SnapshotClient.List")
+        defer func() {
+            sc := -1
+            if result.Response.Response != nil {
+                sc = result.Response.Response.StatusCode
+            }
+            tracing.EndSpan(ctx, sc, err)
+        }()
+    }
+        req, err := client.ListPreparer(ctx, typeParameter, applyScope)
+    if err != nil {
+    err = autorest.NewErrorWithError(err, "face.SnapshotClient", "List", nil , "Failure preparing request")
+    return
+    }
 
-	resp, err := client.ListSender(req)
-	if err != nil {
-		result.Response = autorest.Response{Response: resp}
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "List", resp, "Failure sending request")
-		return
-	}
+            resp, err := client.ListSender(req)
+            if err != nil {
+            result.Response = autorest.Response{Response: resp}
+            err = autorest.NewErrorWithError(err, "face.SnapshotClient", "List", resp, "Failure sending request")
+            return
+            }
 
-	result, err = client.ListResponder(resp)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "List", resp, "Failure responding to request")
-	}
+            result, err = client.ListResponder(resp)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "face.SnapshotClient", "List", resp, "Failure responding to request")
+            }
 
-	return
-}
+    return
+    }
 
-// ListPreparer prepares the List request.
-func (client SnapshotClient) ListPreparer(ctx context.Context, typeParameter SnapshotObjectType, applyScope []uuid.UUID) (*http.Request, error) {
-	urlParameters := map[string]interface{}{
-		"Endpoint": client.Endpoint,
-	}
+    // ListPreparer prepares the List request.
+    func (client SnapshotClient) ListPreparer(ctx context.Context, typeParameter SnapshotObjectType, applyScope []uuid.UUID) (*http.Request, error) {
+            urlParameters := map[string]interface{} {
+            "Endpoint": client.Endpoint,
+            }
 
-	queryParameters := map[string]interface{}{}
-	if len(string(typeParameter)) > 0 {
-		queryParameters["type"] = autorest.Encode("query", typeParameter)
-	}
-	if applyScope != nil && len(applyScope) > 0 {
-		queryParameters["applyScope"] = autorest.Encode("query", applyScope, ",")
-	}
+                        queryParameters := map[string]interface{} {
+        }
+            if len(string(typeParameter)) > 0 {
+            queryParameters["type"] = autorest.Encode("query",typeParameter)
+            }
+            if applyScope != nil && len(applyScope) > 0 {
+            queryParameters["applyScope"] = autorest.Encode("query",applyScope,",")
+            }
 
-	preparer := autorest.CreatePreparer(
-		autorest.AsGet(),
-		autorest.WithCustomBaseURL("{Endpoint}/face/v1.0", urlParameters),
-		autorest.WithPath("/snapshots"),
-		autorest.WithQueryParameters(queryParameters))
-	return preparer.Prepare((&http.Request{}).WithContext(ctx))
-}
+        preparer := autorest.CreatePreparer(
+    autorest.AsGet(),
+    autorest.WithCustomBaseURL("{Endpoint}/face/v1.0", urlParameters),
+    autorest.WithPath("/snapshots"),
+    autorest.WithQueryParameters(queryParameters))
+    return preparer.Prepare((&http.Request{}).WithContext(ctx))
+    }
 
-// ListSender sends the List request. The method will close the
-// http.Response Body if it receives an error.
-func (client SnapshotClient) ListSender(req *http.Request) (*http.Response, error) {
-	sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
-	return autorest.SendWithSender(client, req, sd...)
-}
+    // ListSender sends the List request. The method will close the
+    // http.Response Body if it receives an error.
+    func (client SnapshotClient) ListSender(req *http.Request) (*http.Response, error) {
+        sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
+            return autorest.SendWithSender(client, req, sd...)
+            }
 
 // ListResponder handles the response to the List request. The method always
 // closes the http.Response Body.
 func (client SnapshotClient) ListResponder(resp *http.Response) (result ListSnapshot, err error) {
-	err = autorest.Respond(
-		resp,
-		client.ByInspecting(),
-		azure.WithErrorUnlessStatusCode(http.StatusOK),
-		autorest.ByUnmarshallingJSON(&result.Value),
-		autorest.ByClosing())
-	result.Response = autorest.Response{Response: resp}
-	return
-}
+    err = autorest.Respond(
+    resp,
+    client.ByInspecting(),
+    azure.WithErrorUnlessStatusCode(http.StatusOK),
+    autorest.ByUnmarshallingJSON(&result.Value),
+    autorest.ByClosing())
+    result.Response = autorest.Response{Response: resp}
+        return
+    }
 
 // Take submit an operation to take a snapshot of face list, large face list, person group or large person group, with
 // user-specified snapshot type, source object id, apply scope and an optional user data.<br />
@@ -466,157 +466,159 @@ func (client SnapshotClient) ListResponder(resp *http.Response) (result ListSnap
 // target object before calling Identify/FindSimilar.<br />
 // * Free-tier subscription quota: 100 take operations per month.
 // * S0-tier subscription quota: 100 take operations per day.
-// Parameters:
-// body - request body for taking a snapshot.
+    // Parameters:
+        // body - request body for taking a snapshot.
 func (client SnapshotClient) Take(ctx context.Context, body TakeSnapshotRequest) (result autorest.Response, err error) {
-	if tracing.IsEnabled() {
-		ctx = tracing.StartSpan(ctx, fqdn+"/SnapshotClient.Take")
-		defer func() {
-			sc := -1
-			if result.Response != nil {
-				sc = result.Response.StatusCode
-			}
-			tracing.EndSpan(ctx, sc, err)
-		}()
-	}
-	if err := validation.Validate([]validation.Validation{
-		{TargetValue: body,
-			Constraints: []validation.Constraint{{Target: "body.ObjectID", Name: validation.Null, Rule: true,
-				Chain: []validation.Constraint{{Target: "body.ObjectID", Name: validation.MaxLength, Rule: 64, Chain: nil},
-					{Target: "body.ObjectID", Name: validation.Pattern, Rule: `^[a-z0-9-_]+$`, Chain: nil},
-				}},
-				{Target: "body.ApplyScope", Name: validation.Null, Rule: true, Chain: nil},
-				{Target: "body.UserData", Name: validation.Null, Rule: false,
-					Chain: []validation.Constraint{{Target: "body.UserData", Name: validation.MaxLength, Rule: 16384, Chain: nil}}}}}}); err != nil {
-		return result, validation.NewError("face.SnapshotClient", "Take", err.Error())
-	}
+    if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/SnapshotClient.Take")
+        defer func() {
+            sc := -1
+            if result.Response != nil {
+                sc = result.Response.StatusCode
+            }
+            tracing.EndSpan(ctx, sc, err)
+        }()
+    }
+            if err := validation.Validate([]validation.Validation{
+            { TargetValue: body,
+             Constraints: []validation.Constraint{	{Target: "body.ObjectID", Name: validation.Null, Rule: true ,
+            Chain: []validation.Constraint{	{Target: "body.ObjectID", Name: validation.MaxLength, Rule: 64, Chain: nil },
+            	{Target: "body.ObjectID", Name: validation.Pattern, Rule: `^[a-z0-9-_]+$`, Chain: nil },
+            }},
+            	{Target: "body.ApplyScope", Name: validation.Null, Rule: true, Chain: nil },
+            	{Target: "body.UserData", Name: validation.Null, Rule: false ,
+            Chain: []validation.Constraint{	{Target: "body.UserData", Name: validation.MaxLength, Rule: 16384, Chain: nil },
+            }}}}}); err != nil {
+            return result, validation.NewError("face.SnapshotClient", "Take", err.Error())
+            }
 
-	req, err := client.TakePreparer(ctx, body)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Take", nil, "Failure preparing request")
-		return
-	}
+                req, err := client.TakePreparer(ctx, body)
+    if err != nil {
+    err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Take", nil , "Failure preparing request")
+    return
+    }
 
-	resp, err := client.TakeSender(req)
-	if err != nil {
-		result.Response = resp
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Take", resp, "Failure sending request")
-		return
-	}
+            resp, err := client.TakeSender(req)
+            if err != nil {
+            result.Response = resp
+            err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Take", resp, "Failure sending request")
+            return
+            }
 
-	result, err = client.TakeResponder(resp)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Take", resp, "Failure responding to request")
-	}
+            result, err = client.TakeResponder(resp)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Take", resp, "Failure responding to request")
+            }
 
-	return
-}
+    return
+    }
 
-// TakePreparer prepares the Take request.
-func (client SnapshotClient) TakePreparer(ctx context.Context, body TakeSnapshotRequest) (*http.Request, error) {
-	urlParameters := map[string]interface{}{
-		"Endpoint": client.Endpoint,
-	}
+    // TakePreparer prepares the Take request.
+    func (client SnapshotClient) TakePreparer(ctx context.Context, body TakeSnapshotRequest) (*http.Request, error) {
+            urlParameters := map[string]interface{} {
+            "Endpoint": client.Endpoint,
+            }
 
-	preparer := autorest.CreatePreparer(
-		autorest.AsContentType("application/json; charset=utf-8"),
-		autorest.AsPost(),
-		autorest.WithCustomBaseURL("{Endpoint}/face/v1.0", urlParameters),
-		autorest.WithPath("/snapshots"),
-		autorest.WithJSON(body))
-	return preparer.Prepare((&http.Request{}).WithContext(ctx))
-}
+        preparer := autorest.CreatePreparer(
+    autorest.AsContentType("application/json; charset=utf-8"),
+    autorest.AsPost(),
+    autorest.WithCustomBaseURL("{Endpoint}/face/v1.0", urlParameters),
+    autorest.WithPath("/snapshots"),
+    autorest.WithJSON(body))
+    return preparer.Prepare((&http.Request{}).WithContext(ctx))
+    }
 
-// TakeSender sends the Take request. The method will close the
-// http.Response Body if it receives an error.
-func (client SnapshotClient) TakeSender(req *http.Request) (*http.Response, error) {
-	sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
-	return autorest.SendWithSender(client, req, sd...)
-}
+    // TakeSender sends the Take request. The method will close the
+    // http.Response Body if it receives an error.
+    func (client SnapshotClient) TakeSender(req *http.Request) (*http.Response, error) {
+        sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
+            return autorest.SendWithSender(client, req, sd...)
+            }
 
 // TakeResponder handles the response to the Take request. The method always
 // closes the http.Response Body.
 func (client SnapshotClient) TakeResponder(resp *http.Response) (result autorest.Response, err error) {
-	err = autorest.Respond(
-		resp,
-		client.ByInspecting(),
-		azure.WithErrorUnlessStatusCode(http.StatusOK, http.StatusAccepted),
-		autorest.ByClosing())
-	result.Response = resp
-	return
-}
+    err = autorest.Respond(
+    resp,
+    client.ByInspecting(),
+    azure.WithErrorUnlessStatusCode(http.StatusOK,http.StatusAccepted),
+    autorest.ByClosing())
+    result.Response = resp
+        return
+    }
 
 // Update update the information of a snapshot. Only the source subscription who took the snapshot can update the
 // snapshot.
-// Parameters:
-// snapshotID - id referencing a particular snapshot.
-// body - request body for updating a snapshot.
+    // Parameters:
+        // snapshotID - id referencing a particular snapshot.
+        // body - request body for updating a snapshot.
 func (client SnapshotClient) Update(ctx context.Context, snapshotID uuid.UUID, body UpdateSnapshotRequest) (result autorest.Response, err error) {
-	if tracing.IsEnabled() {
-		ctx = tracing.StartSpan(ctx, fqdn+"/SnapshotClient.Update")
-		defer func() {
-			sc := -1
-			if result.Response != nil {
-				sc = result.Response.StatusCode
-			}
-			tracing.EndSpan(ctx, sc, err)
-		}()
-	}
-	req, err := client.UpdatePreparer(ctx, snapshotID, body)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Update", nil, "Failure preparing request")
-		return
-	}
+    if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/SnapshotClient.Update")
+        defer func() {
+            sc := -1
+            if result.Response != nil {
+                sc = result.Response.StatusCode
+            }
+            tracing.EndSpan(ctx, sc, err)
+        }()
+    }
+        req, err := client.UpdatePreparer(ctx, snapshotID, body)
+    if err != nil {
+    err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Update", nil , "Failure preparing request")
+    return
+    }
 
-	resp, err := client.UpdateSender(req)
-	if err != nil {
-		result.Response = resp
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Update", resp, "Failure sending request")
-		return
-	}
+            resp, err := client.UpdateSender(req)
+            if err != nil {
+            result.Response = resp
+            err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Update", resp, "Failure sending request")
+            return
+            }
 
-	result, err = client.UpdateResponder(resp)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Update", resp, "Failure responding to request")
-	}
+            result, err = client.UpdateResponder(resp)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "face.SnapshotClient", "Update", resp, "Failure responding to request")
+            }
 
-	return
-}
+    return
+    }
 
-// UpdatePreparer prepares the Update request.
-func (client SnapshotClient) UpdatePreparer(ctx context.Context, snapshotID uuid.UUID, body UpdateSnapshotRequest) (*http.Request, error) {
-	urlParameters := map[string]interface{}{
-		"Endpoint": client.Endpoint,
-	}
+    // UpdatePreparer prepares the Update request.
+    func (client SnapshotClient) UpdatePreparer(ctx context.Context, snapshotID uuid.UUID, body UpdateSnapshotRequest) (*http.Request, error) {
+            urlParameters := map[string]interface{} {
+            "Endpoint": client.Endpoint,
+            }
 
-	pathParameters := map[string]interface{}{
-		"snapshotId": autorest.Encode("path", snapshotID),
-	}
+            pathParameters := map[string]interface{} {
+            "snapshotId": autorest.Encode("path",snapshotID),
+            }
 
-	preparer := autorest.CreatePreparer(
-		autorest.AsContentType("application/json; charset=utf-8"),
-		autorest.AsPatch(),
-		autorest.WithCustomBaseURL("{Endpoint}/face/v1.0", urlParameters),
-		autorest.WithPathParameters("/snapshots/{snapshotId}", pathParameters),
-		autorest.WithJSON(body))
-	return preparer.Prepare((&http.Request{}).WithContext(ctx))
-}
+        preparer := autorest.CreatePreparer(
+    autorest.AsContentType("application/json; charset=utf-8"),
+    autorest.AsPatch(),
+    autorest.WithCustomBaseURL("{Endpoint}/face/v1.0", urlParameters),
+    autorest.WithPathParameters("/snapshots/{snapshotId}",pathParameters),
+    autorest.WithJSON(body))
+    return preparer.Prepare((&http.Request{}).WithContext(ctx))
+    }
 
-// UpdateSender sends the Update request. The method will close the
-// http.Response Body if it receives an error.
-func (client SnapshotClient) UpdateSender(req *http.Request) (*http.Response, error) {
-	sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
-	return autorest.SendWithSender(client, req, sd...)
-}
+    // UpdateSender sends the Update request. The method will close the
+    // http.Response Body if it receives an error.
+    func (client SnapshotClient) UpdateSender(req *http.Request) (*http.Response, error) {
+        sd := autorest.GetSendDecorators(req.Context(), autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
+            return autorest.SendWithSender(client, req, sd...)
+            }
 
 // UpdateResponder handles the response to the Update request. The method always
 // closes the http.Response Body.
 func (client SnapshotClient) UpdateResponder(resp *http.Response) (result autorest.Response, err error) {
-	err = autorest.Respond(
-		resp,
-		client.ByInspecting(),
-		azure.WithErrorUnlessStatusCode(http.StatusOK),
-		autorest.ByClosing())
-	result.Response = resp
-	return
-}
+    err = autorest.Respond(
+    resp,
+    client.ByInspecting(),
+    azure.WithErrorUnlessStatusCode(http.StatusOK),
+    autorest.ByClosing())
+    result.Response = resp
+        return
+    }
+

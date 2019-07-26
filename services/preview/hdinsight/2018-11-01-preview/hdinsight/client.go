@@ -21,26 +21,28 @@ package hdinsight
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"github.com/Azure/go-autorest/autorest"
+    "github.com/Azure/go-autorest/autorest"
 )
+
 
 // BaseClient is the base client for Hdinsight.
 type BaseClient struct {
-	autorest.Client
-	ClusterDNSName string
-	UserName       string
+    autorest.Client
+            ClusterDNSName string
+            UserName string
 }
 
 // New creates an instance of the BaseClient client.
-func New(clusterDNSName string, userName string) BaseClient {
-	return NewWithoutDefaults(clusterDNSName, userName)
+func New(clusterDNSName string, userName string)BaseClient {
+    return NewWithoutDefaults(clusterDNSName, userName)
 }
 
 // NewWithoutDefaults creates an instance of the BaseClient client.
 func NewWithoutDefaults(clusterDNSName string, userName string) BaseClient {
-	return BaseClient{
-		Client:         autorest.NewClientWithUserAgent(UserAgent()),
-		ClusterDNSName: clusterDNSName,
-		UserName:       userName,
-	}
+    return BaseClient{
+        Client: autorest.NewClientWithUserAgent(UserAgent()),
+                ClusterDNSName: clusterDNSName,
+                UserName: userName,
+    }
 }
+

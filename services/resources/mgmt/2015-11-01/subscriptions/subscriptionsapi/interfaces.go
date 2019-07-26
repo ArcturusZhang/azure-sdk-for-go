@@ -18,22 +18,21 @@ package subscriptionsapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2015-11-01/subscriptions"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/resources/mgmt/2015-11-01/subscriptions"
 )
 
-// ClientAPI contains the set of methods on the Client type.
-type ClientAPI interface {
-	Get(ctx context.Context, subscriptionID string) (result subscriptions.Subscription, err error)
-	List(ctx context.Context) (result subscriptions.ListResultPage, err error)
-	ListLocations(ctx context.Context, subscriptionID string) (result subscriptions.LocationListResult, err error)
-}
+        // ClientAPI contains the set of methods on the Client type.
+        type ClientAPI interface {
+            Get(ctx context.Context, subscriptionID string) (result subscriptions.Subscription, err error)
+            List(ctx context.Context) (result subscriptions.ListResultPage, err error)
+            ListLocations(ctx context.Context, subscriptionID string) (result subscriptions.LocationListResult, err error)
+        }
 
-var _ ClientAPI = (*subscriptions.Client)(nil)
+        var _ ClientAPI = (*subscriptions.Client)(nil)
+        // TenantsClientAPI contains the set of methods on the TenantsClient type.
+        type TenantsClientAPI interface {
+            List(ctx context.Context) (result subscriptions.TenantListResultPage, err error)
+        }
 
-// TenantsClientAPI contains the set of methods on the TenantsClient type.
-type TenantsClientAPI interface {
-	List(ctx context.Context) (result subscriptions.TenantListResultPage, err error)
-}
-
-var _ TenantsClientAPI = (*subscriptions.TenantsClient)(nil)
+        var _ TenantsClientAPI = (*subscriptions.TenantsClient)(nil)

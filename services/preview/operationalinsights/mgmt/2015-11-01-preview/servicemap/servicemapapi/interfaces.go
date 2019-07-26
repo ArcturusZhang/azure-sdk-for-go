@@ -18,75 +18,69 @@ package servicemapapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/operationalinsights/mgmt/2015-11-01-preview/servicemap"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/date"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/operationalinsights/mgmt/2015-11-01-preview/servicemap"
+    "github.com/Azure/go-autorest/autorest/date"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// MachinesClientAPI contains the set of methods on the MachinesClient type.
-type MachinesClientAPI interface {
-	Get(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, timestamp *date.Time) (result servicemap.Machine, err error)
-	GetLiveness(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, startTime *date.Time, endTime *date.Time) (result servicemap.Liveness, err error)
-	ListByWorkspace(ctx context.Context, resourceGroupName string, workspaceName string, live *bool, startTime *date.Time, endTime *date.Time, timestamp *date.Time, top *int32) (result servicemap.MachineCollectionPage, err error)
-	ListConnections(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, startTime *date.Time, endTime *date.Time) (result servicemap.ConnectionCollectionPage, err error)
-	ListMachineGroupMembership(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, startTime *date.Time, endTime *date.Time) (result servicemap.MachineGroupCollectionPage, err error)
-	ListPorts(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, startTime *date.Time, endTime *date.Time) (result servicemap.PortCollectionPage, err error)
-	ListProcesses(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, live *bool, startTime *date.Time, endTime *date.Time, timestamp *date.Time) (result servicemap.ProcessCollectionPage, err error)
-}
+        // MachinesClientAPI contains the set of methods on the MachinesClient type.
+        type MachinesClientAPI interface {
+            Get(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, timestamp *date.Time) (result servicemap.Machine, err error)
+            GetLiveness(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, startTime *date.Time, endTime *date.Time) (result servicemap.Liveness, err error)
+            ListByWorkspace(ctx context.Context, resourceGroupName string, workspaceName string, live *bool, startTime *date.Time, endTime *date.Time, timestamp *date.Time, top *int32) (result servicemap.MachineCollectionPage, err error)
+            ListConnections(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, startTime *date.Time, endTime *date.Time) (result servicemap.ConnectionCollectionPage, err error)
+            ListMachineGroupMembership(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, startTime *date.Time, endTime *date.Time) (result servicemap.MachineGroupCollectionPage, err error)
+            ListPorts(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, startTime *date.Time, endTime *date.Time) (result servicemap.PortCollectionPage, err error)
+            ListProcesses(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, live *bool, startTime *date.Time, endTime *date.Time, timestamp *date.Time) (result servicemap.ProcessCollectionPage, err error)
+        }
 
-var _ MachinesClientAPI = (*servicemap.MachinesClient)(nil)
+        var _ MachinesClientAPI = (*servicemap.MachinesClient)(nil)
+        // ProcessesClientAPI contains the set of methods on the ProcessesClient type.
+        type ProcessesClientAPI interface {
+            Get(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, processName string, timestamp *date.Time) (result servicemap.Process, err error)
+            GetLiveness(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, processName string, startTime *date.Time, endTime *date.Time) (result servicemap.Liveness, err error)
+            ListAcceptingPorts(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, processName string, startTime *date.Time, endTime *date.Time) (result servicemap.PortCollectionPage, err error)
+            ListConnections(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, processName string, startTime *date.Time, endTime *date.Time) (result servicemap.ConnectionCollectionPage, err error)
+        }
 
-// ProcessesClientAPI contains the set of methods on the ProcessesClient type.
-type ProcessesClientAPI interface {
-	Get(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, processName string, timestamp *date.Time) (result servicemap.Process, err error)
-	GetLiveness(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, processName string, startTime *date.Time, endTime *date.Time) (result servicemap.Liveness, err error)
-	ListAcceptingPorts(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, processName string, startTime *date.Time, endTime *date.Time) (result servicemap.PortCollectionPage, err error)
-	ListConnections(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, processName string, startTime *date.Time, endTime *date.Time) (result servicemap.ConnectionCollectionPage, err error)
-}
+        var _ ProcessesClientAPI = (*servicemap.ProcessesClient)(nil)
+        // PortsClientAPI contains the set of methods on the PortsClient type.
+        type PortsClientAPI interface {
+            Get(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, portName string, startTime *date.Time, endTime *date.Time) (result servicemap.Port, err error)
+            GetLiveness(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, portName string, startTime *date.Time, endTime *date.Time) (result servicemap.Liveness, err error)
+            ListAcceptingProcesses(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, portName string, startTime *date.Time, endTime *date.Time) (result servicemap.ProcessCollectionPage, err error)
+            ListConnections(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, portName string, startTime *date.Time, endTime *date.Time) (result servicemap.ConnectionCollectionPage, err error)
+        }
 
-var _ ProcessesClientAPI = (*servicemap.ProcessesClient)(nil)
+        var _ PortsClientAPI = (*servicemap.PortsClient)(nil)
+        // ClientGroupsClientAPI contains the set of methods on the ClientGroupsClient type.
+        type ClientGroupsClientAPI interface {
+            Get(ctx context.Context, resourceGroupName string, workspaceName string, clientGroupName string, startTime *date.Time, endTime *date.Time) (result servicemap.ClientGroup, err error)
+            GetMembersCount(ctx context.Context, resourceGroupName string, workspaceName string, clientGroupName string, startTime *date.Time, endTime *date.Time) (result servicemap.ClientGroupMembersCount, err error)
+            ListMembers(ctx context.Context, resourceGroupName string, workspaceName string, clientGroupName string, startTime *date.Time, endTime *date.Time, top *int32) (result servicemap.ClientGroupMembersCollectionPage, err error)
+        }
 
-// PortsClientAPI contains the set of methods on the PortsClient type.
-type PortsClientAPI interface {
-	Get(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, portName string, startTime *date.Time, endTime *date.Time) (result servicemap.Port, err error)
-	GetLiveness(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, portName string, startTime *date.Time, endTime *date.Time) (result servicemap.Liveness, err error)
-	ListAcceptingProcesses(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, portName string, startTime *date.Time, endTime *date.Time) (result servicemap.ProcessCollectionPage, err error)
-	ListConnections(ctx context.Context, resourceGroupName string, workspaceName string, machineName string, portName string, startTime *date.Time, endTime *date.Time) (result servicemap.ConnectionCollectionPage, err error)
-}
+        var _ ClientGroupsClientAPI = (*servicemap.ClientGroupsClient)(nil)
+        // MapsClientAPI contains the set of methods on the MapsClient type.
+        type MapsClientAPI interface {
+            Generate(ctx context.Context, resourceGroupName string, workspaceName string, request servicemap.BasicMapRequest) (result servicemap.MapResponse, err error)
+        }
 
-var _ PortsClientAPI = (*servicemap.PortsClient)(nil)
+        var _ MapsClientAPI = (*servicemap.MapsClient)(nil)
+        // SummariesClientAPI contains the set of methods on the SummariesClient type.
+        type SummariesClientAPI interface {
+            GetMachines(ctx context.Context, resourceGroupName string, workspaceName string, startTime *date.Time, endTime *date.Time) (result servicemap.MachinesSummary, err error)
+        }
 
-// ClientGroupsClientAPI contains the set of methods on the ClientGroupsClient type.
-type ClientGroupsClientAPI interface {
-	Get(ctx context.Context, resourceGroupName string, workspaceName string, clientGroupName string, startTime *date.Time, endTime *date.Time) (result servicemap.ClientGroup, err error)
-	GetMembersCount(ctx context.Context, resourceGroupName string, workspaceName string, clientGroupName string, startTime *date.Time, endTime *date.Time) (result servicemap.ClientGroupMembersCount, err error)
-	ListMembers(ctx context.Context, resourceGroupName string, workspaceName string, clientGroupName string, startTime *date.Time, endTime *date.Time, top *int32) (result servicemap.ClientGroupMembersCollectionPage, err error)
-}
+        var _ SummariesClientAPI = (*servicemap.SummariesClient)(nil)
+        // MachineGroupsClientAPI contains the set of methods on the MachineGroupsClient type.
+        type MachineGroupsClientAPI interface {
+            Create(ctx context.Context, resourceGroupName string, workspaceName string, machineGroup servicemap.MachineGroup) (result servicemap.MachineGroup, err error)
+            Delete(ctx context.Context, resourceGroupName string, workspaceName string, machineGroupName string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, workspaceName string, machineGroupName string, startTime *date.Time, endTime *date.Time) (result servicemap.MachineGroup, err error)
+            ListByWorkspace(ctx context.Context, resourceGroupName string, workspaceName string, startTime *date.Time, endTime *date.Time) (result servicemap.MachineGroupCollectionPage, err error)
+            Update(ctx context.Context, resourceGroupName string, workspaceName string, machineGroupName string, machineGroup servicemap.MachineGroup) (result servicemap.MachineGroup, err error)
+        }
 
-var _ ClientGroupsClientAPI = (*servicemap.ClientGroupsClient)(nil)
-
-// MapsClientAPI contains the set of methods on the MapsClient type.
-type MapsClientAPI interface {
-	Generate(ctx context.Context, resourceGroupName string, workspaceName string, request servicemap.BasicMapRequest) (result servicemap.MapResponse, err error)
-}
-
-var _ MapsClientAPI = (*servicemap.MapsClient)(nil)
-
-// SummariesClientAPI contains the set of methods on the SummariesClient type.
-type SummariesClientAPI interface {
-	GetMachines(ctx context.Context, resourceGroupName string, workspaceName string, startTime *date.Time, endTime *date.Time) (result servicemap.MachinesSummary, err error)
-}
-
-var _ SummariesClientAPI = (*servicemap.SummariesClient)(nil)
-
-// MachineGroupsClientAPI contains the set of methods on the MachineGroupsClient type.
-type MachineGroupsClientAPI interface {
-	Create(ctx context.Context, resourceGroupName string, workspaceName string, machineGroup servicemap.MachineGroup) (result servicemap.MachineGroup, err error)
-	Delete(ctx context.Context, resourceGroupName string, workspaceName string, machineGroupName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, workspaceName string, machineGroupName string, startTime *date.Time, endTime *date.Time) (result servicemap.MachineGroup, err error)
-	ListByWorkspace(ctx context.Context, resourceGroupName string, workspaceName string, startTime *date.Time, endTime *date.Time) (result servicemap.MachineGroupCollectionPage, err error)
-	Update(ctx context.Context, resourceGroupName string, workspaceName string, machineGroupName string, machineGroup servicemap.MachineGroup) (result servicemap.MachineGroup, err error)
-}
-
-var _ MachineGroupsClientAPI = (*servicemap.MachineGroupsClient)(nil)
+        var _ MachineGroupsClientAPI = (*servicemap.MachineGroupsClient)(nil)

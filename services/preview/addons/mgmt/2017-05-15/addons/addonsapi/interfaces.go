@@ -18,29 +18,27 @@ package addonsapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/addons/mgmt/2017-05-15/addons"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/addons/mgmt/2017-05-15/addons"
 )
 
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result addons.ListOperationsDefinition, err error)
-}
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result addons.ListOperationsDefinition, err error)
+        }
 
-var _ OperationsClientAPI = (*addons.OperationsClient)(nil)
+        var _ OperationsClientAPI = (*addons.OperationsClient)(nil)
+        // SupportPlanTypesClientAPI contains the set of methods on the SupportPlanTypesClient type.
+        type SupportPlanTypesClientAPI interface {
+            CreateOrUpdate(ctx context.Context, providerName string, planTypeName addons.PlanTypeName) (result addons.SupportPlanTypesCreateOrUpdateFuture, err error)
+            Delete(ctx context.Context, providerName string, planTypeName addons.PlanTypeName) (result addons.SupportPlanTypesDeleteFuture, err error)
+            Get(ctx context.Context, providerName string, planTypeName addons.PlanTypeName) (result addons.CanonicalSupportPlanResponseEnvelope, err error)
+        }
 
-// SupportPlanTypesClientAPI contains the set of methods on the SupportPlanTypesClient type.
-type SupportPlanTypesClientAPI interface {
-	CreateOrUpdate(ctx context.Context, providerName string, planTypeName addons.PlanTypeName) (result addons.SupportPlanTypesCreateOrUpdateFuture, err error)
-	Delete(ctx context.Context, providerName string, planTypeName addons.PlanTypeName) (result addons.SupportPlanTypesDeleteFuture, err error)
-	Get(ctx context.Context, providerName string, planTypeName addons.PlanTypeName) (result addons.CanonicalSupportPlanResponseEnvelope, err error)
-}
+        var _ SupportPlanTypesClientAPI = (*addons.SupportPlanTypesClient)(nil)
+        // CanonicalSupportPlanTypesClientAPI contains the set of methods on the CanonicalSupportPlanTypesClient type.
+        type CanonicalSupportPlanTypesClientAPI interface {
+            Get(ctx context.Context, providerName string) (result addons.ListCanonicalSupportPlanStatusItem, err error)
+        }
 
-var _ SupportPlanTypesClientAPI = (*addons.SupportPlanTypesClient)(nil)
-
-// CanonicalSupportPlanTypesClientAPI contains the set of methods on the CanonicalSupportPlanTypesClient type.
-type CanonicalSupportPlanTypesClientAPI interface {
-	Get(ctx context.Context, providerName string) (result addons.ListCanonicalSupportPlanStatusItem, err error)
-}
-
-var _ CanonicalSupportPlanTypesClientAPI = (*addons.CanonicalSupportPlanTypesClient)(nil)
+        var _ CanonicalSupportPlanTypesClientAPI = (*addons.CanonicalSupportPlanTypesClient)(nil)

@@ -18,25 +18,24 @@ package marketplaceorderingapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/marketplaceordering/mgmt/2015-06-01/marketplaceordering"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/marketplaceordering/mgmt/2015-06-01/marketplaceordering"
 )
 
-// MarketplaceAgreementsClientAPI contains the set of methods on the MarketplaceAgreementsClient type.
-type MarketplaceAgreementsClientAPI interface {
-	Cancel(ctx context.Context, publisherID string, offerID string, planID string) (result marketplaceordering.AgreementTerms, err error)
-	Create(ctx context.Context, publisherID string, offerID string, planID string, parameters marketplaceordering.AgreementTerms) (result marketplaceordering.AgreementTerms, err error)
-	Get(ctx context.Context, publisherID string, offerID string, planID string) (result marketplaceordering.AgreementTerms, err error)
-	GetAgreement(ctx context.Context, publisherID string, offerID string, planID string) (result marketplaceordering.AgreementTerms, err error)
-	List(ctx context.Context) (result marketplaceordering.ListAgreementTerms, err error)
-	Sign(ctx context.Context, publisherID string, offerID string, planID string) (result marketplaceordering.AgreementTerms, err error)
-}
+        // MarketplaceAgreementsClientAPI contains the set of methods on the MarketplaceAgreementsClient type.
+        type MarketplaceAgreementsClientAPI interface {
+            Cancel(ctx context.Context, publisherID string, offerID string, planID string) (result marketplaceordering.AgreementTerms, err error)
+            Create(ctx context.Context, publisherID string, offerID string, planID string, parameters marketplaceordering.AgreementTerms) (result marketplaceordering.AgreementTerms, err error)
+            Get(ctx context.Context, publisherID string, offerID string, planID string) (result marketplaceordering.AgreementTerms, err error)
+            GetAgreement(ctx context.Context, publisherID string, offerID string, planID string) (result marketplaceordering.AgreementTerms, err error)
+            List(ctx context.Context) (result marketplaceordering.ListAgreementTerms, err error)
+            Sign(ctx context.Context, publisherID string, offerID string, planID string) (result marketplaceordering.AgreementTerms, err error)
+        }
 
-var _ MarketplaceAgreementsClientAPI = (*marketplaceordering.MarketplaceAgreementsClient)(nil)
+        var _ MarketplaceAgreementsClientAPI = (*marketplaceordering.MarketplaceAgreementsClient)(nil)
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result marketplaceordering.OperationListResultPage, err error)
+        }
 
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result marketplaceordering.OperationListResultPage, err error)
-}
-
-var _ OperationsClientAPI = (*marketplaceordering.OperationsClient)(nil)
+        var _ OperationsClientAPI = (*marketplaceordering.OperationsClient)(nil)

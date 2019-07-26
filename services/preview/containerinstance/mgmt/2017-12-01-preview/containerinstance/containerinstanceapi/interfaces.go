@@ -18,38 +18,35 @@ package containerinstanceapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/containerinstance/mgmt/2017-12-01-preview/containerinstance"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/containerinstance/mgmt/2017-12-01-preview/containerinstance"
 )
 
-// ContainerGroupsClientAPI contains the set of methods on the ContainerGroupsClient type.
-type ContainerGroupsClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, containerGroupName string, containerGroup containerinstance.ContainerGroup) (result containerinstance.ContainerGroup, err error)
-	Delete(ctx context.Context, resourceGroupName string, containerGroupName string) (result containerinstance.ContainerGroup, err error)
-	Get(ctx context.Context, resourceGroupName string, containerGroupName string) (result containerinstance.ContainerGroup, err error)
-	List(ctx context.Context) (result containerinstance.ContainerGroupListResultPage, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string) (result containerinstance.ContainerGroupListResultPage, err error)
-}
+        // ContainerGroupsClientAPI contains the set of methods on the ContainerGroupsClient type.
+        type ContainerGroupsClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, containerGroupName string, containerGroup containerinstance.ContainerGroup) (result containerinstance.ContainerGroup, err error)
+            Delete(ctx context.Context, resourceGroupName string, containerGroupName string) (result containerinstance.ContainerGroup, err error)
+            Get(ctx context.Context, resourceGroupName string, containerGroupName string) (result containerinstance.ContainerGroup, err error)
+            List(ctx context.Context) (result containerinstance.ContainerGroupListResultPage, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string) (result containerinstance.ContainerGroupListResultPage, err error)
+        }
 
-var _ ContainerGroupsClientAPI = (*containerinstance.ContainerGroupsClient)(nil)
+        var _ ContainerGroupsClientAPI = (*containerinstance.ContainerGroupsClient)(nil)
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result containerinstance.OperationListResult, err error)
+        }
 
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result containerinstance.OperationListResult, err error)
-}
+        var _ OperationsClientAPI = (*containerinstance.OperationsClient)(nil)
+        // ContainerGroupUsageClientAPI contains the set of methods on the ContainerGroupUsageClient type.
+        type ContainerGroupUsageClientAPI interface {
+            List(ctx context.Context, location string) (result containerinstance.UsageListResult, err error)
+        }
 
-var _ OperationsClientAPI = (*containerinstance.OperationsClient)(nil)
+        var _ ContainerGroupUsageClientAPI = (*containerinstance.ContainerGroupUsageClient)(nil)
+        // ContainerLogsClientAPI contains the set of methods on the ContainerLogsClient type.
+        type ContainerLogsClientAPI interface {
+            List(ctx context.Context, resourceGroupName string, containerGroupName string, containerName string, tail *int32) (result containerinstance.Logs, err error)
+        }
 
-// ContainerGroupUsageClientAPI contains the set of methods on the ContainerGroupUsageClient type.
-type ContainerGroupUsageClientAPI interface {
-	List(ctx context.Context, location string) (result containerinstance.UsageListResult, err error)
-}
-
-var _ ContainerGroupUsageClientAPI = (*containerinstance.ContainerGroupUsageClient)(nil)
-
-// ContainerLogsClientAPI contains the set of methods on the ContainerLogsClient type.
-type ContainerLogsClientAPI interface {
-	List(ctx context.Context, resourceGroupName string, containerGroupName string, containerName string, tail *int32) (result containerinstance.Logs, err error)
-}
-
-var _ ContainerLogsClientAPI = (*containerinstance.ContainerLogsClient)(nil)
+        var _ ContainerLogsClientAPI = (*containerinstance.ContainerLogsClient)(nil)

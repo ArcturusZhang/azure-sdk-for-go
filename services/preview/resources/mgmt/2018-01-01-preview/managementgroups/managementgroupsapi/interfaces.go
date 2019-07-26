@@ -18,47 +18,43 @@ package managementgroupsapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/resources/mgmt/2018-01-01-preview/managementgroups"
-	"github.com/Azure/go-autorest/autorest"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/resources/mgmt/2018-01-01-preview/managementgroups"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// BaseClientAPI contains the set of methods on the BaseClient type.
-type BaseClientAPI interface {
-	CheckNameAvailability(ctx context.Context, checkNameAvailabilityRequest managementgroups.CheckNameAvailabilityRequest) (result managementgroups.CheckNameAvailabilityResult, err error)
-}
+        // BaseClientAPI contains the set of methods on the BaseClient type.
+        type BaseClientAPI interface {
+            CheckNameAvailability(ctx context.Context, checkNameAvailabilityRequest managementgroups.CheckNameAvailabilityRequest) (result managementgroups.CheckNameAvailabilityResult, err error)
+        }
 
-var _ BaseClientAPI = (*managementgroups.BaseClient)(nil)
+        var _ BaseClientAPI = (*managementgroups.BaseClient)(nil)
+        // ClientAPI contains the set of methods on the Client type.
+        type ClientAPI interface {
+            CreateOrUpdate(ctx context.Context, groupID string, createManagementGroupRequest managementgroups.CreateManagementGroupRequest, cacheControl string) (result managementgroups.CreateOrUpdateFuture, err error)
+            Delete(ctx context.Context, groupID string, cacheControl string) (result managementgroups.DeleteFuture, err error)
+            Get(ctx context.Context, groupID string, expand string, recurse *bool, filter string, cacheControl string) (result managementgroups.ManagementGroup, err error)
+            List(ctx context.Context, cacheControl string) (result managementgroups.ListResultPage, err error)
+            Update(ctx context.Context, groupID string, patchGroupRequest managementgroups.PatchManagementGroupRequest, cacheControl string) (result managementgroups.ManagementGroup, err error)
+        }
 
-// ClientAPI contains the set of methods on the Client type.
-type ClientAPI interface {
-	CreateOrUpdate(ctx context.Context, groupID string, createManagementGroupRequest managementgroups.CreateManagementGroupRequest, cacheControl string) (result managementgroups.CreateOrUpdateFuture, err error)
-	Delete(ctx context.Context, groupID string, cacheControl string) (result managementgroups.DeleteFuture, err error)
-	Get(ctx context.Context, groupID string, expand string, recurse *bool, filter string, cacheControl string) (result managementgroups.ManagementGroup, err error)
-	List(ctx context.Context, cacheControl string) (result managementgroups.ListResultPage, err error)
-	Update(ctx context.Context, groupID string, patchGroupRequest managementgroups.PatchManagementGroupRequest, cacheControl string) (result managementgroups.ManagementGroup, err error)
-}
+        var _ ClientAPI = (*managementgroups.Client)(nil)
+        // SubscriptionsClientAPI contains the set of methods on the SubscriptionsClient type.
+        type SubscriptionsClientAPI interface {
+            Create(ctx context.Context, groupID string, subscriptionID string, cacheControl string) (result autorest.Response, err error)
+            Delete(ctx context.Context, groupID string, subscriptionID string, cacheControl string) (result autorest.Response, err error)
+        }
 
-var _ ClientAPI = (*managementgroups.Client)(nil)
+        var _ SubscriptionsClientAPI = (*managementgroups.SubscriptionsClient)(nil)
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result managementgroups.OperationListResultPage, err error)
+        }
 
-// SubscriptionsClientAPI contains the set of methods on the SubscriptionsClient type.
-type SubscriptionsClientAPI interface {
-	Create(ctx context.Context, groupID string, subscriptionID string, cacheControl string) (result autorest.Response, err error)
-	Delete(ctx context.Context, groupID string, subscriptionID string, cacheControl string) (result autorest.Response, err error)
-}
+        var _ OperationsClientAPI = (*managementgroups.OperationsClient)(nil)
+        // EntitiesClientAPI contains the set of methods on the EntitiesClient type.
+        type EntitiesClientAPI interface {
+            List(ctx context.Context, groupName string, cacheControl string) (result managementgroups.EntityListResultPage, err error)
+        }
 
-var _ SubscriptionsClientAPI = (*managementgroups.SubscriptionsClient)(nil)
-
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result managementgroups.OperationListResultPage, err error)
-}
-
-var _ OperationsClientAPI = (*managementgroups.OperationsClient)(nil)
-
-// EntitiesClientAPI contains the set of methods on the EntitiesClient type.
-type EntitiesClientAPI interface {
-	List(ctx context.Context, groupName string, cacheControl string) (result managementgroups.EntityListResultPage, err error)
-}
-
-var _ EntitiesClientAPI = (*managementgroups.EntitiesClient)(nil)
+        var _ EntitiesClientAPI = (*managementgroups.EntitiesClient)(nil)

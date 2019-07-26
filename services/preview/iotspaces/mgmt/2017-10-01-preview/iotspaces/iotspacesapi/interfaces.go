@@ -18,26 +18,25 @@ package iotspacesapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/iotspaces/mgmt/2017-10-01-preview/iotspaces"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/iotspaces/mgmt/2017-10-01-preview/iotspaces"
 )
 
-// ClientAPI contains the set of methods on the Client type.
-type ClientAPI interface {
-	CheckNameAvailability(ctx context.Context, operationInputs iotspaces.OperationInputs) (result iotspaces.NameAvailabilityInfo, err error)
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, resourceName string, iotSpaceDescription iotspaces.Description) (result iotspaces.CreateOrUpdateFuture, err error)
-	Delete(ctx context.Context, resourceGroupName string, resourceName string) (result iotspaces.DeleteFuture, err error)
-	Get(ctx context.Context, resourceGroupName string, resourceName string) (result iotspaces.Description, err error)
-	List(ctx context.Context) (result iotspaces.DescriptionListResultPage, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string) (result iotspaces.DescriptionListResultPage, err error)
-	Update(ctx context.Context, resourceGroupName string, resourceName string, iotSpacePatchDescription iotspaces.PatchDescription) (result iotspaces.UpdateFuture, err error)
-}
+        // ClientAPI contains the set of methods on the Client type.
+        type ClientAPI interface {
+            CheckNameAvailability(ctx context.Context, operationInputs iotspaces.OperationInputs) (result iotspaces.NameAvailabilityInfo, err error)
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, resourceName string, iotSpaceDescription iotspaces.Description) (result iotspaces.CreateOrUpdateFuture, err error)
+            Delete(ctx context.Context, resourceGroupName string, resourceName string) (result iotspaces.DeleteFuture, err error)
+            Get(ctx context.Context, resourceGroupName string, resourceName string) (result iotspaces.Description, err error)
+            List(ctx context.Context) (result iotspaces.DescriptionListResultPage, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string) (result iotspaces.DescriptionListResultPage, err error)
+            Update(ctx context.Context, resourceGroupName string, resourceName string, iotSpacePatchDescription iotspaces.PatchDescription) (result iotspaces.UpdateFuture, err error)
+        }
 
-var _ ClientAPI = (*iotspaces.Client)(nil)
+        var _ ClientAPI = (*iotspaces.Client)(nil)
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result iotspaces.OperationListResultPage, err error)
+        }
 
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result iotspaces.OperationListResultPage, err error)
-}
-
-var _ OperationsClientAPI = (*iotspaces.OperationsClient)(nil)
+        var _ OperationsClientAPI = (*iotspaces.OperationsClient)(nil)

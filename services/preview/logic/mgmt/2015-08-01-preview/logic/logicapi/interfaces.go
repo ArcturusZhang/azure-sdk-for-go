@@ -18,70 +18,65 @@ package logicapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/logic/mgmt/2015-08-01-preview/logic"
-	"github.com/Azure/go-autorest/autorest"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/logic/mgmt/2015-08-01-preview/logic"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// IntegrationAccountsClientAPI contains the set of methods on the IntegrationAccountsClient type.
-type IntegrationAccountsClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, integrationAccountName string, integrationAccount logic.IntegrationAccount) (result logic.IntegrationAccount, err error)
-	Delete(ctx context.Context, resourceGroupName string, integrationAccountName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, integrationAccountName string) (result logic.IntegrationAccount, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string, top *int32) (result logic.IntegrationAccountListResultPage, err error)
-	ListBySubscription(ctx context.Context, top *int32) (result logic.IntegrationAccountListResultPage, err error)
-	ListCallbackURL(ctx context.Context, resourceGroupName string, integrationAccountName string, parameters logic.ListCallbackURLParameters) (result logic.CallbackURL, err error)
-	Update(ctx context.Context, resourceGroupName string, integrationAccountName string, integrationAccount logic.IntegrationAccount) (result logic.IntegrationAccount, err error)
-}
+        // IntegrationAccountsClientAPI contains the set of methods on the IntegrationAccountsClient type.
+        type IntegrationAccountsClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, integrationAccountName string, integrationAccount logic.IntegrationAccount) (result logic.IntegrationAccount, err error)
+            Delete(ctx context.Context, resourceGroupName string, integrationAccountName string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, integrationAccountName string) (result logic.IntegrationAccount, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string, top *int32) (result logic.IntegrationAccountListResultPage, err error)
+            ListBySubscription(ctx context.Context, top *int32) (result logic.IntegrationAccountListResultPage, err error)
+            ListCallbackURL(ctx context.Context, resourceGroupName string, integrationAccountName string, parameters logic.ListCallbackURLParameters) (result logic.CallbackURL, err error)
+            Update(ctx context.Context, resourceGroupName string, integrationAccountName string, integrationAccount logic.IntegrationAccount) (result logic.IntegrationAccount, err error)
+        }
 
-var _ IntegrationAccountsClientAPI = (*logic.IntegrationAccountsClient)(nil)
+        var _ IntegrationAccountsClientAPI = (*logic.IntegrationAccountsClient)(nil)
+        // IntegrationAccountSchemasClientAPI contains the set of methods on the IntegrationAccountSchemasClient type.
+        type IntegrationAccountSchemasClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, integrationAccountName string, schemaName string, schema logic.IntegrationAccountSchema) (result logic.IntegrationAccountSchema, err error)
+            Delete(ctx context.Context, resourceGroupName string, integrationAccountName string, schemaName string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, integrationAccountName string, schemaName string) (result logic.IntegrationAccountSchema, err error)
+            List(ctx context.Context, resourceGroupName string, integrationAccountName string, top *int32, filter string) (result logic.IntegrationAccountSchemaListResultPage, err error)
+        }
 
-// IntegrationAccountSchemasClientAPI contains the set of methods on the IntegrationAccountSchemasClient type.
-type IntegrationAccountSchemasClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, integrationAccountName string, schemaName string, schema logic.IntegrationAccountSchema) (result logic.IntegrationAccountSchema, err error)
-	Delete(ctx context.Context, resourceGroupName string, integrationAccountName string, schemaName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, integrationAccountName string, schemaName string) (result logic.IntegrationAccountSchema, err error)
-	List(ctx context.Context, resourceGroupName string, integrationAccountName string, top *int32, filter string) (result logic.IntegrationAccountSchemaListResultPage, err error)
-}
+        var _ IntegrationAccountSchemasClientAPI = (*logic.IntegrationAccountSchemasClient)(nil)
+        // IntegrationAccountMapsClientAPI contains the set of methods on the IntegrationAccountMapsClient type.
+        type IntegrationAccountMapsClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, integrationAccountName string, mapName string, mapParameter logic.IntegrationAccountMap) (result logic.IntegrationAccountMap, err error)
+            Delete(ctx context.Context, resourceGroupName string, integrationAccountName string, mapName string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, integrationAccountName string, mapName string) (result logic.IntegrationAccountMap, err error)
+            List(ctx context.Context, resourceGroupName string, integrationAccountName string, top *int32, filter string) (result logic.IntegrationAccountMapListResultPage, err error)
+        }
 
-var _ IntegrationAccountSchemasClientAPI = (*logic.IntegrationAccountSchemasClient)(nil)
+        var _ IntegrationAccountMapsClientAPI = (*logic.IntegrationAccountMapsClient)(nil)
+        // IntegrationAccountPartnersClientAPI contains the set of methods on the IntegrationAccountPartnersClient type.
+        type IntegrationAccountPartnersClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, integrationAccountName string, partnerName string, partner logic.IntegrationAccountPartner) (result logic.IntegrationAccountPartner, err error)
+            Delete(ctx context.Context, resourceGroupName string, integrationAccountName string, partnerName string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, integrationAccountName string, partnerName string) (result logic.IntegrationAccountPartner, err error)
+            List(ctx context.Context, resourceGroupName string, integrationAccountName string, top *int32, filter string) (result logic.IntegrationAccountPartnerListResultPage, err error)
+        }
 
-// IntegrationAccountMapsClientAPI contains the set of methods on the IntegrationAccountMapsClient type.
-type IntegrationAccountMapsClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, integrationAccountName string, mapName string, mapParameter logic.IntegrationAccountMap) (result logic.IntegrationAccountMap, err error)
-	Delete(ctx context.Context, resourceGroupName string, integrationAccountName string, mapName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, integrationAccountName string, mapName string) (result logic.IntegrationAccountMap, err error)
-	List(ctx context.Context, resourceGroupName string, integrationAccountName string, top *int32, filter string) (result logic.IntegrationAccountMapListResultPage, err error)
-}
+        var _ IntegrationAccountPartnersClientAPI = (*logic.IntegrationAccountPartnersClient)(nil)
+        // IntegrationAccountAgreementsClientAPI contains the set of methods on the IntegrationAccountAgreementsClient type.
+        type IntegrationAccountAgreementsClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, integrationAccountName string, agreementName string, agreement logic.IntegrationAccountAgreement) (result logic.IntegrationAccountAgreement, err error)
+            Delete(ctx context.Context, resourceGroupName string, integrationAccountName string, agreementName string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, integrationAccountName string, agreementName string) (result logic.IntegrationAccountAgreement, err error)
+            List(ctx context.Context, resourceGroupName string, integrationAccountName string, top *int32, filter string) (result logic.IntegrationAccountAgreementListResultPage, err error)
+        }
 
-var _ IntegrationAccountMapsClientAPI = (*logic.IntegrationAccountMapsClient)(nil)
+        var _ IntegrationAccountAgreementsClientAPI = (*logic.IntegrationAccountAgreementsClient)(nil)
+        // IntegrationAccountCertificatesClientAPI contains the set of methods on the IntegrationAccountCertificatesClient type.
+        type IntegrationAccountCertificatesClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, integrationAccountName string, certificateName string, certificate logic.IntegrationAccountCertificate) (result logic.IntegrationAccountCertificate, err error)
+            Delete(ctx context.Context, resourceGroupName string, integrationAccountName string, certificateName string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, integrationAccountName string, certificateName string) (result logic.IntegrationAccountCertificate, err error)
+            List(ctx context.Context, resourceGroupName string, integrationAccountName string, top *int32) (result logic.IntegrationAccountCertificateListResultPage, err error)
+        }
 
-// IntegrationAccountPartnersClientAPI contains the set of methods on the IntegrationAccountPartnersClient type.
-type IntegrationAccountPartnersClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, integrationAccountName string, partnerName string, partner logic.IntegrationAccountPartner) (result logic.IntegrationAccountPartner, err error)
-	Delete(ctx context.Context, resourceGroupName string, integrationAccountName string, partnerName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, integrationAccountName string, partnerName string) (result logic.IntegrationAccountPartner, err error)
-	List(ctx context.Context, resourceGroupName string, integrationAccountName string, top *int32, filter string) (result logic.IntegrationAccountPartnerListResultPage, err error)
-}
-
-var _ IntegrationAccountPartnersClientAPI = (*logic.IntegrationAccountPartnersClient)(nil)
-
-// IntegrationAccountAgreementsClientAPI contains the set of methods on the IntegrationAccountAgreementsClient type.
-type IntegrationAccountAgreementsClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, integrationAccountName string, agreementName string, agreement logic.IntegrationAccountAgreement) (result logic.IntegrationAccountAgreement, err error)
-	Delete(ctx context.Context, resourceGroupName string, integrationAccountName string, agreementName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, integrationAccountName string, agreementName string) (result logic.IntegrationAccountAgreement, err error)
-	List(ctx context.Context, resourceGroupName string, integrationAccountName string, top *int32, filter string) (result logic.IntegrationAccountAgreementListResultPage, err error)
-}
-
-var _ IntegrationAccountAgreementsClientAPI = (*logic.IntegrationAccountAgreementsClient)(nil)
-
-// IntegrationAccountCertificatesClientAPI contains the set of methods on the IntegrationAccountCertificatesClient type.
-type IntegrationAccountCertificatesClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, integrationAccountName string, certificateName string, certificate logic.IntegrationAccountCertificate) (result logic.IntegrationAccountCertificate, err error)
-	Delete(ctx context.Context, resourceGroupName string, integrationAccountName string, certificateName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, integrationAccountName string, certificateName string) (result logic.IntegrationAccountCertificate, err error)
-	List(ctx context.Context, resourceGroupName string, integrationAccountName string, top *int32) (result logic.IntegrationAccountCertificateListResultPage, err error)
-}
-
-var _ IntegrationAccountCertificatesClientAPI = (*logic.IntegrationAccountCertificatesClient)(nil)
+        var _ IntegrationAccountCertificatesClientAPI = (*logic.IntegrationAccountCertificatesClient)(nil)

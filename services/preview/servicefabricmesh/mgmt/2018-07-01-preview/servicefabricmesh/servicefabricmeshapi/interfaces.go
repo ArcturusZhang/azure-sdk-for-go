@@ -18,70 +18,64 @@ package servicefabricmeshapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/servicefabricmesh/mgmt/2018-07-01-preview/servicefabricmesh"
-	"github.com/Azure/go-autorest/autorest"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/servicefabricmesh/mgmt/2018-07-01-preview/servicefabricmesh"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// ApplicationClientAPI contains the set of methods on the ApplicationClient type.
-type ApplicationClientAPI interface {
-	Create(ctx context.Context, resourceGroupName string, applicationName string, applicationResourceDescription servicefabricmesh.ApplicationResourceDescription) (result servicefabricmesh.ApplicationResourceDescription, err error)
-	Delete(ctx context.Context, resourceGroupName string, applicationName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, applicationName string) (result servicefabricmesh.ApplicationResourceDescription, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string) (result servicefabricmesh.ApplicationResourceDescriptionListPage, err error)
-	ListBySubscription(ctx context.Context) (result servicefabricmesh.ApplicationResourceDescriptionListPage, err error)
-}
+        // ApplicationClientAPI contains the set of methods on the ApplicationClient type.
+        type ApplicationClientAPI interface {
+            Create(ctx context.Context, resourceGroupName string, applicationName string, applicationResourceDescription servicefabricmesh.ApplicationResourceDescription) (result servicefabricmesh.ApplicationResourceDescription, err error)
+            Delete(ctx context.Context, resourceGroupName string, applicationName string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, applicationName string) (result servicefabricmesh.ApplicationResourceDescription, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string) (result servicefabricmesh.ApplicationResourceDescriptionListPage, err error)
+            ListBySubscription(ctx context.Context) (result servicefabricmesh.ApplicationResourceDescriptionListPage, err error)
+        }
 
-var _ ApplicationClientAPI = (*servicefabricmesh.ApplicationClient)(nil)
+        var _ ApplicationClientAPI = (*servicefabricmesh.ApplicationClient)(nil)
+        // ServiceClientAPI contains the set of methods on the ServiceClient type.
+        type ServiceClientAPI interface {
+            Get(ctx context.Context, resourceGroupName string, applicationName string, serviceName string) (result servicefabricmesh.ServiceResourceDescription, err error)
+            ListByApplicationName(ctx context.Context, resourceGroupName string, applicationName string) (result servicefabricmesh.ServiceListPage, err error)
+        }
 
-// ServiceClientAPI contains the set of methods on the ServiceClient type.
-type ServiceClientAPI interface {
-	Get(ctx context.Context, resourceGroupName string, applicationName string, serviceName string) (result servicefabricmesh.ServiceResourceDescription, err error)
-	ListByApplicationName(ctx context.Context, resourceGroupName string, applicationName string) (result servicefabricmesh.ServiceListPage, err error)
-}
+        var _ ServiceClientAPI = (*servicefabricmesh.ServiceClient)(nil)
+        // ReplicaClientAPI contains the set of methods on the ReplicaClient type.
+        type ReplicaClientAPI interface {
+            Get(ctx context.Context, resourceGroupName string, applicationName string, serviceName string, replicaName string) (result servicefabricmesh.ServiceReplicaDescription, err error)
+            ListByServiceName(ctx context.Context, resourceGroupName string, applicationName string, serviceName string) (result servicefabricmesh.ServiceReplicaListPage, err error)
+        }
 
-var _ ServiceClientAPI = (*servicefabricmesh.ServiceClient)(nil)
+        var _ ReplicaClientAPI = (*servicefabricmesh.ReplicaClient)(nil)
+        // CodePackageClientAPI contains the set of methods on the CodePackageClient type.
+        type CodePackageClientAPI interface {
+            GetContainerLog(ctx context.Context, resourceGroupName string, applicationName string, serviceName string, replicaName string, codePackageName string, tail *int32) (result servicefabricmesh.ContainerLogs, err error)
+        }
 
-// ReplicaClientAPI contains the set of methods on the ReplicaClient type.
-type ReplicaClientAPI interface {
-	Get(ctx context.Context, resourceGroupName string, applicationName string, serviceName string, replicaName string) (result servicefabricmesh.ServiceReplicaDescription, err error)
-	ListByServiceName(ctx context.Context, resourceGroupName string, applicationName string, serviceName string) (result servicefabricmesh.ServiceReplicaListPage, err error)
-}
+        var _ CodePackageClientAPI = (*servicefabricmesh.CodePackageClient)(nil)
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result servicefabricmesh.OperationListResultPage, err error)
+        }
 
-var _ ReplicaClientAPI = (*servicefabricmesh.ReplicaClient)(nil)
+        var _ OperationsClientAPI = (*servicefabricmesh.OperationsClient)(nil)
+        // NetworkClientAPI contains the set of methods on the NetworkClient type.
+        type NetworkClientAPI interface {
+            Create(ctx context.Context, resourceGroupName string, networkName string, networkResourceDescription servicefabricmesh.NetworkResourceDescription) (result servicefabricmesh.NetworkResourceDescription, err error)
+            Delete(ctx context.Context, resourceGroupName string, networkName string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, networkName string) (result servicefabricmesh.NetworkResourceDescription, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string) (result servicefabricmesh.NetworkResourceDescriptionListPage, err error)
+            ListBySubscription(ctx context.Context) (result servicefabricmesh.NetworkResourceDescriptionListPage, err error)
+        }
 
-// CodePackageClientAPI contains the set of methods on the CodePackageClient type.
-type CodePackageClientAPI interface {
-	GetContainerLog(ctx context.Context, resourceGroupName string, applicationName string, serviceName string, replicaName string, codePackageName string, tail *int32) (result servicefabricmesh.ContainerLogs, err error)
-}
+        var _ NetworkClientAPI = (*servicefabricmesh.NetworkClient)(nil)
+        // VolumeClientAPI contains the set of methods on the VolumeClient type.
+        type VolumeClientAPI interface {
+            Create(ctx context.Context, resourceGroupName string, volumeName string, volumeResourceDescription servicefabricmesh.VolumeResourceDescription) (result servicefabricmesh.VolumeResourceDescription, err error)
+            Delete(ctx context.Context, resourceGroupName string, volumeName string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, volumeName string) (result servicefabricmesh.VolumeResourceDescription, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string) (result servicefabricmesh.VolumeResourceDescriptionListPage, err error)
+            ListBySubscription(ctx context.Context) (result servicefabricmesh.VolumeResourceDescriptionListPage, err error)
+        }
 
-var _ CodePackageClientAPI = (*servicefabricmesh.CodePackageClient)(nil)
-
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result servicefabricmesh.OperationListResultPage, err error)
-}
-
-var _ OperationsClientAPI = (*servicefabricmesh.OperationsClient)(nil)
-
-// NetworkClientAPI contains the set of methods on the NetworkClient type.
-type NetworkClientAPI interface {
-	Create(ctx context.Context, resourceGroupName string, networkName string, networkResourceDescription servicefabricmesh.NetworkResourceDescription) (result servicefabricmesh.NetworkResourceDescription, err error)
-	Delete(ctx context.Context, resourceGroupName string, networkName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, networkName string) (result servicefabricmesh.NetworkResourceDescription, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string) (result servicefabricmesh.NetworkResourceDescriptionListPage, err error)
-	ListBySubscription(ctx context.Context) (result servicefabricmesh.NetworkResourceDescriptionListPage, err error)
-}
-
-var _ NetworkClientAPI = (*servicefabricmesh.NetworkClient)(nil)
-
-// VolumeClientAPI contains the set of methods on the VolumeClient type.
-type VolumeClientAPI interface {
-	Create(ctx context.Context, resourceGroupName string, volumeName string, volumeResourceDescription servicefabricmesh.VolumeResourceDescription) (result servicefabricmesh.VolumeResourceDescription, err error)
-	Delete(ctx context.Context, resourceGroupName string, volumeName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, volumeName string) (result servicefabricmesh.VolumeResourceDescription, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string) (result servicefabricmesh.VolumeResourceDescriptionListPage, err error)
-	ListBySubscription(ctx context.Context) (result servicefabricmesh.VolumeResourceDescriptionListPage, err error)
-}
-
-var _ VolumeClientAPI = (*servicefabricmesh.VolumeClient)(nil)
+        var _ VolumeClientAPI = (*servicefabricmesh.VolumeClient)(nil)

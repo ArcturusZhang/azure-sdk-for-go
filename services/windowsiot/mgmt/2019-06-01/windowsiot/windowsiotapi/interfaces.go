@@ -18,26 +18,25 @@ package windowsiotapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/windowsiot/mgmt/2019-06-01/windowsiot"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/windowsiot/mgmt/2019-06-01/windowsiot"
 )
 
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result windowsiot.OperationListResultPage, err error)
-}
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result windowsiot.OperationListResultPage, err error)
+        }
 
-var _ OperationsClientAPI = (*windowsiot.OperationsClient)(nil)
+        var _ OperationsClientAPI = (*windowsiot.OperationsClient)(nil)
+        // ServicesClientAPI contains the set of methods on the ServicesClient type.
+        type ServicesClientAPI interface {
+            CheckDeviceServiceNameAvailability(ctx context.Context, deviceServiceCheckNameAvailabilityParameters windowsiot.DeviceServiceCheckNameAvailabilityParameters) (result windowsiot.DeviceServiceNameAvailabilityInfo, err error)
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, deviceName string, deviceService windowsiot.DeviceServiceProperties, ifMatch string) (result windowsiot.DeviceService, err error)
+            Delete(ctx context.Context, resourceGroupName string, deviceName string) (result windowsiot.DeviceService, err error)
+            Get(ctx context.Context, resourceGroupName string, deviceName string) (result windowsiot.DeviceService, err error)
+            List(ctx context.Context) (result windowsiot.DeviceServiceDescriptionListResultPage, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string) (result windowsiot.DeviceServiceDescriptionListResultPage, err error)
+            Update(ctx context.Context, resourceGroupName string, deviceName string, deviceService windowsiot.DeviceServiceProperties, ifMatch string) (result windowsiot.DeviceService, err error)
+        }
 
-// ServicesClientAPI contains the set of methods on the ServicesClient type.
-type ServicesClientAPI interface {
-	CheckDeviceServiceNameAvailability(ctx context.Context, deviceServiceCheckNameAvailabilityParameters windowsiot.DeviceServiceCheckNameAvailabilityParameters) (result windowsiot.DeviceServiceNameAvailabilityInfo, err error)
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, deviceName string, deviceService windowsiot.DeviceServiceProperties, ifMatch string) (result windowsiot.DeviceService, err error)
-	Delete(ctx context.Context, resourceGroupName string, deviceName string) (result windowsiot.DeviceService, err error)
-	Get(ctx context.Context, resourceGroupName string, deviceName string) (result windowsiot.DeviceService, err error)
-	List(ctx context.Context) (result windowsiot.DeviceServiceDescriptionListResultPage, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string) (result windowsiot.DeviceServiceDescriptionListResultPage, err error)
-	Update(ctx context.Context, resourceGroupName string, deviceName string, deviceService windowsiot.DeviceServiceProperties, ifMatch string) (result windowsiot.DeviceService, err error)
-}
-
-var _ ServicesClientAPI = (*windowsiot.ServicesClient)(nil)
+        var _ ServicesClientAPI = (*windowsiot.ServicesClient)(nil)

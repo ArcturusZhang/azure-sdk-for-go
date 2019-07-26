@@ -18,18 +18,18 @@ package predictionapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/cognitiveservices/v1.1/customvision/prediction"
-	"github.com/satori/go.uuid"
-	"io"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/cognitiveservices/v1.1/customvision/prediction"
+    "github.com/satori/go.uuid"
+    "io"
 )
 
-// BaseClientAPI contains the set of methods on the BaseClient type.
-type BaseClientAPI interface {
-	PredictImage(ctx context.Context, projectID uuid.UUID, imageData io.ReadCloser, iterationID *uuid.UUID, application string) (result prediction.ImagePrediction, err error)
-	PredictImageURL(ctx context.Context, projectID uuid.UUID, imageURL prediction.ImageURL, iterationID *uuid.UUID, application string) (result prediction.ImagePrediction, err error)
-	PredictImageURLWithNoStore(ctx context.Context, projectID uuid.UUID, imageURL prediction.ImageURL, iterationID *uuid.UUID, application string) (result prediction.ImagePrediction, err error)
-	PredictImageWithNoStore(ctx context.Context, projectID uuid.UUID, imageData io.ReadCloser, iterationID *uuid.UUID, application string) (result prediction.ImagePrediction, err error)
-}
+        // BaseClientAPI contains the set of methods on the BaseClient type.
+        type BaseClientAPI interface {
+            PredictImage(ctx context.Context, projectID uuid.UUID, imageData io.ReadCloser, iterationID *uuid.UUID, application string) (result prediction.ImagePrediction, err error)
+            PredictImageURL(ctx context.Context, projectID uuid.UUID, imageURL prediction.ImageURL, iterationID *uuid.UUID, application string) (result prediction.ImagePrediction, err error)
+            PredictImageURLWithNoStore(ctx context.Context, projectID uuid.UUID, imageURL prediction.ImageURL, iterationID *uuid.UUID, application string) (result prediction.ImagePrediction, err error)
+            PredictImageWithNoStore(ctx context.Context, projectID uuid.UUID, imageData io.ReadCloser, iterationID *uuid.UUID, application string) (result prediction.ImagePrediction, err error)
+        }
 
-var _ BaseClientAPI = (*prediction.BaseClient)(nil)
+        var _ BaseClientAPI = (*prediction.BaseClient)(nil)

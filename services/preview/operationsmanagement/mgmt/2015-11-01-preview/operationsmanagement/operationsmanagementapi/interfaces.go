@@ -18,46 +18,43 @@ package operationsmanagementapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/operationsmanagement/mgmt/2015-11-01-preview/operationsmanagement"
-	"github.com/Azure/go-autorest/autorest"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/operationsmanagement/mgmt/2015-11-01-preview/operationsmanagement"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// SolutionsClientAPI contains the set of methods on the SolutionsClient type.
-type SolutionsClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, solutionName string, parameters operationsmanagement.Solution) (result operationsmanagement.SolutionsCreateOrUpdateFuture, err error)
-	Delete(ctx context.Context, resourceGroupName string, solutionName string) (result operationsmanagement.SolutionsDeleteFuture, err error)
-	Get(ctx context.Context, resourceGroupName string, solutionName string) (result operationsmanagement.Solution, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string) (result operationsmanagement.SolutionPropertiesList, err error)
-	ListBySubscription(ctx context.Context) (result operationsmanagement.SolutionPropertiesList, err error)
-	Update(ctx context.Context, resourceGroupName string, solutionName string, parameters operationsmanagement.SolutionPatch) (result operationsmanagement.SolutionsUpdateFuture, err error)
-}
+        // SolutionsClientAPI contains the set of methods on the SolutionsClient type.
+        type SolutionsClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, solutionName string, parameters operationsmanagement.Solution) (result operationsmanagement.SolutionsCreateOrUpdateFuture, err error)
+            Delete(ctx context.Context, resourceGroupName string, solutionName string) (result operationsmanagement.SolutionsDeleteFuture, err error)
+            Get(ctx context.Context, resourceGroupName string, solutionName string) (result operationsmanagement.Solution, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string) (result operationsmanagement.SolutionPropertiesList, err error)
+            ListBySubscription(ctx context.Context) (result operationsmanagement.SolutionPropertiesList, err error)
+            Update(ctx context.Context, resourceGroupName string, solutionName string, parameters operationsmanagement.SolutionPatch) (result operationsmanagement.SolutionsUpdateFuture, err error)
+        }
 
-var _ SolutionsClientAPI = (*operationsmanagement.SolutionsClient)(nil)
+        var _ SolutionsClientAPI = (*operationsmanagement.SolutionsClient)(nil)
+        // ManagementAssociationsClientAPI contains the set of methods on the ManagementAssociationsClient type.
+        type ManagementAssociationsClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, managementAssociationName string, parameters operationsmanagement.ManagementAssociation) (result operationsmanagement.ManagementAssociation, err error)
+            Delete(ctx context.Context, resourceGroupName string, managementAssociationName string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, managementAssociationName string) (result operationsmanagement.ManagementAssociation, err error)
+            ListBySubscription(ctx context.Context) (result operationsmanagement.ManagementAssociationPropertiesList, err error)
+        }
 
-// ManagementAssociationsClientAPI contains the set of methods on the ManagementAssociationsClient type.
-type ManagementAssociationsClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, managementAssociationName string, parameters operationsmanagement.ManagementAssociation) (result operationsmanagement.ManagementAssociation, err error)
-	Delete(ctx context.Context, resourceGroupName string, managementAssociationName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, managementAssociationName string) (result operationsmanagement.ManagementAssociation, err error)
-	ListBySubscription(ctx context.Context) (result operationsmanagement.ManagementAssociationPropertiesList, err error)
-}
+        var _ ManagementAssociationsClientAPI = (*operationsmanagement.ManagementAssociationsClient)(nil)
+        // ManagementConfigurationsClientAPI contains the set of methods on the ManagementConfigurationsClient type.
+        type ManagementConfigurationsClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, managementConfigurationName string, parameters operationsmanagement.ManagementConfiguration) (result operationsmanagement.ManagementConfiguration, err error)
+            Delete(ctx context.Context, resourceGroupName string, managementConfigurationName string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, managementConfigurationName string) (result operationsmanagement.ManagementConfiguration, err error)
+            ListBySubscription(ctx context.Context) (result operationsmanagement.ManagementConfigurationPropertiesList, err error)
+        }
 
-var _ ManagementAssociationsClientAPI = (*operationsmanagement.ManagementAssociationsClient)(nil)
+        var _ ManagementConfigurationsClientAPI = (*operationsmanagement.ManagementConfigurationsClient)(nil)
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result operationsmanagement.OperationListResult, err error)
+        }
 
-// ManagementConfigurationsClientAPI contains the set of methods on the ManagementConfigurationsClient type.
-type ManagementConfigurationsClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, managementConfigurationName string, parameters operationsmanagement.ManagementConfiguration) (result operationsmanagement.ManagementConfiguration, err error)
-	Delete(ctx context.Context, resourceGroupName string, managementConfigurationName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, managementConfigurationName string) (result operationsmanagement.ManagementConfiguration, err error)
-	ListBySubscription(ctx context.Context) (result operationsmanagement.ManagementConfigurationPropertiesList, err error)
-}
-
-var _ ManagementConfigurationsClientAPI = (*operationsmanagement.ManagementConfigurationsClient)(nil)
-
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result operationsmanagement.OperationListResult, err error)
-}
-
-var _ OperationsClientAPI = (*operationsmanagement.OperationsClient)(nil)
+        var _ OperationsClientAPI = (*operationsmanagement.OperationsClient)(nil)

@@ -18,36 +18,34 @@ package policyinsightsapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/policyinsights/mgmt/2017-10-17-preview/policyinsights"
-	"github.com/Azure/go-autorest/autorest/date"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/policyinsights/mgmt/2017-10-17-preview/policyinsights"
+    "github.com/Azure/go-autorest/autorest/date"
 )
 
-// PolicyEventsClientAPI contains the set of methods on the PolicyEventsClient type.
-type PolicyEventsClientAPI interface {
-	GetMetadata(ctx context.Context, scope string) (result policyinsights.String, err error)
-	ListQueryResultsForManagementGroup(ctx context.Context, managementGroupName string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyEventsQueryResults, err error)
-	ListQueryResultsForResource(ctx context.Context, resourceID string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyEventsQueryResults, err error)
-	ListQueryResultsForResourceGroup(ctx context.Context, subscriptionID string, resourceGroupName string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyEventsQueryResults, err error)
-	ListQueryResultsForSubscription(ctx context.Context, subscriptionID string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyEventsQueryResults, err error)
-}
+        // PolicyEventsClientAPI contains the set of methods on the PolicyEventsClient type.
+        type PolicyEventsClientAPI interface {
+            GetMetadata(ctx context.Context, scope string) (result policyinsights.String, err error)
+            ListQueryResultsForManagementGroup(ctx context.Context, managementGroupName string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyEventsQueryResults, err error)
+            ListQueryResultsForResource(ctx context.Context, resourceID string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyEventsQueryResults, err error)
+            ListQueryResultsForResourceGroup(ctx context.Context, subscriptionID string, resourceGroupName string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyEventsQueryResults, err error)
+            ListQueryResultsForSubscription(ctx context.Context, subscriptionID string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyEventsQueryResults, err error)
+        }
 
-var _ PolicyEventsClientAPI = (*policyinsights.PolicyEventsClient)(nil)
+        var _ PolicyEventsClientAPI = (*policyinsights.PolicyEventsClient)(nil)
+        // PolicyStatesClientAPI contains the set of methods on the PolicyStatesClient type.
+        type PolicyStatesClientAPI interface {
+            GetMetadata(ctx context.Context, scope string) (result policyinsights.String, err error)
+            ListQueryResultsForManagementGroup(ctx context.Context, policyStatesResource policyinsights.PolicyStatesResource, managementGroupName string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyStatesQueryResults, err error)
+            ListQueryResultsForResource(ctx context.Context, policyStatesResource policyinsights.PolicyStatesResource, resourceID string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyStatesQueryResults, err error)
+            ListQueryResultsForResourceGroup(ctx context.Context, policyStatesResource policyinsights.PolicyStatesResource, subscriptionID string, resourceGroupName string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyStatesQueryResults, err error)
+            ListQueryResultsForSubscription(ctx context.Context, policyStatesResource policyinsights.PolicyStatesResource, subscriptionID string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyStatesQueryResults, err error)
+        }
 
-// PolicyStatesClientAPI contains the set of methods on the PolicyStatesClient type.
-type PolicyStatesClientAPI interface {
-	GetMetadata(ctx context.Context, scope string) (result policyinsights.String, err error)
-	ListQueryResultsForManagementGroup(ctx context.Context, policyStatesResource policyinsights.PolicyStatesResource, managementGroupName string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyStatesQueryResults, err error)
-	ListQueryResultsForResource(ctx context.Context, policyStatesResource policyinsights.PolicyStatesResource, resourceID string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyStatesQueryResults, err error)
-	ListQueryResultsForResourceGroup(ctx context.Context, policyStatesResource policyinsights.PolicyStatesResource, subscriptionID string, resourceGroupName string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyStatesQueryResults, err error)
-	ListQueryResultsForSubscription(ctx context.Context, policyStatesResource policyinsights.PolicyStatesResource, subscriptionID string, top *int32, orderBy string, selectParameter string, from *date.Time, toParameter *date.Time, filter string, apply string) (result policyinsights.PolicyStatesQueryResults, err error)
-}
+        var _ PolicyStatesClientAPI = (*policyinsights.PolicyStatesClient)(nil)
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result policyinsights.OperationsListResults, err error)
+        }
 
-var _ PolicyStatesClientAPI = (*policyinsights.PolicyStatesClient)(nil)
-
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result policyinsights.OperationsListResults, err error)
-}
-
-var _ OperationsClientAPI = (*policyinsights.OperationsClient)(nil)
+        var _ OperationsClientAPI = (*policyinsights.OperationsClient)(nil)

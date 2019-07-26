@@ -18,22 +18,21 @@ package personalizerapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/personalizer/v1.0/personalizer"
-	"github.com/Azure/go-autorest/autorest"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/personalizer/v1.0/personalizer"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// BaseClientAPI contains the set of methods on the BaseClient type.
-type BaseClientAPI interface {
-	Rank(ctx context.Context, rankRequest personalizer.RankRequest) (result personalizer.RankResponse, err error)
-}
+        // BaseClientAPI contains the set of methods on the BaseClient type.
+        type BaseClientAPI interface {
+            Rank(ctx context.Context, rankRequest personalizer.RankRequest) (result personalizer.RankResponse, err error)
+        }
 
-var _ BaseClientAPI = (*personalizer.BaseClient)(nil)
+        var _ BaseClientAPI = (*personalizer.BaseClient)(nil)
+        // EventsClientAPI contains the set of methods on the EventsClient type.
+        type EventsClientAPI interface {
+            Activate(ctx context.Context, eventID string) (result autorest.Response, err error)
+            Reward(ctx context.Context, eventID string, reward personalizer.RewardRequest) (result autorest.Response, err error)
+        }
 
-// EventsClientAPI contains the set of methods on the EventsClient type.
-type EventsClientAPI interface {
-	Activate(ctx context.Context, eventID string) (result autorest.Response, err error)
-	Reward(ctx context.Context, eventID string, reward personalizer.RewardRequest) (result autorest.Response, err error)
-}
-
-var _ EventsClientAPI = (*personalizer.EventsClient)(nil)
+        var _ EventsClientAPI = (*personalizer.EventsClient)(nil)

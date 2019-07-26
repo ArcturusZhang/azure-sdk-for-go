@@ -18,13 +18,13 @@ package autosuggestapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/cognitiveservices/v1.0/autosuggest"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/cognitiveservices/v1.0/autosuggest"
 )
 
-// BaseClientAPI contains the set of methods on the BaseClient type.
-type BaseClientAPI interface {
-	AutoSuggest(ctx context.Context, query string, acceptLanguage string, pragma string, userAgent string, clientID string, clientIP string, location string, countryCode string, market string, safeSearch autosuggest.SafeSearch, setLang string, responseFormat []autosuggest.ResponseFormat) (result autosuggest.Suggestions, err error)
-}
+        // BaseClientAPI contains the set of methods on the BaseClient type.
+        type BaseClientAPI interface {
+            AutoSuggest(ctx context.Context, query string, acceptLanguage string, pragma string, userAgent string, clientID string, clientIP string, location string, countryCode string, market string, safeSearch autosuggest.SafeSearch, setLang string, responseFormat []autosuggest.ResponseFormat) (result autosuggest.Suggestions, err error)
+        }
 
-var _ BaseClientAPI = (*autosuggest.BaseClient)(nil)
+        var _ BaseClientAPI = (*autosuggest.BaseClient)(nil)

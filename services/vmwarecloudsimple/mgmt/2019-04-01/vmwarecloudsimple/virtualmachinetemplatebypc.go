@@ -18,102 +18,102 @@ package vmwarecloudsimple
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/azure"
-	"github.com/Azure/go-autorest/tracing"
-	"net/http"
+    "github.com/Azure/go-autorest/autorest"
+    "github.com/Azure/go-autorest/autorest/azure"
+    "net/http"
+    "context"
+    "github.com/Azure/go-autorest/tracing"
 )
 
 // VirtualMachineTemplateByPCClient is the description of the new service
 type VirtualMachineTemplateByPCClient struct {
-	BaseClient
+    BaseClient
 }
-
 // NewVirtualMachineTemplateByPCClient creates an instance of the VirtualMachineTemplateByPCClient client.
 func NewVirtualMachineTemplateByPCClient(referer string, regionID string, subscriptionID string) VirtualMachineTemplateByPCClient {
-	return NewVirtualMachineTemplateByPCClientWithBaseURI(DefaultBaseURI, referer, regionID, subscriptionID)
+    return NewVirtualMachineTemplateByPCClientWithBaseURI(DefaultBaseURI, referer, regionID, subscriptionID)
 }
 
 // NewVirtualMachineTemplateByPCClientWithBaseURI creates an instance of the VirtualMachineTemplateByPCClient client.
-func NewVirtualMachineTemplateByPCClientWithBaseURI(baseURI string, referer string, regionID string, subscriptionID string) VirtualMachineTemplateByPCClient {
-	return VirtualMachineTemplateByPCClient{NewWithBaseURI(baseURI, referer, regionID, subscriptionID)}
-}
+    func NewVirtualMachineTemplateByPCClientWithBaseURI(baseURI string, referer string, regionID string, subscriptionID string) VirtualMachineTemplateByPCClient {
+        return VirtualMachineTemplateByPCClient{ NewWithBaseURI(baseURI, referer, regionID, subscriptionID)}
+    }
 
 // Get returns virtual machine templates by its name
-// Parameters:
-// pcName - the private cloud name
-// virtualMachineTemplateName - virtual machine template id (vsphereId)
+    // Parameters:
+        // pcName - the private cloud name
+        // virtualMachineTemplateName - virtual machine template id (vsphereId)
 func (client VirtualMachineTemplateByPCClient) Get(ctx context.Context, pcName string, virtualMachineTemplateName string) (result VirtualMachineTemplate, err error) {
-	if tracing.IsEnabled() {
-		ctx = tracing.StartSpan(ctx, fqdn+"/VirtualMachineTemplateByPCClient.Get")
-		defer func() {
-			sc := -1
-			if result.Response.Response != nil {
-				sc = result.Response.Response.StatusCode
-			}
-			tracing.EndSpan(ctx, sc, err)
-		}()
-	}
-	req, err := client.GetPreparer(ctx, pcName, virtualMachineTemplateName)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "vmwarecloudsimple.VirtualMachineTemplateByPCClient", "Get", nil, "Failure preparing request")
-		return
-	}
+    if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/VirtualMachineTemplateByPCClient.Get")
+        defer func() {
+            sc := -1
+            if result.Response.Response != nil {
+                sc = result.Response.Response.StatusCode
+            }
+            tracing.EndSpan(ctx, sc, err)
+        }()
+    }
+        req, err := client.GetPreparer(ctx, pcName, virtualMachineTemplateName)
+    if err != nil {
+    err = autorest.NewErrorWithError(err, "vmwarecloudsimple.VirtualMachineTemplateByPCClient", "Get", nil , "Failure preparing request")
+    return
+    }
 
-	resp, err := client.GetSender(req)
-	if err != nil {
-		result.Response = autorest.Response{Response: resp}
-		err = autorest.NewErrorWithError(err, "vmwarecloudsimple.VirtualMachineTemplateByPCClient", "Get", resp, "Failure sending request")
-		return
-	}
+            resp, err := client.GetSender(req)
+            if err != nil {
+            result.Response = autorest.Response{Response: resp}
+            err = autorest.NewErrorWithError(err, "vmwarecloudsimple.VirtualMachineTemplateByPCClient", "Get", resp, "Failure sending request")
+            return
+            }
 
-	result, err = client.GetResponder(resp)
-	if err != nil {
-		err = autorest.NewErrorWithError(err, "vmwarecloudsimple.VirtualMachineTemplateByPCClient", "Get", resp, "Failure responding to request")
-	}
+            result, err = client.GetResponder(resp)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "vmwarecloudsimple.VirtualMachineTemplateByPCClient", "Get", resp, "Failure responding to request")
+            }
 
-	return
-}
+    return
+    }
 
-// GetPreparer prepares the Get request.
-func (client VirtualMachineTemplateByPCClient) GetPreparer(ctx context.Context, pcName string, virtualMachineTemplateName string) (*http.Request, error) {
-	pathParameters := map[string]interface{}{
-		"pcName":                     autorest.Encode("path", pcName),
-		"regionId":                   autorest.Encode("path", client.RegionID),
-		"subscriptionId":             autorest.Encode("path", client.SubscriptionID),
-		"virtualMachineTemplateName": autorest.Encode("path", virtualMachineTemplateName),
-	}
+    // GetPreparer prepares the Get request.
+    func (client VirtualMachineTemplateByPCClient) GetPreparer(ctx context.Context, pcName string, virtualMachineTemplateName string) (*http.Request, error) {
+            pathParameters := map[string]interface{} {
+            "pcName": autorest.Encode("path",pcName),
+            "regionId": autorest.Encode("path",client.RegionID),
+            "subscriptionId": autorest.Encode("path",client.SubscriptionID),
+            "virtualMachineTemplateName": autorest.Encode("path",virtualMachineTemplateName),
+            }
 
-	const APIVersion = "2019-04-01"
-	queryParameters := map[string]interface{}{
-		"api-version": APIVersion,
-	}
+                        const APIVersion = "2019-04-01"
+        queryParameters := map[string]interface{} {
+        "api-version": APIVersion,
+        }
 
-	preparer := autorest.CreatePreparer(
-		autorest.AsGet(),
-		autorest.WithBaseURL(client.BaseURI),
-		autorest.WithPathParameters("/subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/virtualMachineTemplates/{virtualMachineTemplateName}", pathParameters),
-		autorest.WithQueryParameters(queryParameters))
-	return preparer.Prepare((&http.Request{}).WithContext(ctx))
-}
+        preparer := autorest.CreatePreparer(
+    autorest.AsGet(),
+    autorest.WithBaseURL(client.BaseURI),
+    autorest.WithPathParameters("/subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/virtualMachineTemplates/{virtualMachineTemplateName}",pathParameters),
+    autorest.WithQueryParameters(queryParameters))
+    return preparer.Prepare((&http.Request{}).WithContext(ctx))
+    }
 
-// GetSender sends the Get request. The method will close the
-// http.Response Body if it receives an error.
-func (client VirtualMachineTemplateByPCClient) GetSender(req *http.Request) (*http.Response, error) {
-	sd := autorest.GetSendDecorators(req.Context(), azure.DoRetryWithRegistration(client.Client))
-	return autorest.SendWithSender(client, req, sd...)
-}
+    // GetSender sends the Get request. The method will close the
+    // http.Response Body if it receives an error.
+    func (client VirtualMachineTemplateByPCClient) GetSender(req *http.Request) (*http.Response, error) {
+        sd := autorest.GetSendDecorators(req.Context(), azure.DoRetryWithRegistration(client.Client))
+            return autorest.SendWithSender(client, req, sd...)
+            }
 
 // GetResponder handles the response to the Get request. The method always
 // closes the http.Response Body.
 func (client VirtualMachineTemplateByPCClient) GetResponder(resp *http.Response) (result VirtualMachineTemplate, err error) {
-	err = autorest.Respond(
-		resp,
-		client.ByInspecting(),
-		azure.WithErrorUnlessStatusCode(http.StatusOK),
-		autorest.ByUnmarshallingJSON(&result),
-		autorest.ByClosing())
-	result.Response = autorest.Response{Response: resp}
-	return
-}
+    err = autorest.Respond(
+    resp,
+    client.ByInspecting(),
+    azure.WithErrorUnlessStatusCode(http.StatusOK),
+    autorest.ByUnmarshallingJSON(&result),
+    autorest.ByClosing())
+    result.Response = autorest.Response{Response: resp}
+        return
+    }
+

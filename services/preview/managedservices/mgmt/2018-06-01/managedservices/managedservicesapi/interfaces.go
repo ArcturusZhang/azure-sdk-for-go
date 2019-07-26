@@ -18,34 +18,32 @@ package managedservicesapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/managedservices/mgmt/2018-06-01/managedservices"
-	"github.com/Azure/go-autorest/autorest"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/managedservices/mgmt/2018-06-01/managedservices"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// RegistrationDefinitionsClientAPI contains the set of methods on the RegistrationDefinitionsClient type.
-type RegistrationDefinitionsClientAPI interface {
-	CreateOrUpdate(ctx context.Context, registrationDefinitionID string, scope string, requestBody managedservices.RegistrationDefinition) (result managedservices.RegistrationDefinition, err error)
-	Delete(ctx context.Context, registrationDefinitionID string, scope string) (result autorest.Response, err error)
-	Get(ctx context.Context, scope string, registrationDefinitionID string) (result managedservices.RegistrationDefinition, err error)
-	List(ctx context.Context, scope string) (result managedservices.RegistrationDefinitionListPage, err error)
-}
+        // RegistrationDefinitionsClientAPI contains the set of methods on the RegistrationDefinitionsClient type.
+        type RegistrationDefinitionsClientAPI interface {
+            CreateOrUpdate(ctx context.Context, registrationDefinitionID string, scope string, requestBody managedservices.RegistrationDefinition) (result managedservices.RegistrationDefinition, err error)
+            Delete(ctx context.Context, registrationDefinitionID string, scope string) (result autorest.Response, err error)
+            Get(ctx context.Context, scope string, registrationDefinitionID string) (result managedservices.RegistrationDefinition, err error)
+            List(ctx context.Context, scope string) (result managedservices.RegistrationDefinitionListPage, err error)
+        }
 
-var _ RegistrationDefinitionsClientAPI = (*managedservices.RegistrationDefinitionsClient)(nil)
+        var _ RegistrationDefinitionsClientAPI = (*managedservices.RegistrationDefinitionsClient)(nil)
+        // RegistrationAssignmentsClientAPI contains the set of methods on the RegistrationAssignmentsClient type.
+        type RegistrationAssignmentsClientAPI interface {
+            CreateOrUpdate(ctx context.Context, scope string, registrationAssignmentID string, requestBody managedservices.RegistrationAssignment) (result managedservices.RegistrationAssignment, err error)
+            Delete(ctx context.Context, scope string, registrationAssignmentID string) (result autorest.Response, err error)
+            Get(ctx context.Context, scope string, registrationAssignmentID string, expandRegistrationDefinition *bool) (result managedservices.RegistrationAssignment, err error)
+            List(ctx context.Context, scope string, expandRegistrationDefinition *bool) (result managedservices.RegistrationAssignmentListPage, err error)
+        }
 
-// RegistrationAssignmentsClientAPI contains the set of methods on the RegistrationAssignmentsClient type.
-type RegistrationAssignmentsClientAPI interface {
-	CreateOrUpdate(ctx context.Context, scope string, registrationAssignmentID string, requestBody managedservices.RegistrationAssignment) (result managedservices.RegistrationAssignment, err error)
-	Delete(ctx context.Context, scope string, registrationAssignmentID string) (result autorest.Response, err error)
-	Get(ctx context.Context, scope string, registrationAssignmentID string, expandRegistrationDefinition *bool) (result managedservices.RegistrationAssignment, err error)
-	List(ctx context.Context, scope string, expandRegistrationDefinition *bool) (result managedservices.RegistrationAssignmentListPage, err error)
-}
+        var _ RegistrationAssignmentsClientAPI = (*managedservices.RegistrationAssignmentsClient)(nil)
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result managedservices.OperationList, err error)
+        }
 
-var _ RegistrationAssignmentsClientAPI = (*managedservices.RegistrationAssignmentsClient)(nil)
-
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result managedservices.OperationList, err error)
-}
-
-var _ OperationsClientAPI = (*managedservices.OperationsClient)(nil)
+        var _ OperationsClientAPI = (*managedservices.OperationsClient)(nil)

@@ -18,26 +18,25 @@ package enterpriseknowledgegraphserviceapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/enterpriseknowledgegraphservice/2018-12-03/enterpriseknowledgegraphservice"
-	"github.com/Azure/go-autorest/autorest"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/enterpriseknowledgegraphservice/2018-12-03/enterpriseknowledgegraphservice"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// EnterpriseKnowledgeGraphClientAPI contains the set of methods on the EnterpriseKnowledgeGraphClient type.
-type EnterpriseKnowledgeGraphClientAPI interface {
-	Create(ctx context.Context, resourceGroupName string, resourceName string, parameters enterpriseknowledgegraphservice.EnterpriseKnowledgeGraph) (result enterpriseknowledgegraphservice.EnterpriseKnowledgeGraph, err error)
-	Delete(ctx context.Context, resourceGroupName string, resourceName string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, resourceName string) (result enterpriseknowledgegraphservice.EnterpriseKnowledgeGraph, err error)
-	List(ctx context.Context) (result enterpriseknowledgegraphservice.EnterpriseKnowledgeGraphResponseListPage, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string) (result enterpriseknowledgegraphservice.EnterpriseKnowledgeGraphResponseListPage, err error)
-	Update(ctx context.Context, resourceGroupName string, resourceName string, parameters enterpriseknowledgegraphservice.EnterpriseKnowledgeGraph) (result enterpriseknowledgegraphservice.EnterpriseKnowledgeGraph, err error)
-}
+        // EnterpriseKnowledgeGraphClientAPI contains the set of methods on the EnterpriseKnowledgeGraphClient type.
+        type EnterpriseKnowledgeGraphClientAPI interface {
+            Create(ctx context.Context, resourceGroupName string, resourceName string, parameters enterpriseknowledgegraphservice.EnterpriseKnowledgeGraph) (result enterpriseknowledgegraphservice.EnterpriseKnowledgeGraph, err error)
+            Delete(ctx context.Context, resourceGroupName string, resourceName string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, resourceName string) (result enterpriseknowledgegraphservice.EnterpriseKnowledgeGraph, err error)
+            List(ctx context.Context) (result enterpriseknowledgegraphservice.EnterpriseKnowledgeGraphResponseListPage, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string) (result enterpriseknowledgegraphservice.EnterpriseKnowledgeGraphResponseListPage, err error)
+            Update(ctx context.Context, resourceGroupName string, resourceName string, parameters enterpriseknowledgegraphservice.EnterpriseKnowledgeGraph) (result enterpriseknowledgegraphservice.EnterpriseKnowledgeGraph, err error)
+        }
 
-var _ EnterpriseKnowledgeGraphClientAPI = (*enterpriseknowledgegraphservice.EnterpriseKnowledgeGraphClient)(nil)
+        var _ EnterpriseKnowledgeGraphClientAPI = (*enterpriseknowledgegraphservice.EnterpriseKnowledgeGraphClient)(nil)
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result enterpriseknowledgegraphservice.OperationEntityListResultPage, err error)
+        }
 
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result enterpriseknowledgegraphservice.OperationEntityListResultPage, err error)
-}
-
-var _ OperationsClientAPI = (*enterpriseknowledgegraphservice.OperationsClient)(nil)
+        var _ OperationsClientAPI = (*enterpriseknowledgegraphservice.OperationsClient)(nil)

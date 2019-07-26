@@ -18,50 +18,51 @@ package prediction
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/date"
-	"github.com/satori/go.uuid"
+    "github.com/Azure/go-autorest/autorest"
+    "github.com/Azure/go-autorest/autorest/date"
+    "github.com/satori/go.uuid"
 )
 
 // The package's fully qualified name.
 const fqdn = "github.com/Azure/azure-sdk-for-go/services/cognitiveservices/v1.1/customvision/prediction"
 
-// BoundingBox ...
-type BoundingBox struct {
-	Left   *float64 `json:"left,omitempty"`
-	Top    *float64 `json:"top,omitempty"`
-	Width  *float64 `json:"width,omitempty"`
-	Height *float64 `json:"height,omitempty"`
-}
+            // BoundingBox ...
+            type BoundingBox struct {
+            Left *float64 `json:"left,omitempty"`
+            Top *float64 `json:"top,omitempty"`
+            Width *float64 `json:"width,omitempty"`
+            Height *float64 `json:"height,omitempty"`
+            }
 
-// ImagePrediction ...
-type ImagePrediction struct {
-	autorest.Response `json:"-"`
-	// ID - READ-ONLY
-	ID *uuid.UUID `json:"id,omitempty"`
-	// Project - READ-ONLY
-	Project *uuid.UUID `json:"project,omitempty"`
-	// Iteration - READ-ONLY
-	Iteration *uuid.UUID `json:"iteration,omitempty"`
-	// Created - READ-ONLY
-	Created *date.Time `json:"created,omitempty"`
-	// Predictions - READ-ONLY
-	Predictions *[]Model `json:"predictions,omitempty"`
-}
+            // ImagePrediction ...
+            type ImagePrediction struct {
+            autorest.Response `json:"-"`
+            // ID - READ-ONLY
+            ID *uuid.UUID `json:"id,omitempty"`
+            // Project - READ-ONLY
+            Project *uuid.UUID `json:"project,omitempty"`
+            // Iteration - READ-ONLY
+            Iteration *uuid.UUID `json:"iteration,omitempty"`
+            // Created - READ-ONLY
+            Created *date.Time `json:"created,omitempty"`
+            // Predictions - READ-ONLY
+            Predictions *[]Model `json:"predictions,omitempty"`
+            }
 
-// ImageURL ...
-type ImageURL struct {
-	URL *string `json:"url,omitempty"`
-}
+            // ImageURL ...
+            type ImageURL struct {
+            URL *string `json:"url,omitempty"`
+            }
 
-// Model ...
-type Model struct {
-	// Probability - READ-ONLY
-	Probability *float64 `json:"probability,omitempty"`
-	// TagID - READ-ONLY
-	TagID *uuid.UUID `json:"tagId,omitempty"`
-	// TagName - READ-ONLY
-	TagName *string `json:"tagName,omitempty"`
-	// BoundingBox - READ-ONLY
-	BoundingBox *BoundingBox `json:"boundingBox,omitempty"`
-}
+            // Model ...
+            type Model struct {
+            // Probability - READ-ONLY
+            Probability *float64 `json:"probability,omitempty"`
+            // TagID - READ-ONLY
+            TagID *uuid.UUID `json:"tagId,omitempty"`
+            // TagName - READ-ONLY
+            TagName *string `json:"tagName,omitempty"`
+            // BoundingBox - READ-ONLY
+            BoundingBox *BoundingBox `json:"boundingBox,omitempty"`
+            }
+

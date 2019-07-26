@@ -18,64 +18,59 @@ package authorizationapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/authorization/mgmt/2015-07-01/authorization"
-	"github.com/Azure/go-autorest/autorest"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/authorization/mgmt/2015-07-01/authorization"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// PermissionsClientAPI contains the set of methods on the PermissionsClient type.
-type PermissionsClientAPI interface {
-	ListForResource(ctx context.Context, resourceGroupName string, resourceProviderNamespace string, parentResourcePath string, resourceType string, resourceName string) (result authorization.PermissionGetResultPage, err error)
-	ListForResourceGroup(ctx context.Context, resourceGroupName string) (result authorization.PermissionGetResultPage, err error)
-}
+        // PermissionsClientAPI contains the set of methods on the PermissionsClient type.
+        type PermissionsClientAPI interface {
+            ListForResource(ctx context.Context, resourceGroupName string, resourceProviderNamespace string, parentResourcePath string, resourceType string, resourceName string) (result authorization.PermissionGetResultPage, err error)
+            ListForResourceGroup(ctx context.Context, resourceGroupName string) (result authorization.PermissionGetResultPage, err error)
+        }
 
-var _ PermissionsClientAPI = (*authorization.PermissionsClient)(nil)
+        var _ PermissionsClientAPI = (*authorization.PermissionsClient)(nil)
+        // RoleDefinitionsClientAPI contains the set of methods on the RoleDefinitionsClient type.
+        type RoleDefinitionsClientAPI interface {
+            CreateOrUpdate(ctx context.Context, scope string, roleDefinitionID string, roleDefinition authorization.RoleDefinition) (result authorization.RoleDefinition, err error)
+            Delete(ctx context.Context, scope string, roleDefinitionID string) (result authorization.RoleDefinition, err error)
+            Get(ctx context.Context, scope string, roleDefinitionID string) (result authorization.RoleDefinition, err error)
+            GetByID(ctx context.Context, roleDefinitionID string) (result authorization.RoleDefinition, err error)
+            List(ctx context.Context, scope string, filter string) (result authorization.RoleDefinitionListResultPage, err error)
+        }
 
-// RoleDefinitionsClientAPI contains the set of methods on the RoleDefinitionsClient type.
-type RoleDefinitionsClientAPI interface {
-	CreateOrUpdate(ctx context.Context, scope string, roleDefinitionID string, roleDefinition authorization.RoleDefinition) (result authorization.RoleDefinition, err error)
-	Delete(ctx context.Context, scope string, roleDefinitionID string) (result authorization.RoleDefinition, err error)
-	Get(ctx context.Context, scope string, roleDefinitionID string) (result authorization.RoleDefinition, err error)
-	GetByID(ctx context.Context, roleDefinitionID string) (result authorization.RoleDefinition, err error)
-	List(ctx context.Context, scope string, filter string) (result authorization.RoleDefinitionListResultPage, err error)
-}
+        var _ RoleDefinitionsClientAPI = (*authorization.RoleDefinitionsClient)(nil)
+        // ProviderOperationsMetadataClientAPI contains the set of methods on the ProviderOperationsMetadataClient type.
+        type ProviderOperationsMetadataClientAPI interface {
+            Get(ctx context.Context, resourceProviderNamespace string, expand string) (result authorization.ProviderOperationsMetadata, err error)
+            List(ctx context.Context, expand string) (result authorization.ProviderOperationsMetadataListResultPage, err error)
+        }
 
-var _ RoleDefinitionsClientAPI = (*authorization.RoleDefinitionsClient)(nil)
+        var _ ProviderOperationsMetadataClientAPI = (*authorization.ProviderOperationsMetadataClient)(nil)
+        // GlobalAdministratorClientAPI contains the set of methods on the GlobalAdministratorClient type.
+        type GlobalAdministratorClientAPI interface {
+            ElevateAccess(ctx context.Context) (result autorest.Response, err error)
+        }
 
-// ProviderOperationsMetadataClientAPI contains the set of methods on the ProviderOperationsMetadataClient type.
-type ProviderOperationsMetadataClientAPI interface {
-	Get(ctx context.Context, resourceProviderNamespace string, expand string) (result authorization.ProviderOperationsMetadata, err error)
-	List(ctx context.Context, expand string) (result authorization.ProviderOperationsMetadataListResultPage, err error)
-}
+        var _ GlobalAdministratorClientAPI = (*authorization.GlobalAdministratorClient)(nil)
+        // RoleAssignmentsClientAPI contains the set of methods on the RoleAssignmentsClient type.
+        type RoleAssignmentsClientAPI interface {
+            Create(ctx context.Context, scope string, roleAssignmentName string, parameters authorization.RoleAssignmentCreateParameters) (result authorization.RoleAssignment, err error)
+            CreateByID(ctx context.Context, roleAssignmentID string, parameters authorization.RoleAssignmentCreateParameters) (result authorization.RoleAssignment, err error)
+            Delete(ctx context.Context, scope string, roleAssignmentName string) (result authorization.RoleAssignment, err error)
+            DeleteByID(ctx context.Context, roleAssignmentID string) (result authorization.RoleAssignment, err error)
+            Get(ctx context.Context, scope string, roleAssignmentName string) (result authorization.RoleAssignment, err error)
+            GetByID(ctx context.Context, roleAssignmentID string) (result authorization.RoleAssignment, err error)
+            List(ctx context.Context, filter string) (result authorization.RoleAssignmentListResultPage, err error)
+            ListForResource(ctx context.Context, resourceGroupName string, resourceProviderNamespace string, parentResourcePath string, resourceType string, resourceName string, filter string) (result authorization.RoleAssignmentListResultPage, err error)
+            ListForResourceGroup(ctx context.Context, resourceGroupName string, filter string) (result authorization.RoleAssignmentListResultPage, err error)
+            ListForScope(ctx context.Context, scope string, filter string) (result authorization.RoleAssignmentListResultPage, err error)
+        }
 
-var _ ProviderOperationsMetadataClientAPI = (*authorization.ProviderOperationsMetadataClient)(nil)
+        var _ RoleAssignmentsClientAPI = (*authorization.RoleAssignmentsClient)(nil)
+        // ClassicAdministratorsClientAPI contains the set of methods on the ClassicAdministratorsClient type.
+        type ClassicAdministratorsClientAPI interface {
+            List(ctx context.Context) (result authorization.ClassicAdministratorListResultPage, err error)
+        }
 
-// GlobalAdministratorClientAPI contains the set of methods on the GlobalAdministratorClient type.
-type GlobalAdministratorClientAPI interface {
-	ElevateAccess(ctx context.Context) (result autorest.Response, err error)
-}
-
-var _ GlobalAdministratorClientAPI = (*authorization.GlobalAdministratorClient)(nil)
-
-// RoleAssignmentsClientAPI contains the set of methods on the RoleAssignmentsClient type.
-type RoleAssignmentsClientAPI interface {
-	Create(ctx context.Context, scope string, roleAssignmentName string, parameters authorization.RoleAssignmentCreateParameters) (result authorization.RoleAssignment, err error)
-	CreateByID(ctx context.Context, roleAssignmentID string, parameters authorization.RoleAssignmentCreateParameters) (result authorization.RoleAssignment, err error)
-	Delete(ctx context.Context, scope string, roleAssignmentName string) (result authorization.RoleAssignment, err error)
-	DeleteByID(ctx context.Context, roleAssignmentID string) (result authorization.RoleAssignment, err error)
-	Get(ctx context.Context, scope string, roleAssignmentName string) (result authorization.RoleAssignment, err error)
-	GetByID(ctx context.Context, roleAssignmentID string) (result authorization.RoleAssignment, err error)
-	List(ctx context.Context, filter string) (result authorization.RoleAssignmentListResultPage, err error)
-	ListForResource(ctx context.Context, resourceGroupName string, resourceProviderNamespace string, parentResourcePath string, resourceType string, resourceName string, filter string) (result authorization.RoleAssignmentListResultPage, err error)
-	ListForResourceGroup(ctx context.Context, resourceGroupName string, filter string) (result authorization.RoleAssignmentListResultPage, err error)
-	ListForScope(ctx context.Context, scope string, filter string) (result authorization.RoleAssignmentListResultPage, err error)
-}
-
-var _ RoleAssignmentsClientAPI = (*authorization.RoleAssignmentsClient)(nil)
-
-// ClassicAdministratorsClientAPI contains the set of methods on the ClassicAdministratorsClient type.
-type ClassicAdministratorsClientAPI interface {
-	List(ctx context.Context) (result authorization.ClassicAdministratorListResultPage, err error)
-}
-
-var _ ClassicAdministratorsClientAPI = (*authorization.ClassicAdministratorsClient)(nil)
+        var _ ClassicAdministratorsClientAPI = (*authorization.ClassicAdministratorsClient)(nil)

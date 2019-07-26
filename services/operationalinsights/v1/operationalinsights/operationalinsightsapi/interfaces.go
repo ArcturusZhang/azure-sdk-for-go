@@ -18,13 +18,13 @@ package operationalinsightsapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/operationalinsights/v1/operationalinsights"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/operationalinsights/v1/operationalinsights"
 )
 
-// QueryClientAPI contains the set of methods on the QueryClient type.
-type QueryClientAPI interface {
-	Execute(ctx context.Context, workspaceID string, body operationalinsights.QueryBody) (result operationalinsights.QueryResults, err error)
-}
+        // QueryClientAPI contains the set of methods on the QueryClient type.
+        type QueryClientAPI interface {
+            Execute(ctx context.Context, workspaceID string, body operationalinsights.QueryBody) (result operationalinsights.QueryResults, err error)
+        }
 
-var _ QueryClientAPI = (*operationalinsights.QueryClient)(nil)
+        var _ QueryClientAPI = (*operationalinsights.QueryClient)(nil)

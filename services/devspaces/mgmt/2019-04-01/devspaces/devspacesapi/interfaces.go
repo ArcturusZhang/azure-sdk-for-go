@@ -18,33 +18,31 @@ package devspacesapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/devspaces/mgmt/2019-04-01/devspaces"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/devspaces/mgmt/2019-04-01/devspaces"
 )
 
-// ContainerHostMappingsClientAPI contains the set of methods on the ContainerHostMappingsClient type.
-type ContainerHostMappingsClientAPI interface {
-	GetContainerHostMapping(ctx context.Context, containerHostMapping devspaces.ContainerHostMapping, resourceGroupName string, location string) (result devspaces.ContainerHostMapping, err error)
-}
+        // ContainerHostMappingsClientAPI contains the set of methods on the ContainerHostMappingsClient type.
+        type ContainerHostMappingsClientAPI interface {
+            GetContainerHostMapping(ctx context.Context, containerHostMapping devspaces.ContainerHostMapping, resourceGroupName string, location string) (result devspaces.ContainerHostMapping, err error)
+        }
 
-var _ ContainerHostMappingsClientAPI = (*devspaces.ContainerHostMappingsClient)(nil)
+        var _ ContainerHostMappingsClientAPI = (*devspaces.ContainerHostMappingsClient)(nil)
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result devspaces.ResourceProviderOperationListPage, err error)
+        }
 
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result devspaces.ResourceProviderOperationListPage, err error)
-}
+        var _ OperationsClientAPI = (*devspaces.OperationsClient)(nil)
+        // ControllersClientAPI contains the set of methods on the ControllersClient type.
+        type ControllersClientAPI interface {
+            Create(ctx context.Context, resourceGroupName string, name string, controller devspaces.Controller) (result devspaces.ControllersCreateFuture, err error)
+            Delete(ctx context.Context, resourceGroupName string, name string) (result devspaces.ControllersDeleteFuture, err error)
+            Get(ctx context.Context, resourceGroupName string, name string) (result devspaces.Controller, err error)
+            List(ctx context.Context) (result devspaces.ControllerListPage, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string) (result devspaces.ControllerListPage, err error)
+            ListConnectionDetails(ctx context.Context, resourceGroupName string, name string, listConnectionDetailsParameters devspaces.ListConnectionDetailsParameters) (result devspaces.ControllerConnectionDetailsList, err error)
+            Update(ctx context.Context, resourceGroupName string, name string, controllerUpdateParameters devspaces.ControllerUpdateParameters) (result devspaces.Controller, err error)
+        }
 
-var _ OperationsClientAPI = (*devspaces.OperationsClient)(nil)
-
-// ControllersClientAPI contains the set of methods on the ControllersClient type.
-type ControllersClientAPI interface {
-	Create(ctx context.Context, resourceGroupName string, name string, controller devspaces.Controller) (result devspaces.ControllersCreateFuture, err error)
-	Delete(ctx context.Context, resourceGroupName string, name string) (result devspaces.ControllersDeleteFuture, err error)
-	Get(ctx context.Context, resourceGroupName string, name string) (result devspaces.Controller, err error)
-	List(ctx context.Context) (result devspaces.ControllerListPage, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string) (result devspaces.ControllerListPage, err error)
-	ListConnectionDetails(ctx context.Context, resourceGroupName string, name string, listConnectionDetailsParameters devspaces.ListConnectionDetailsParameters) (result devspaces.ControllerConnectionDetailsList, err error)
-	Update(ctx context.Context, resourceGroupName string, name string, controllerUpdateParameters devspaces.ControllerUpdateParameters) (result devspaces.Controller, err error)
-}
-
-var _ ControllersClientAPI = (*devspaces.ControllersClient)(nil)
+        var _ ControllersClientAPI = (*devspaces.ControllersClient)(nil)

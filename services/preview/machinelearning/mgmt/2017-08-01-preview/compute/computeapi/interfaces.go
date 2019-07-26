@@ -18,28 +18,27 @@ package computeapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/machinelearning/mgmt/2017-08-01-preview/compute"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/machinelearning/mgmt/2017-08-01-preview/compute"
 )
 
-// OperationalizationClustersClientAPI contains the set of methods on the OperationalizationClustersClient type.
-type OperationalizationClustersClientAPI interface {
-	CheckSystemServicesUpdatesAvailable(ctx context.Context, resourceGroupName string, clusterName string) (result compute.CheckSystemServicesUpdatesAvailableResponse, err error)
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, clusterName string, parameters compute.OperationalizationCluster) (result compute.OperationalizationClustersCreateOrUpdateFuture, err error)
-	Delete(ctx context.Context, resourceGroupName string, clusterName string, deleteAll *bool) (result compute.OperationalizationClustersDeleteFuture, err error)
-	Get(ctx context.Context, resourceGroupName string, clusterName string) (result compute.OperationalizationCluster, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string, skiptoken string) (result compute.PaginatedOperationalizationClustersListPage, err error)
-	ListBySubscriptionID(ctx context.Context, skiptoken string) (result compute.PaginatedOperationalizationClustersListPage, err error)
-	ListKeys(ctx context.Context, resourceGroupName string, clusterName string) (result compute.OperationalizationClusterCredentials, err error)
-	Update(ctx context.Context, resourceGroupName string, clusterName string, parameters compute.OperationalizationClusterUpdateParameters) (result compute.OperationalizationCluster, err error)
-	UpdateSystemServices(ctx context.Context, resourceGroupName string, clusterName string) (result compute.OperationalizationClustersUpdateSystemServicesFuture, err error)
-}
+        // OperationalizationClustersClientAPI contains the set of methods on the OperationalizationClustersClient type.
+        type OperationalizationClustersClientAPI interface {
+            CheckSystemServicesUpdatesAvailable(ctx context.Context, resourceGroupName string, clusterName string) (result compute.CheckSystemServicesUpdatesAvailableResponse, err error)
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, clusterName string, parameters compute.OperationalizationCluster) (result compute.OperationalizationClustersCreateOrUpdateFuture, err error)
+            Delete(ctx context.Context, resourceGroupName string, clusterName string, deleteAll *bool) (result compute.OperationalizationClustersDeleteFuture, err error)
+            Get(ctx context.Context, resourceGroupName string, clusterName string) (result compute.OperationalizationCluster, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string, skiptoken string) (result compute.PaginatedOperationalizationClustersListPage, err error)
+            ListBySubscriptionID(ctx context.Context, skiptoken string) (result compute.PaginatedOperationalizationClustersListPage, err error)
+            ListKeys(ctx context.Context, resourceGroupName string, clusterName string) (result compute.OperationalizationClusterCredentials, err error)
+            Update(ctx context.Context, resourceGroupName string, clusterName string, parameters compute.OperationalizationClusterUpdateParameters) (result compute.OperationalizationCluster, err error)
+            UpdateSystemServices(ctx context.Context, resourceGroupName string, clusterName string) (result compute.OperationalizationClustersUpdateSystemServicesFuture, err error)
+        }
 
-var _ OperationalizationClustersClientAPI = (*compute.OperationalizationClustersClient)(nil)
+        var _ OperationalizationClustersClientAPI = (*compute.OperationalizationClustersClient)(nil)
+        // MachineLearningComputeClientAPI contains the set of methods on the MachineLearningComputeClient type.
+        type MachineLearningComputeClientAPI interface {
+            ListAvailableOperations(ctx context.Context) (result compute.AvailableOperations, err error)
+        }
 
-// MachineLearningComputeClientAPI contains the set of methods on the MachineLearningComputeClient type.
-type MachineLearningComputeClientAPI interface {
-	ListAvailableOperations(ctx context.Context) (result compute.AvailableOperations, err error)
-}
-
-var _ MachineLearningComputeClientAPI = (*compute.MachineLearningComputeClient)(nil)
+        var _ MachineLearningComputeClientAPI = (*compute.MachineLearningComputeClient)(nil)

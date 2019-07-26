@@ -18,24 +18,23 @@ package datacatalogapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/datacatalog/mgmt/2016-03-30/datacatalog"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/datacatalog/mgmt/2016-03-30/datacatalog"
 )
 
-// ADCOperationsClientAPI contains the set of methods on the ADCOperationsClient type.
-type ADCOperationsClientAPI interface {
-	List(ctx context.Context) (result datacatalog.OperationEntityListResult, err error)
-}
+        // ADCOperationsClientAPI contains the set of methods on the ADCOperationsClient type.
+        type ADCOperationsClientAPI interface {
+            List(ctx context.Context) (result datacatalog.OperationEntityListResult, err error)
+        }
 
-var _ ADCOperationsClientAPI = (*datacatalog.ADCOperationsClient)(nil)
+        var _ ADCOperationsClientAPI = (*datacatalog.ADCOperationsClient)(nil)
+        // ADCCatalogsClientAPI contains the set of methods on the ADCCatalogsClient type.
+        type ADCCatalogsClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, properties datacatalog.ADCCatalog) (result datacatalog.ADCCatalog, err error)
+            Delete(ctx context.Context, resourceGroupName string) (result datacatalog.ADCCatalogsDeleteFuture, err error)
+            Get(ctx context.Context, resourceGroupName string) (result datacatalog.ADCCatalog, err error)
+            ListtByResourceGroup(ctx context.Context, resourceGroupName string) (result datacatalog.ADCCatalogsListResult, err error)
+            Update(ctx context.Context, resourceGroupName string, properties datacatalog.ADCCatalog) (result datacatalog.ADCCatalog, err error)
+        }
 
-// ADCCatalogsClientAPI contains the set of methods on the ADCCatalogsClient type.
-type ADCCatalogsClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, properties datacatalog.ADCCatalog) (result datacatalog.ADCCatalog, err error)
-	Delete(ctx context.Context, resourceGroupName string) (result datacatalog.ADCCatalogsDeleteFuture, err error)
-	Get(ctx context.Context, resourceGroupName string) (result datacatalog.ADCCatalog, err error)
-	ListtByResourceGroup(ctx context.Context, resourceGroupName string) (result datacatalog.ADCCatalogsListResult, err error)
-	Update(ctx context.Context, resourceGroupName string, properties datacatalog.ADCCatalog) (result datacatalog.ADCCatalog, err error)
-}
-
-var _ ADCCatalogsClientAPI = (*datacatalog.ADCCatalogsClient)(nil)
+        var _ ADCCatalogsClientAPI = (*datacatalog.ADCCatalogsClient)(nil)

@@ -18,25 +18,24 @@ package aadapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/domainservices/mgmt/2017-01-01/aad"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/domainservices/mgmt/2017-01-01/aad"
 )
 
-// DomainServiceOperationsClientAPI contains the set of methods on the DomainServiceOperationsClient type.
-type DomainServiceOperationsClientAPI interface {
-	List(ctx context.Context) (result aad.OperationEntityListResultPage, err error)
-}
+        // DomainServiceOperationsClientAPI contains the set of methods on the DomainServiceOperationsClient type.
+        type DomainServiceOperationsClientAPI interface {
+            List(ctx context.Context) (result aad.OperationEntityListResultPage, err error)
+        }
 
-var _ DomainServiceOperationsClientAPI = (*aad.DomainServiceOperationsClient)(nil)
+        var _ DomainServiceOperationsClientAPI = (*aad.DomainServiceOperationsClient)(nil)
+        // DomainServicesClientAPI contains the set of methods on the DomainServicesClient type.
+        type DomainServicesClientAPI interface {
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, domainServiceName string, domainService aad.DomainService) (result aad.DomainServicesCreateOrUpdateFuture, err error)
+            Delete(ctx context.Context, resourceGroupName string, domainServiceName string) (result aad.DomainServicesDeleteFuture, err error)
+            Get(ctx context.Context, resourceGroupName string, domainServiceName string) (result aad.DomainService, err error)
+            List(ctx context.Context) (result aad.DomainServiceListResultPage, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string) (result aad.DomainServiceListResultPage, err error)
+            Update(ctx context.Context, resourceGroupName string, domainServiceName string, domainService aad.DomainService) (result aad.DomainServicesUpdateFuture, err error)
+        }
 
-// DomainServicesClientAPI contains the set of methods on the DomainServicesClient type.
-type DomainServicesClientAPI interface {
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, domainServiceName string, domainService aad.DomainService) (result aad.DomainServicesCreateOrUpdateFuture, err error)
-	Delete(ctx context.Context, resourceGroupName string, domainServiceName string) (result aad.DomainServicesDeleteFuture, err error)
-	Get(ctx context.Context, resourceGroupName string, domainServiceName string) (result aad.DomainService, err error)
-	List(ctx context.Context) (result aad.DomainServiceListResultPage, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string) (result aad.DomainServiceListResultPage, err error)
-	Update(ctx context.Context, resourceGroupName string, domainServiceName string, domainService aad.DomainService) (result aad.DomainServicesUpdateFuture, err error)
-}
-
-var _ DomainServicesClientAPI = (*aad.DomainServicesClient)(nil)
+        var _ DomainServicesClientAPI = (*aad.DomainServicesClient)(nil)

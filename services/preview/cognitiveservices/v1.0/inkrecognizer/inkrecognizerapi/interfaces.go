@@ -18,13 +18,13 @@ package inkrecognizerapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/cognitiveservices/v1.0/inkrecognizer"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/cognitiveservices/v1.0/inkrecognizer"
 )
 
-// ClientAPI contains the set of methods on the Client type.
-type ClientAPI interface {
-	Recognize(ctx context.Context, body inkrecognizer.AnalysisRequest, xMsClientRequestID string) (result inkrecognizer.AnalysisResponse, err error)
-}
+        // ClientAPI contains the set of methods on the Client type.
+        type ClientAPI interface {
+            Recognize(ctx context.Context, body inkrecognizer.AnalysisRequest, xMsClientRequestID string) (result inkrecognizer.AnalysisResponse, err error)
+        }
 
-var _ ClientAPI = (*inkrecognizer.Client)(nil)
+        var _ ClientAPI = (*inkrecognizer.Client)(nil)

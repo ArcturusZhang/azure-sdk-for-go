@@ -18,42 +18,43 @@ package serialconsole
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"github.com/Azure/go-autorest/autorest"
+    "github.com/Azure/go-autorest/autorest"
 )
 
 // The package's fully qualified name.
 const fqdn = "github.com/Azure/azure-sdk-for-go/services/serialconsole/mgmt/2018-05-01/serialconsole"
 
-// DeploymentValidateResult details on Failure
-type DeploymentValidateResult struct {
-	// ErrorMessage - Error message
-	ErrorMessage *string `json:"errorMessage,omitempty"`
-}
+            // DeploymentValidateResult details on Failure
+            type DeploymentValidateResult struct {
+            // ErrorMessage - Error message
+            ErrorMessage *string `json:"errorMessage,omitempty"`
+            }
 
-// GetDisabledResult returns whether or not Serial Console is disabled for this given subscription
-type GetDisabledResult struct {
-	autorest.Response `json:"-"`
-	// Disabled - Disabled result
-	Disabled *bool `json:"disabled,omitempty"`
-}
+            // GetDisabledResult returns whether or not Serial Console is disabled for this given subscription
+            type GetDisabledResult struct {
+            autorest.Response `json:"-"`
+            // Disabled - Disabled result
+            Disabled *bool `json:"disabled,omitempty"`
+            }
 
-// GetResult returns whether or not Serial Console is disabled.
-type GetResult struct {
-	// Value - Whether or not Serial Console is disabled.
-	Value *bool `json:"value,omitempty"`
-}
+            // GetResult returns whether or not Serial Console is disabled.
+            type GetResult struct {
+            // Value - Whether or not Serial Console is disabled.
+            Value *bool `json:"value,omitempty"`
+            }
 
-// Operations serial Console operations
-type Operations struct {
-	autorest.Response `json:"-"`
-	// Value - Serial Console operations
-	Value *string `json:"value,omitempty"`
-}
+            // Operations serial Console operations
+            type Operations struct {
+            autorest.Response `json:"-"`
+            // Value - Serial Console operations
+            Value *string `json:"value,omitempty"`
+            }
 
-// SetDisabledResult sets disable status and returns whether or not Serial Console is now disabled for this
-// given subscription
-type SetDisabledResult struct {
-	autorest.Response `json:"-"`
-	// Disabled - Disabled result
-	Disabled *bool `json:"disabled,omitempty"`
-}
+            // SetDisabledResult sets disable status and returns whether or not Serial Console is now disabled for this
+            // given subscription
+            type SetDisabledResult struct {
+            autorest.Response `json:"-"`
+            // Disabled - Disabled result
+            Disabled *bool `json:"disabled,omitempty"`
+            }
+

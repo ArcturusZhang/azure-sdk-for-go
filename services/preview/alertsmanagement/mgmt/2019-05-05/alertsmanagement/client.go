@@ -21,35 +21,35 @@ package alertsmanagement
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"github.com/Azure/go-autorest/autorest"
+    "github.com/Azure/go-autorest/autorest"
 )
 
 const (
-	// DefaultBaseURI is the default URI used for the service Alertsmanagement
-	DefaultBaseURI = "https://management.azure.com"
-	// DefaultIdentifier is the default value for identifier
-	DefaultIdentifier = "MonitorServiceList"
-)
+// DefaultBaseURI is the default URI used for the service Alertsmanagement
+DefaultBaseURI = "https://management.azure.com"
+// DefaultIdentifier is the default value for identifier
+DefaultIdentifier = "MonitorServiceList")
 
 // BaseClient is the base client for Alertsmanagement.
 type BaseClient struct {
-	autorest.Client
-	BaseURI        string
-	SubscriptionID string
-	Identifier     string
+    autorest.Client
+    BaseURI string
+            SubscriptionID string
+            Identifier string
 }
 
 // New creates an instance of the BaseClient client.
-func New(subscriptionID string) BaseClient {
-	return NewWithBaseURI(DefaultBaseURI, subscriptionID)
+func New(subscriptionID string)BaseClient {
+    return NewWithBaseURI(DefaultBaseURI, subscriptionID)
 }
 
 // NewWithBaseURI creates an instance of the BaseClient client.
 func NewWithBaseURI(baseURI string, subscriptionID string) BaseClient {
-	return BaseClient{
-		Client:         autorest.NewClientWithUserAgent(UserAgent()),
-		BaseURI:        baseURI,
-		SubscriptionID: subscriptionID,
-		Identifier:     DefaultIdentifier,
-	}
+    return BaseClient{
+        Client: autorest.NewClientWithUserAgent(UserAgent()),
+        BaseURI: baseURI,
+                SubscriptionID: subscriptionID,
+                Identifier: DefaultIdentifier,
+    }
 }
+

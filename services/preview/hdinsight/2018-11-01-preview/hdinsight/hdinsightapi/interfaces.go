@@ -18,23 +18,23 @@ package hdinsightapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/hdinsight/2018-11-01-preview/hdinsight"
-	"io"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/hdinsight/2018-11-01-preview/hdinsight"
+    "io"
 )
 
-// JobClientAPI contains the set of methods on the JobClient type.
-type JobClientAPI interface {
-	Get(ctx context.Context, jobID string) (result hdinsight.JobDetailRootJSONObject, err error)
-	GetAppState(ctx context.Context, appID string) (result hdinsight.AppState, err error)
-	Kill(ctx context.Context, jobID string) (result hdinsight.JobDetailRootJSONObject, err error)
-	List(ctx context.Context) (result hdinsight.ListJobListJSONObject, err error)
-	ListAfterJobID(ctx context.Context, jobid string, numrecords *int32) (result hdinsight.ListJobListJSONObject, err error)
-	SubmitHiveJob(ctx context.Context, content io.ReadCloser) (result hdinsight.JobSubmissionJSONResponse, err error)
-	SubmitMapReduceJob(ctx context.Context, content io.ReadCloser) (result hdinsight.JobSubmissionJSONResponse, err error)
-	SubmitMapReduceStreamingJob(ctx context.Context, content io.ReadCloser) (result hdinsight.JobSubmissionJSONResponse, err error)
-	SubmitPigJob(ctx context.Context, content io.ReadCloser) (result hdinsight.JobSubmissionJSONResponse, err error)
-	SubmitSqoopJob(ctx context.Context, content io.ReadCloser) (result hdinsight.JobSubmissionJSONResponse, err error)
-}
+        // JobClientAPI contains the set of methods on the JobClient type.
+        type JobClientAPI interface {
+            Get(ctx context.Context, jobID string) (result hdinsight.JobDetailRootJSONObject, err error)
+            GetAppState(ctx context.Context, appID string) (result hdinsight.AppState, err error)
+            Kill(ctx context.Context, jobID string) (result hdinsight.JobDetailRootJSONObject, err error)
+            List(ctx context.Context) (result hdinsight.ListJobListJSONObject, err error)
+            ListAfterJobID(ctx context.Context, jobid string, numrecords *int32) (result hdinsight.ListJobListJSONObject, err error)
+            SubmitHiveJob(ctx context.Context, content io.ReadCloser) (result hdinsight.JobSubmissionJSONResponse, err error)
+            SubmitMapReduceJob(ctx context.Context, content io.ReadCloser) (result hdinsight.JobSubmissionJSONResponse, err error)
+            SubmitMapReduceStreamingJob(ctx context.Context, content io.ReadCloser) (result hdinsight.JobSubmissionJSONResponse, err error)
+            SubmitPigJob(ctx context.Context, content io.ReadCloser) (result hdinsight.JobSubmissionJSONResponse, err error)
+            SubmitSqoopJob(ctx context.Context, content io.ReadCloser) (result hdinsight.JobSubmissionJSONResponse, err error)
+        }
 
-var _ JobClientAPI = (*hdinsight.JobClient)(nil)
+        var _ JobClientAPI = (*hdinsight.JobClient)(nil)

@@ -18,45 +18,42 @@ package searchapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/search/mgmt/2015-08-19/search"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/satori/go.uuid"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/search/mgmt/2015-08-19/search"
+    "github.com/satori/go.uuid"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result search.OperationListResult, err error)
-}
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result search.OperationListResult, err error)
+        }
 
-var _ OperationsClientAPI = (*search.OperationsClient)(nil)
+        var _ OperationsClientAPI = (*search.OperationsClient)(nil)
+        // AdminKeysClientAPI contains the set of methods on the AdminKeysClient type.
+        type AdminKeysClientAPI interface {
+            Get(ctx context.Context, resourceGroupName string, searchServiceName string, clientRequestID *uuid.UUID) (result search.AdminKeyResult, err error)
+            Regenerate(ctx context.Context, resourceGroupName string, searchServiceName string, keyKind search.AdminKeyKind, clientRequestID *uuid.UUID) (result search.AdminKeyResult, err error)
+        }
 
-// AdminKeysClientAPI contains the set of methods on the AdminKeysClient type.
-type AdminKeysClientAPI interface {
-	Get(ctx context.Context, resourceGroupName string, searchServiceName string, clientRequestID *uuid.UUID) (result search.AdminKeyResult, err error)
-	Regenerate(ctx context.Context, resourceGroupName string, searchServiceName string, keyKind search.AdminKeyKind, clientRequestID *uuid.UUID) (result search.AdminKeyResult, err error)
-}
+        var _ AdminKeysClientAPI = (*search.AdminKeysClient)(nil)
+        // QueryKeysClientAPI contains the set of methods on the QueryKeysClient type.
+        type QueryKeysClientAPI interface {
+            Create(ctx context.Context, resourceGroupName string, searchServiceName string, name string, clientRequestID *uuid.UUID) (result search.QueryKey, err error)
+            Delete(ctx context.Context, resourceGroupName string, searchServiceName string, key string, clientRequestID *uuid.UUID) (result autorest.Response, err error)
+            ListBySearchService(ctx context.Context, resourceGroupName string, searchServiceName string, clientRequestID *uuid.UUID) (result search.ListQueryKeysResult, err error)
+        }
 
-var _ AdminKeysClientAPI = (*search.AdminKeysClient)(nil)
+        var _ QueryKeysClientAPI = (*search.QueryKeysClient)(nil)
+        // ServicesClientAPI contains the set of methods on the ServicesClient type.
+        type ServicesClientAPI interface {
+            CheckNameAvailability(ctx context.Context, checkNameAvailabilityInput search.CheckNameAvailabilityInput, clientRequestID *uuid.UUID) (result search.CheckNameAvailabilityOutput, err error)
+            CreateOrUpdate(ctx context.Context, resourceGroupName string, searchServiceName string, service search.Service, clientRequestID *uuid.UUID) (result search.ServicesCreateOrUpdateFuture, err error)
+            Delete(ctx context.Context, resourceGroupName string, searchServiceName string, clientRequestID *uuid.UUID) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, searchServiceName string, clientRequestID *uuid.UUID) (result search.Service, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string, clientRequestID *uuid.UUID) (result search.ServiceListResult, err error)
+            ListBySubscription(ctx context.Context, clientRequestID *uuid.UUID) (result search.ServiceListResult, err error)
+            Update(ctx context.Context, resourceGroupName string, searchServiceName string, service search.Service, clientRequestID *uuid.UUID) (result search.Service, err error)
+        }
 
-// QueryKeysClientAPI contains the set of methods on the QueryKeysClient type.
-type QueryKeysClientAPI interface {
-	Create(ctx context.Context, resourceGroupName string, searchServiceName string, name string, clientRequestID *uuid.UUID) (result search.QueryKey, err error)
-	Delete(ctx context.Context, resourceGroupName string, searchServiceName string, key string, clientRequestID *uuid.UUID) (result autorest.Response, err error)
-	ListBySearchService(ctx context.Context, resourceGroupName string, searchServiceName string, clientRequestID *uuid.UUID) (result search.ListQueryKeysResult, err error)
-}
-
-var _ QueryKeysClientAPI = (*search.QueryKeysClient)(nil)
-
-// ServicesClientAPI contains the set of methods on the ServicesClient type.
-type ServicesClientAPI interface {
-	CheckNameAvailability(ctx context.Context, checkNameAvailabilityInput search.CheckNameAvailabilityInput, clientRequestID *uuid.UUID) (result search.CheckNameAvailabilityOutput, err error)
-	CreateOrUpdate(ctx context.Context, resourceGroupName string, searchServiceName string, service search.Service, clientRequestID *uuid.UUID) (result search.ServicesCreateOrUpdateFuture, err error)
-	Delete(ctx context.Context, resourceGroupName string, searchServiceName string, clientRequestID *uuid.UUID) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, searchServiceName string, clientRequestID *uuid.UUID) (result search.Service, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string, clientRequestID *uuid.UUID) (result search.ServiceListResult, err error)
-	ListBySubscription(ctx context.Context, clientRequestID *uuid.UUID) (result search.ServiceListResult, err error)
-	Update(ctx context.Context, resourceGroupName string, searchServiceName string, service search.Service, clientRequestID *uuid.UUID) (result search.Service, err error)
-}
-
-var _ ServicesClientAPI = (*search.ServicesClient)(nil)
+        var _ ServicesClientAPI = (*search.ServicesClient)(nil)

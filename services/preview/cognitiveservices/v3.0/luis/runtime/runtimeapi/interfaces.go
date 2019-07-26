@@ -18,15 +18,15 @@ package runtimeapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/cognitiveservices/v3.0/luis/runtime"
-	"github.com/satori/go.uuid"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/cognitiveservices/v3.0/luis/runtime"
+    "github.com/satori/go.uuid"
 )
 
-// PredictionClientAPI contains the set of methods on the PredictionClient type.
-type PredictionClientAPI interface {
-	GetSlotPrediction(ctx context.Context, appID uuid.UUID, slotName string, predictionRequest runtime.PredictionRequest, verbose *bool, showAllIntents *bool, logParameter *bool) (result runtime.PredictionResponse, err error)
-	GetVersionPrediction(ctx context.Context, appID uuid.UUID, versionID string, predictionRequest runtime.PredictionRequest, verbose *bool, showAllIntents *bool, logParameter *bool) (result runtime.PredictionResponse, err error)
-}
+        // PredictionClientAPI contains the set of methods on the PredictionClient type.
+        type PredictionClientAPI interface {
+            GetSlotPrediction(ctx context.Context, appID uuid.UUID, slotName string, predictionRequest runtime.PredictionRequest, verbose *bool, showAllIntents *bool, logParameter *bool) (result runtime.PredictionResponse, err error)
+            GetVersionPrediction(ctx context.Context, appID uuid.UUID, versionID string, predictionRequest runtime.PredictionRequest, verbose *bool, showAllIntents *bool, logParameter *bool) (result runtime.PredictionResponse, err error)
+        }
 
-var _ PredictionClientAPI = (*runtime.PredictionClient)(nil)
+        var _ PredictionClientAPI = (*runtime.PredictionClient)(nil)

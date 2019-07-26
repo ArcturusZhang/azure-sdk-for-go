@@ -18,31 +18,29 @@ package managementpartnerapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/managementpartner/mgmt/2018-02-01/managementpartner"
-	"github.com/Azure/go-autorest/autorest"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/managementpartner/mgmt/2018-02-01/managementpartner"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// PartnerClientAPI contains the set of methods on the PartnerClient type.
-type PartnerClientAPI interface {
-	Create(ctx context.Context, partnerID string) (result managementpartner.PartnerResponse, err error)
-	Delete(ctx context.Context, partnerID string) (result autorest.Response, err error)
-	Get(ctx context.Context, partnerID string) (result managementpartner.PartnerResponse, err error)
-	Update(ctx context.Context, partnerID string) (result managementpartner.PartnerResponse, err error)
-}
+        // PartnerClientAPI contains the set of methods on the PartnerClient type.
+        type PartnerClientAPI interface {
+            Create(ctx context.Context, partnerID string) (result managementpartner.PartnerResponse, err error)
+            Delete(ctx context.Context, partnerID string) (result autorest.Response, err error)
+            Get(ctx context.Context, partnerID string) (result managementpartner.PartnerResponse, err error)
+            Update(ctx context.Context, partnerID string) (result managementpartner.PartnerResponse, err error)
+        }
 
-var _ PartnerClientAPI = (*managementpartner.PartnerClient)(nil)
+        var _ PartnerClientAPI = (*managementpartner.PartnerClient)(nil)
+        // OperationClientAPI contains the set of methods on the OperationClient type.
+        type OperationClientAPI interface {
+            List(ctx context.Context) (result managementpartner.OperationListPage, err error)
+        }
 
-// OperationClientAPI contains the set of methods on the OperationClient type.
-type OperationClientAPI interface {
-	List(ctx context.Context) (result managementpartner.OperationListPage, err error)
-}
+        var _ OperationClientAPI = (*managementpartner.OperationClient)(nil)
+        // PartnersClientAPI contains the set of methods on the PartnersClient type.
+        type PartnersClientAPI interface {
+            Get(ctx context.Context) (result managementpartner.PartnerResponse, err error)
+        }
 
-var _ OperationClientAPI = (*managementpartner.OperationClient)(nil)
-
-// PartnersClientAPI contains the set of methods on the PartnersClient type.
-type PartnersClientAPI interface {
-	Get(ctx context.Context) (result managementpartner.PartnerResponse, err error)
-}
-
-var _ PartnersClientAPI = (*managementpartner.PartnersClient)(nil)
+        var _ PartnersClientAPI = (*managementpartner.PartnersClient)(nil)

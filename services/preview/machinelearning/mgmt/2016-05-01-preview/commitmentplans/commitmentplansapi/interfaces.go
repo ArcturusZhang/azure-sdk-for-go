@@ -18,49 +18,45 @@ package commitmentplansapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/preview/machinelearning/mgmt/2016-05-01-preview/commitmentplans"
-	"github.com/Azure/go-autorest/autorest"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/preview/machinelearning/mgmt/2016-05-01-preview/commitmentplans"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result commitmentplans.OperationEntityListResult, err error)
-}
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result commitmentplans.OperationEntityListResult, err error)
+        }
 
-var _ OperationsClientAPI = (*commitmentplans.OperationsClient)(nil)
+        var _ OperationsClientAPI = (*commitmentplans.OperationsClient)(nil)
+        // SkusClientAPI contains the set of methods on the SkusClient type.
+        type SkusClientAPI interface {
+            List(ctx context.Context) (result commitmentplans.SkuListResult, err error)
+        }
 
-// SkusClientAPI contains the set of methods on the SkusClient type.
-type SkusClientAPI interface {
-	List(ctx context.Context) (result commitmentplans.SkuListResult, err error)
-}
+        var _ SkusClientAPI = (*commitmentplans.SkusClient)(nil)
+        // CommitmentAssociationsClientAPI contains the set of methods on the CommitmentAssociationsClient type.
+        type CommitmentAssociationsClientAPI interface {
+            Get(ctx context.Context, resourceGroupName string, commitmentPlanName string, commitmentAssociationName string) (result commitmentplans.CommitmentAssociation, err error)
+            List(ctx context.Context, resourceGroupName string, commitmentPlanName string, skipToken string) (result commitmentplans.CommitmentAssociationListResultPage, err error)
+            Move(ctx context.Context, resourceGroupName string, commitmentPlanName string, commitmentAssociationName string, movePayload commitmentplans.MoveCommitmentAssociationRequest) (result commitmentplans.CommitmentAssociation, err error)
+        }
 
-var _ SkusClientAPI = (*commitmentplans.SkusClient)(nil)
+        var _ CommitmentAssociationsClientAPI = (*commitmentplans.CommitmentAssociationsClient)(nil)
+        // ClientAPI contains the set of methods on the Client type.
+        type ClientAPI interface {
+            CreateOrUpdate(ctx context.Context, createOrUpdatePayload commitmentplans.CommitmentPlan, resourceGroupName string, commitmentPlanName string) (result commitmentplans.CommitmentPlan, err error)
+            Get(ctx context.Context, resourceGroupName string, commitmentPlanName string) (result commitmentplans.CommitmentPlan, err error)
+            List(ctx context.Context, skipToken string) (result commitmentplans.ListResultPage, err error)
+            ListInResourceGroup(ctx context.Context, resourceGroupName string, skipToken string) (result commitmentplans.ListResultPage, err error)
+            Patch(ctx context.Context, patchPayload commitmentplans.PatchPayload, resourceGroupName string, commitmentPlanName string) (result commitmentplans.CommitmentPlan, err error)
+            Remove(ctx context.Context, resourceGroupName string, commitmentPlanName string) (result autorest.Response, err error)
+        }
 
-// CommitmentAssociationsClientAPI contains the set of methods on the CommitmentAssociationsClient type.
-type CommitmentAssociationsClientAPI interface {
-	Get(ctx context.Context, resourceGroupName string, commitmentPlanName string, commitmentAssociationName string) (result commitmentplans.CommitmentAssociation, err error)
-	List(ctx context.Context, resourceGroupName string, commitmentPlanName string, skipToken string) (result commitmentplans.CommitmentAssociationListResultPage, err error)
-	Move(ctx context.Context, resourceGroupName string, commitmentPlanName string, commitmentAssociationName string, movePayload commitmentplans.MoveCommitmentAssociationRequest) (result commitmentplans.CommitmentAssociation, err error)
-}
+        var _ ClientAPI = (*commitmentplans.Client)(nil)
+        // UsageHistoryClientAPI contains the set of methods on the UsageHistoryClient type.
+        type UsageHistoryClientAPI interface {
+            List(ctx context.Context, resourceGroupName string, commitmentPlanName string, skipToken string) (result commitmentplans.PlanUsageHistoryListResultPage, err error)
+        }
 
-var _ CommitmentAssociationsClientAPI = (*commitmentplans.CommitmentAssociationsClient)(nil)
-
-// ClientAPI contains the set of methods on the Client type.
-type ClientAPI interface {
-	CreateOrUpdate(ctx context.Context, createOrUpdatePayload commitmentplans.CommitmentPlan, resourceGroupName string, commitmentPlanName string) (result commitmentplans.CommitmentPlan, err error)
-	Get(ctx context.Context, resourceGroupName string, commitmentPlanName string) (result commitmentplans.CommitmentPlan, err error)
-	List(ctx context.Context, skipToken string) (result commitmentplans.ListResultPage, err error)
-	ListInResourceGroup(ctx context.Context, resourceGroupName string, skipToken string) (result commitmentplans.ListResultPage, err error)
-	Patch(ctx context.Context, patchPayload commitmentplans.PatchPayload, resourceGroupName string, commitmentPlanName string) (result commitmentplans.CommitmentPlan, err error)
-	Remove(ctx context.Context, resourceGroupName string, commitmentPlanName string) (result autorest.Response, err error)
-}
-
-var _ ClientAPI = (*commitmentplans.Client)(nil)
-
-// UsageHistoryClientAPI contains the set of methods on the UsageHistoryClient type.
-type UsageHistoryClientAPI interface {
-	List(ctx context.Context, resourceGroupName string, commitmentPlanName string, skipToken string) (result commitmentplans.PlanUsageHistoryListResultPage, err error)
-}
-
-var _ UsageHistoryClientAPI = (*commitmentplans.UsageHistoryClient)(nil)
+        var _ UsageHistoryClientAPI = (*commitmentplans.UsageHistoryClient)(nil)

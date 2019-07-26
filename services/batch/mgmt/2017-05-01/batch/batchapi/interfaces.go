@@ -18,58 +18,54 @@ package batchapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-	"context"
-	"github.com/Azure/azure-sdk-for-go/services/batch/mgmt/2017-05-01/batch"
-	"github.com/Azure/go-autorest/autorest"
+    "context"
+    "github.com/Azure/azure-sdk-for-go/services/batch/mgmt/2017-05-01/batch"
+    "github.com/Azure/go-autorest/autorest"
 )
 
-// AccountClientAPI contains the set of methods on the AccountClient type.
-type AccountClientAPI interface {
-	Create(ctx context.Context, resourceGroupName string, accountName string, parameters batch.AccountCreateParameters) (result batch.AccountCreateFuture, err error)
-	Delete(ctx context.Context, resourceGroupName string, accountName string) (result batch.AccountDeleteFuture, err error)
-	Get(ctx context.Context, resourceGroupName string, accountName string) (result batch.Account, err error)
-	GetKeys(ctx context.Context, resourceGroupName string, accountName string) (result batch.AccountKeys, err error)
-	List(ctx context.Context) (result batch.AccountListResultPage, err error)
-	ListByResourceGroup(ctx context.Context, resourceGroupName string) (result batch.AccountListResultPage, err error)
-	RegenerateKey(ctx context.Context, resourceGroupName string, accountName string, parameters batch.AccountRegenerateKeyParameters) (result batch.AccountKeys, err error)
-	SynchronizeAutoStorageKeys(ctx context.Context, resourceGroupName string, accountName string) (result autorest.Response, err error)
-	Update(ctx context.Context, resourceGroupName string, accountName string, parameters batch.AccountUpdateParameters) (result batch.Account, err error)
-}
+        // AccountClientAPI contains the set of methods on the AccountClient type.
+        type AccountClientAPI interface {
+            Create(ctx context.Context, resourceGroupName string, accountName string, parameters batch.AccountCreateParameters) (result batch.AccountCreateFuture, err error)
+            Delete(ctx context.Context, resourceGroupName string, accountName string) (result batch.AccountDeleteFuture, err error)
+            Get(ctx context.Context, resourceGroupName string, accountName string) (result batch.Account, err error)
+            GetKeys(ctx context.Context, resourceGroupName string, accountName string) (result batch.AccountKeys, err error)
+            List(ctx context.Context) (result batch.AccountListResultPage, err error)
+            ListByResourceGroup(ctx context.Context, resourceGroupName string) (result batch.AccountListResultPage, err error)
+            RegenerateKey(ctx context.Context, resourceGroupName string, accountName string, parameters batch.AccountRegenerateKeyParameters) (result batch.AccountKeys, err error)
+            SynchronizeAutoStorageKeys(ctx context.Context, resourceGroupName string, accountName string) (result autorest.Response, err error)
+            Update(ctx context.Context, resourceGroupName string, accountName string, parameters batch.AccountUpdateParameters) (result batch.Account, err error)
+        }
 
-var _ AccountClientAPI = (*batch.AccountClient)(nil)
+        var _ AccountClientAPI = (*batch.AccountClient)(nil)
+        // ApplicationPackageClientAPI contains the set of methods on the ApplicationPackageClient type.
+        type ApplicationPackageClientAPI interface {
+            Activate(ctx context.Context, resourceGroupName string, accountName string, applicationID string, version string, parameters batch.ActivateApplicationPackageParameters) (result autorest.Response, err error)
+            Create(ctx context.Context, resourceGroupName string, accountName string, applicationID string, version string) (result batch.ApplicationPackage, err error)
+            Delete(ctx context.Context, resourceGroupName string, accountName string, applicationID string, version string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, accountName string, applicationID string, version string) (result batch.ApplicationPackage, err error)
+        }
 
-// ApplicationPackageClientAPI contains the set of methods on the ApplicationPackageClient type.
-type ApplicationPackageClientAPI interface {
-	Activate(ctx context.Context, resourceGroupName string, accountName string, applicationID string, version string, parameters batch.ActivateApplicationPackageParameters) (result autorest.Response, err error)
-	Create(ctx context.Context, resourceGroupName string, accountName string, applicationID string, version string) (result batch.ApplicationPackage, err error)
-	Delete(ctx context.Context, resourceGroupName string, accountName string, applicationID string, version string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, accountName string, applicationID string, version string) (result batch.ApplicationPackage, err error)
-}
+        var _ ApplicationPackageClientAPI = (*batch.ApplicationPackageClient)(nil)
+        // ApplicationClientAPI contains the set of methods on the ApplicationClient type.
+        type ApplicationClientAPI interface {
+            Create(ctx context.Context, resourceGroupName string, accountName string, applicationID string, parameters *batch.ApplicationCreateParameters) (result batch.Application, err error)
+            Delete(ctx context.Context, resourceGroupName string, accountName string, applicationID string) (result autorest.Response, err error)
+            Get(ctx context.Context, resourceGroupName string, accountName string, applicationID string) (result batch.Application, err error)
+            List(ctx context.Context, resourceGroupName string, accountName string, maxresults *int32) (result batch.ListApplicationsResultPage, err error)
+            Update(ctx context.Context, resourceGroupName string, accountName string, applicationID string, parameters batch.ApplicationUpdateParameters) (result autorest.Response, err error)
+        }
 
-var _ ApplicationPackageClientAPI = (*batch.ApplicationPackageClient)(nil)
+        var _ ApplicationClientAPI = (*batch.ApplicationClient)(nil)
+        // LocationClientAPI contains the set of methods on the LocationClient type.
+        type LocationClientAPI interface {
+            CheckNameAvailability(ctx context.Context, locationName string, parameters batch.CheckNameAvailabilityParameters) (result batch.CheckNameAvailabilityResult, err error)
+            GetQuotas(ctx context.Context, locationName string) (result batch.LocationQuota, err error)
+        }
 
-// ApplicationClientAPI contains the set of methods on the ApplicationClient type.
-type ApplicationClientAPI interface {
-	Create(ctx context.Context, resourceGroupName string, accountName string, applicationID string, parameters *batch.ApplicationCreateParameters) (result batch.Application, err error)
-	Delete(ctx context.Context, resourceGroupName string, accountName string, applicationID string) (result autorest.Response, err error)
-	Get(ctx context.Context, resourceGroupName string, accountName string, applicationID string) (result batch.Application, err error)
-	List(ctx context.Context, resourceGroupName string, accountName string, maxresults *int32) (result batch.ListApplicationsResultPage, err error)
-	Update(ctx context.Context, resourceGroupName string, accountName string, applicationID string, parameters batch.ApplicationUpdateParameters) (result autorest.Response, err error)
-}
+        var _ LocationClientAPI = (*batch.LocationClient)(nil)
+        // OperationsClientAPI contains the set of methods on the OperationsClient type.
+        type OperationsClientAPI interface {
+            List(ctx context.Context) (result batch.OperationListResultPage, err error)
+        }
 
-var _ ApplicationClientAPI = (*batch.ApplicationClient)(nil)
-
-// LocationClientAPI contains the set of methods on the LocationClient type.
-type LocationClientAPI interface {
-	CheckNameAvailability(ctx context.Context, locationName string, parameters batch.CheckNameAvailabilityParameters) (result batch.CheckNameAvailabilityResult, err error)
-	GetQuotas(ctx context.Context, locationName string) (result batch.LocationQuota, err error)
-}
-
-var _ LocationClientAPI = (*batch.LocationClient)(nil)
-
-// OperationsClientAPI contains the set of methods on the OperationsClient type.
-type OperationsClientAPI interface {
-	List(ctx context.Context) (result batch.OperationListResultPage, err error)
-}
-
-var _ OperationsClientAPI = (*batch.OperationsClient)(nil)
+        var _ OperationsClientAPI = (*batch.OperationsClient)(nil)
