@@ -58,7 +58,7 @@
 
 | Package Path | Changelog |
 | ---: | :---: |
-| `github.com/Azure/azure-sdk-for-go/services/eventgrid/2018-01-01/eventgrid` | https://github.com/Azure/azure-sdk-for-go/tree/v49.0.0/services/eventgrid/2018-01-01/eventgrid |
+| `github.com/Azure/azure-sdk-for-go/services/eventgrid/2018-01-01/eventgrid` | [detail](https://github.com/Azure/azure-sdk-for-go/tree/v49.0.0/services/eventgrid/2018-01-01/eventgrid) |
 
 ### Breaking Changes
 
