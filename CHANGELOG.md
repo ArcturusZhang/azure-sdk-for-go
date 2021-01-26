@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## `v50.3.0`
+
+### New Packages
+
+- `github.com/Azure/azure-sdk-for-go/services/preview/purview/mgmt/2020-12-01-preview/purview`
+- `github.com/Azure/azure-sdk-for-go/services/preview/quantum/mgmt/2019-11-04-preview/quantum`
+
 ## `v50.2.0`
 
 ### New Packages
@@ -10,7 +17,7 @@
 
 | Package Path | Changelog |
 | :--- | :---: |
-| `github.com/Azure/azure-sdk-for-go/services/hdinsight/mgmt/2018-06-01/hdinsight` | [details](services/hdinsight/mgmt/2018-06-01/hdinsight/CHANGELOG.md) |
+| `github.com/Azure/azure-sdk-for-go/services/hdinsight/mgmt/2018-06-01/hdinsight` | [details](https://github.com/Azure/azure-sdk-for-go/blob/v50.2.0/services/hdinsight/mgmt/2018-06-01/hdinsight/CHANGELOG.md) |
 
 ## `v50.1.0`
 
