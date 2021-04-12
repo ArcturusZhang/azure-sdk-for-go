@@ -9,6 +9,7 @@ package armkeyvault
 
 import (
 	"context"
+	"errors"
 	"github.com/Azure/azure-sdk-for-go/sdk/armcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"net/http"
@@ -19,7 +20,7 @@ import (
 // KeysClient contains the methods for the Keys group.
 // Don't use this type directly, use NewKeysClient() instead.
 type KeysClient struct {
-	con            *armcore.Connection
+	con *armcore.Connection
 	subscriptionID string
 }
 
@@ -49,18 +50,30 @@ func (client *KeysClient) CreateIfNotExist(ctx context.Context, resourceGroupNam
 // createIfNotExistCreateRequest creates the CreateIfNotExist request.
 func (client *KeysClient) createIfNotExistCreateRequest(ctx context.Context, resourceGroupName string, vaultName string, keyName string, parameters KeyCreateParameters, options *KeysCreateIfNotExistOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}"
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
+	if resourceGroupName == "" {
+		return nil, errors.New("parameter resourceGroupName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{resourceGroupName}", url.PathEscape(resourceGroupName))
+	if vaultName == "" {
+		return nil, errors.New("parameter vaultName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{vaultName}", url.PathEscape(vaultName))
+	if keyName == "" {
+		return nil, errors.New("parameter keyName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{keyName}", url.PathEscape(keyName))
 	req, err := azcore.NewRequest(ctx, http.MethodPut, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP := req.URL.Query()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, req.MarshalAsJSON(parameters)
 }
@@ -71,12 +84,12 @@ func (client *KeysClient) createIfNotExistHandleResponse(resp *azcore.Response) 
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return KeyResponse{}, err
 	}
-	return KeyResponse{RawResponse: resp.Response, Key: val}, nil
+return KeyResponse{RawResponse: resp.Response, Key: val}, nil
 }
 
 // createIfNotExistHandleError handles the CreateIfNotExist error response.
 func (client *KeysClient) createIfNotExistHandleError(resp *azcore.Response) error {
-	var err CloudError
+var err CloudError
 	if err := resp.UnmarshalAsJSON(&err); err != nil {
 		return err
 	}
@@ -102,18 +115,30 @@ func (client *KeysClient) Get(ctx context.Context, resourceGroupName string, vau
 // getCreateRequest creates the Get request.
 func (client *KeysClient) getCreateRequest(ctx context.Context, resourceGroupName string, vaultName string, keyName string, options *KeysGetOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}"
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
+	if resourceGroupName == "" {
+		return nil, errors.New("parameter resourceGroupName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{resourceGroupName}", url.PathEscape(resourceGroupName))
+	if vaultName == "" {
+		return nil, errors.New("parameter vaultName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{vaultName}", url.PathEscape(vaultName))
+	if keyName == "" {
+		return nil, errors.New("parameter keyName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{keyName}", url.PathEscape(keyName))
 	req, err := azcore.NewRequest(ctx, http.MethodGet, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP := req.URL.Query()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, nil
 }
@@ -124,12 +149,12 @@ func (client *KeysClient) getHandleResponse(resp *azcore.Response) (KeyResponse,
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return KeyResponse{}, err
 	}
-	return KeyResponse{RawResponse: resp.Response, Key: val}, nil
+return KeyResponse{RawResponse: resp.Response, Key: val}, nil
 }
 
 // getHandleError handles the Get error response.
 func (client *KeysClient) getHandleError(resp *azcore.Response) error {
-	var err CloudError
+var err CloudError
 	if err := resp.UnmarshalAsJSON(&err); err != nil {
 		return err
 	}
@@ -155,19 +180,34 @@ func (client *KeysClient) GetVersion(ctx context.Context, resourceGroupName stri
 // getVersionCreateRequest creates the GetVersion request.
 func (client *KeysClient) getVersionCreateRequest(ctx context.Context, resourceGroupName string, vaultName string, keyName string, keyVersion string, options *KeysGetVersionOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}/versions/{keyVersion}"
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
+	if resourceGroupName == "" {
+		return nil, errors.New("parameter resourceGroupName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{resourceGroupName}", url.PathEscape(resourceGroupName))
+	if vaultName == "" {
+		return nil, errors.New("parameter vaultName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{vaultName}", url.PathEscape(vaultName))
+	if keyName == "" {
+		return nil, errors.New("parameter keyName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{keyName}", url.PathEscape(keyName))
+	if keyVersion == "" {
+		return nil, errors.New("parameter keyVersion cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{keyVersion}", url.PathEscape(keyVersion))
 	req, err := azcore.NewRequest(ctx, http.MethodGet, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP := req.URL.Query()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, nil
 }
@@ -178,12 +218,12 @@ func (client *KeysClient) getVersionHandleResponse(resp *azcore.Response) (KeyRe
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return KeyResponse{}, err
 	}
-	return KeyResponse{RawResponse: resp.Response, Key: val}, nil
+return KeyResponse{RawResponse: resp.Response, Key: val}, nil
 }
 
 // getVersionHandleError handles the GetVersion error response.
 func (client *KeysClient) getVersionHandleError(resp *azcore.Response) error {
-	var err CloudError
+var err CloudError
 	if err := resp.UnmarshalAsJSON(&err); err != nil {
 		return err
 	}
@@ -191,7 +231,7 @@ func (client *KeysClient) getVersionHandleError(resp *azcore.Response) error {
 }
 
 // List - Lists the keys in the specified key vault.
-func (client *KeysClient) List(resourceGroupName string, vaultName string, options *KeysListOptions) KeyListResultPager {
+func (client *KeysClient) List(resourceGroupName string, vaultName string, options *KeysListOptions) (KeyListResultPager) {
 	return &keyListResultPager{
 		pipeline: client.con.Pipeline(),
 		requester: func(ctx context.Context) (*azcore.Request, error) {
@@ -209,17 +249,26 @@ func (client *KeysClient) List(resourceGroupName string, vaultName string, optio
 // listCreateRequest creates the List request.
 func (client *KeysClient) listCreateRequest(ctx context.Context, resourceGroupName string, vaultName string, options *KeysListOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys"
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
+	if resourceGroupName == "" {
+		return nil, errors.New("parameter resourceGroupName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{resourceGroupName}", url.PathEscape(resourceGroupName))
+	if vaultName == "" {
+		return nil, errors.New("parameter vaultName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{vaultName}", url.PathEscape(vaultName))
 	req, err := azcore.NewRequest(ctx, http.MethodGet, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP := req.URL.Query()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, nil
 }
@@ -230,12 +279,12 @@ func (client *KeysClient) listHandleResponse(resp *azcore.Response) (KeyListResu
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return KeyListResultResponse{}, err
 	}
-	return KeyListResultResponse{RawResponse: resp.Response, KeyListResult: val}, nil
+return KeyListResultResponse{RawResponse: resp.Response, KeyListResult: val}, nil
 }
 
 // listHandleError handles the List error response.
 func (client *KeysClient) listHandleError(resp *azcore.Response) error {
-	var err CloudError
+var err CloudError
 	if err := resp.UnmarshalAsJSON(&err); err != nil {
 		return err
 	}
@@ -243,7 +292,7 @@ func (client *KeysClient) listHandleError(resp *azcore.Response) error {
 }
 
 // ListVersions - Lists the versions of the specified key in the specified key vault.
-func (client *KeysClient) ListVersions(resourceGroupName string, vaultName string, keyName string, options *KeysListVersionsOptions) KeyListResultPager {
+func (client *KeysClient) ListVersions(resourceGroupName string, vaultName string, keyName string, options *KeysListVersionsOptions) (KeyListResultPager) {
 	return &keyListResultPager{
 		pipeline: client.con.Pipeline(),
 		requester: func(ctx context.Context) (*azcore.Request, error) {
@@ -261,18 +310,30 @@ func (client *KeysClient) ListVersions(resourceGroupName string, vaultName strin
 // listVersionsCreateRequest creates the ListVersions request.
 func (client *KeysClient) listVersionsCreateRequest(ctx context.Context, resourceGroupName string, vaultName string, keyName string, options *KeysListVersionsOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}/versions"
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
+	if resourceGroupName == "" {
+		return nil, errors.New("parameter resourceGroupName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{resourceGroupName}", url.PathEscape(resourceGroupName))
+	if vaultName == "" {
+		return nil, errors.New("parameter vaultName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{vaultName}", url.PathEscape(vaultName))
+	if keyName == "" {
+		return nil, errors.New("parameter keyName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{keyName}", url.PathEscape(keyName))
 	req, err := azcore.NewRequest(ctx, http.MethodGet, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP := req.URL.Query()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, nil
 }
@@ -283,14 +344,15 @@ func (client *KeysClient) listVersionsHandleResponse(resp *azcore.Response) (Key
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return KeyListResultResponse{}, err
 	}
-	return KeyListResultResponse{RawResponse: resp.Response, KeyListResult: val}, nil
+return KeyListResultResponse{RawResponse: resp.Response, KeyListResult: val}, nil
 }
 
 // listVersionsHandleError handles the ListVersions error response.
 func (client *KeysClient) listVersionsHandleError(resp *azcore.Response) error {
-	var err CloudError
+var err CloudError
 	if err := resp.UnmarshalAsJSON(&err); err != nil {
 		return err
 	}
 	return azcore.NewResponseError(&err, resp.Response)
 }
+

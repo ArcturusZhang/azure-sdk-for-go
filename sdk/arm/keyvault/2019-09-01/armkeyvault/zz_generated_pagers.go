@@ -15,15 +15,10 @@ import (
 
 // DeletedVaultListResultPager provides iteration over DeletedVaultListResult pages.
 type DeletedVaultListResultPager interface {
-	// NextPage returns true if the pager advanced to the next page.
-	// Returns false if there are no more pages or an error occurred.
-	NextPage(context.Context) bool
+	azcore.Pager
 
 	// Page returns the current DeletedVaultListResultResponse.
 	PageResponse() DeletedVaultListResultResponse
-
-	// Err returns the last error encountered while paging.
-	Err() error
 }
 
 type deletedVaultListResultCreateRequest func(context.Context) (*azcore.Request, error)
@@ -65,20 +60,20 @@ func (p *deletedVaultListResultPager) NextPage(ctx context.Context) bool {
 			return false
 		}
 		req, err = p.advancer(ctx, p.current)
-	} else {
+  } else {
 		req, err = p.requester(ctx)
-	}
+  }
 	if err != nil {
 		p.err = err
 		return false
 	}
-	resp, err := p.pipeline.Do(req)
+  	resp, err := p.pipeline.Do(req)
 	if err != nil {
 		p.err = err
 		return false
 	}
 	if !resp.HasStatusCode(p.statusCodes...) {
-		p.err = p.errorer(resp)
+	p.err = p.errorer(resp)
 		return false
 	}
 	result, err := p.responder(resp)
@@ -96,15 +91,10 @@ func (p *deletedVaultListResultPager) PageResponse() DeletedVaultListResultRespo
 
 // KeyListResultPager provides iteration over KeyListResult pages.
 type KeyListResultPager interface {
-	// NextPage returns true if the pager advanced to the next page.
-	// Returns false if there are no more pages or an error occurred.
-	NextPage(context.Context) bool
+	azcore.Pager
 
 	// Page returns the current KeyListResultResponse.
 	PageResponse() KeyListResultResponse
-
-	// Err returns the last error encountered while paging.
-	Err() error
 }
 
 type keyListResultCreateRequest func(context.Context) (*azcore.Request, error)
@@ -146,20 +136,20 @@ func (p *keyListResultPager) NextPage(ctx context.Context) bool {
 			return false
 		}
 		req, err = p.advancer(ctx, p.current)
-	} else {
+  } else {
 		req, err = p.requester(ctx)
-	}
+  }
 	if err != nil {
 		p.err = err
 		return false
 	}
-	resp, err := p.pipeline.Do(req)
+  	resp, err := p.pipeline.Do(req)
 	if err != nil {
 		p.err = err
 		return false
 	}
 	if !resp.HasStatusCode(p.statusCodes...) {
-		p.err = p.errorer(resp)
+	p.err = p.errorer(resp)
 		return false
 	}
 	result, err := p.responder(resp)
@@ -177,15 +167,10 @@ func (p *keyListResultPager) PageResponse() KeyListResultResponse {
 
 // OperationListResultPager provides iteration over OperationListResult pages.
 type OperationListResultPager interface {
-	// NextPage returns true if the pager advanced to the next page.
-	// Returns false if there are no more pages or an error occurred.
-	NextPage(context.Context) bool
+	azcore.Pager
 
 	// Page returns the current OperationListResultResponse.
 	PageResponse() OperationListResultResponse
-
-	// Err returns the last error encountered while paging.
-	Err() error
 }
 
 type operationListResultCreateRequest func(context.Context) (*azcore.Request, error)
@@ -227,20 +212,20 @@ func (p *operationListResultPager) NextPage(ctx context.Context) bool {
 			return false
 		}
 		req, err = p.advancer(ctx, p.current)
-	} else {
+  } else {
 		req, err = p.requester(ctx)
-	}
+  }
 	if err != nil {
 		p.err = err
 		return false
 	}
-	resp, err := p.pipeline.Do(req)
+  	resp, err := p.pipeline.Do(req)
 	if err != nil {
 		p.err = err
 		return false
 	}
 	if !resp.HasStatusCode(p.statusCodes...) {
-		p.err = p.errorer(resp)
+	p.err = p.errorer(resp)
 		return false
 	}
 	result, err := p.responder(resp)
@@ -258,15 +243,10 @@ func (p *operationListResultPager) PageResponse() OperationListResultResponse {
 
 // ResourceListResultPager provides iteration over ResourceListResult pages.
 type ResourceListResultPager interface {
-	// NextPage returns true if the pager advanced to the next page.
-	// Returns false if there are no more pages or an error occurred.
-	NextPage(context.Context) bool
+	azcore.Pager
 
 	// Page returns the current ResourceListResultResponse.
 	PageResponse() ResourceListResultResponse
-
-	// Err returns the last error encountered while paging.
-	Err() error
 }
 
 type resourceListResultCreateRequest func(context.Context) (*azcore.Request, error)
@@ -308,20 +288,20 @@ func (p *resourceListResultPager) NextPage(ctx context.Context) bool {
 			return false
 		}
 		req, err = p.advancer(ctx, p.current)
-	} else {
+  } else {
 		req, err = p.requester(ctx)
-	}
+  }
 	if err != nil {
 		p.err = err
 		return false
 	}
-	resp, err := p.pipeline.Do(req)
+  	resp, err := p.pipeline.Do(req)
 	if err != nil {
 		p.err = err
 		return false
 	}
 	if !resp.HasStatusCode(p.statusCodes...) {
-		p.err = p.errorer(resp)
+	p.err = p.errorer(resp)
 		return false
 	}
 	result, err := p.responder(resp)
@@ -339,15 +319,10 @@ func (p *resourceListResultPager) PageResponse() ResourceListResultResponse {
 
 // VaultListResultPager provides iteration over VaultListResult pages.
 type VaultListResultPager interface {
-	// NextPage returns true if the pager advanced to the next page.
-	// Returns false if there are no more pages or an error occurred.
-	NextPage(context.Context) bool
+	azcore.Pager
 
 	// Page returns the current VaultListResultResponse.
 	PageResponse() VaultListResultResponse
-
-	// Err returns the last error encountered while paging.
-	Err() error
 }
 
 type vaultListResultCreateRequest func(context.Context) (*azcore.Request, error)
@@ -389,20 +364,20 @@ func (p *vaultListResultPager) NextPage(ctx context.Context) bool {
 			return false
 		}
 		req, err = p.advancer(ctx, p.current)
-	} else {
+  } else {
 		req, err = p.requester(ctx)
-	}
+  }
 	if err != nil {
 		p.err = err
 		return false
 	}
-	resp, err := p.pipeline.Do(req)
+  	resp, err := p.pipeline.Do(req)
 	if err != nil {
 		p.err = err
 		return false
 	}
 	if !resp.HasStatusCode(p.statusCodes...) {
-		p.err = p.errorer(resp)
+	p.err = p.errorer(resp)
 		return false
 	}
 	result, err := p.responder(resp)
@@ -417,3 +392,4 @@ func (p *vaultListResultPager) NextPage(ctx context.Context) bool {
 func (p *vaultListResultPager) PageResponse() VaultListResultResponse {
 	return p.current
 }
+

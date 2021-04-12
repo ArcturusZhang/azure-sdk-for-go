@@ -11,7 +11,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"net/http"
+	"reflect"
 	"time"
 )
 
@@ -21,7 +23,7 @@ type AccessPolicyEntry struct {
 	ApplicationID *string `json:"applicationId,omitempty"`
 
 	// The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the
-	// list of access policies.
+// list of access policies.
 	ObjectID *string `json:"objectId,omitempty"`
 
 	// Permissions the identity has for keys, secrets and certificates.
@@ -46,8 +48,8 @@ type Attributes struct {
 	NotBefore *int64 `json:"nbf,omitempty"`
 
 	// READ-ONLY; The deletion recovery level currently in effect for the object. If it contains 'Purgeable', then the object can be permanently deleted by
-	// a privileged user; otherwise, only the system can purge the
-	// object at the end of the retention interval.
+// a privileged user; otherwise, only the system can purge the
+// object at the end of the retention interval.
 	RecoveryLevel *DeletionRecoveryLevel `json:"recoveryLevel,omitempty" azure:"ro"`
 
 	// READ-ONLY; Last updated time in seconds since 1970-01-01T00:00:00Z.
@@ -60,7 +62,7 @@ type CheckNameAvailabilityResult struct {
 	Message *string `json:"message,omitempty" azure:"ro"`
 
 	// READ-ONLY; A boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already
-	// been taken or is invalid and cannot be used.
+// been taken or is invalid and cannot be used.
 	NameAvailable *bool `json:"nameAvailable,omitempty" azure:"ro"`
 
 	// READ-ONLY; The reason that a vault name could not be used. The Reason element is only returned if NameAvailable is false.
@@ -130,7 +132,7 @@ type DeletedVaultListResult struct {
 	NextLink *string `json:"nextLink,omitempty"`
 
 	// The list of deleted vaults.
-	Value *[]DeletedVault `json:"value,omitempty"`
+	Value *[]*DeletedVault `json:"value,omitempty"`
 }
 
 // DeletedVaultListResultResponse is the response envelope for operations that return a DeletedVaultListResult type.
@@ -157,7 +159,7 @@ type DeletedVaultProperties struct {
 	ScheduledPurgeDate *time.Time `json:"scheduledPurgeDate,omitempty" azure:"ro"`
 
 	// READ-ONLY; Tags of the original vault.
-	Tags *map[string]string `json:"tags,omitempty" azure:"ro"`
+	Tags *map[string]*string `json:"tags,omitempty" azure:"ro"`
 
 	// READ-ONLY; The resource id of the original vault.
 	VaultID *string `json:"vaultId,omitempty" azure:"ro"`
@@ -166,24 +168,12 @@ type DeletedVaultProperties struct {
 // MarshalJSON implements the json.Marshaller interface for type DeletedVaultProperties.
 func (d DeletedVaultProperties) MarshalJSON() ([]byte, error) {
 	objectMap := make(map[string]interface{})
-	if d.DeletionDate != nil {
-		objectMap["deletionDate"] = (*timeRFC3339)(d.DeletionDate)
-	}
-	if d.Location != nil {
-		objectMap["location"] = d.Location
-	}
-	if d.PurgeProtectionEnabled != nil {
-		objectMap["purgeProtectionEnabled"] = d.PurgeProtectionEnabled
-	}
-	if d.ScheduledPurgeDate != nil {
-		objectMap["scheduledPurgeDate"] = (*timeRFC3339)(d.ScheduledPurgeDate)
-	}
-	if d.Tags != nil {
-		objectMap["tags"] = d.Tags
-	}
-	if d.VaultID != nil {
-		objectMap["vaultId"] = d.VaultID
-	}
+	populate(objectMap, "deletionDate", (*timeRFC3339)(d.DeletionDate))
+	populate(objectMap, "location", d.Location)
+	populate(objectMap, "purgeProtectionEnabled", d.PurgeProtectionEnabled)
+	populate(objectMap, "scheduledPurgeDate", (*timeRFC3339)(d.ScheduledPurgeDate))
+	populate(objectMap, "tags", d.Tags)
+	populate(objectMap, "vaultId", d.VaultID)
 	return json.Marshal(objectMap)
 }
 
@@ -197,39 +187,27 @@ func (d *DeletedVaultProperties) UnmarshalJSON(data []byte) error {
 		var err error
 		switch key {
 		case "deletionDate":
-			if val != nil {
 				var aux timeRFC3339
-				err = json.Unmarshal(*val, &aux)
+				err = unpopulate(val, &aux)
 				d.DeletionDate = (*time.Time)(&aux)
-			}
-			delete(rawMsg, key)
+				delete(rawMsg, key)
 		case "location":
-			if val != nil {
-				err = json.Unmarshal(*val, &d.Location)
-			}
-			delete(rawMsg, key)
+				err = unpopulate(val, &d.Location)
+				delete(rawMsg, key)
 		case "purgeProtectionEnabled":
-			if val != nil {
-				err = json.Unmarshal(*val, &d.PurgeProtectionEnabled)
-			}
-			delete(rawMsg, key)
+				err = unpopulate(val, &d.PurgeProtectionEnabled)
+				delete(rawMsg, key)
 		case "scheduledPurgeDate":
-			if val != nil {
 				var aux timeRFC3339
-				err = json.Unmarshal(*val, &aux)
+				err = unpopulate(val, &aux)
 				d.ScheduledPurgeDate = (*time.Time)(&aux)
-			}
-			delete(rawMsg, key)
+				delete(rawMsg, key)
 		case "tags":
-			if val != nil {
-				err = json.Unmarshal(*val, &d.Tags)
-			}
-			delete(rawMsg, key)
+				err = unpopulate(val, &d.Tags)
+				delete(rawMsg, key)
 		case "vaultId":
-			if val != nil {
-				err = json.Unmarshal(*val, &d.VaultID)
-			}
-			delete(rawMsg, key)
+				err = unpopulate(val, &d.VaultID)
+				delete(rawMsg, key)
 		}
 		if err != nil {
 			return err
@@ -245,6 +223,18 @@ type DeletedVaultResponse struct {
 
 	// RawResponse contains the underlying HTTP response.
 	RawResponse *http.Response
+}
+
+// Type of operation: get, read, delete, etc.
+type DimensionProperties struct {
+	// Display name of dimension.
+	DisplayName *string `json:"displayName,omitempty"`
+
+	// Name of dimension.
+	Name *string `json:"name,omitempty"`
+
+	// Property to specify whether the dimension should be exported for shoebox.
+	ToBeExportedForShoebox *bool `json:"toBeExportedForShoebox,omitempty"`
 }
 
 // HTTPPollerResponse contains the asynchronous HTTP response from the call to the service endpoint.
@@ -283,7 +273,7 @@ type KeyCreateParameters struct {
 	Properties *KeyProperties `json:"properties,omitempty"`
 
 	// The tags that will be assigned to the key.
-	Tags *map[string]string `json:"tags,omitempty"`
+	Tags *map[string]*string `json:"tags,omitempty"`
 }
 
 // The page of keys.
@@ -292,7 +282,7 @@ type KeyListResult struct {
 	NextLink *string `json:"nextLink,omitempty"`
 
 	// The key resources.
-	Value *[]Key `json:"value,omitempty"`
+	Value *[]*Key `json:"value,omitempty"`
 }
 
 // KeyListResultResponse is the response envelope for operations that return a KeyListResult type.
@@ -307,11 +297,11 @@ type KeyListResultResponse struct {
 // The properties of the key.
 type KeyProperties struct {
 	// The attributes of the key.
-	Attributes *Attributes `json:"attributes,omitempty"`
+	Attributes *KeyAttributes `json:"attributes,omitempty"`
 
 	// The elliptic curve name. For valid values, see JsonWebKeyCurveName.
-	CurveName *JSONWebKeyCurveName   `json:"curveName,omitempty"`
-	KeyOps    *[]JSONWebKeyOperation `json:"keyOps,omitempty"`
+	CurveName *JSONWebKeyCurveName `json:"curveName,omitempty"`
+	KeyOps *[]*JSONWebKeyOperation `json:"keyOps,omitempty"`
 
 	// The key size in bits. For example: 2048, 3072, or 4096 for RSA.
 	KeySize *int32 `json:"keySize,omitempty"`
@@ -372,6 +362,42 @@ type LogSpecification struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// Metric specification of operation.
+type MetricSpecification struct {
+	// The metric aggregation type. Possible values include: 'Average', 'Count', 'Total'.
+	AggregationType *string `json:"aggregationType,omitempty"`
+
+	// The dimensions of metric
+	Dimensions *[]*DimensionProperties `json:"dimensions,omitempty"`
+
+	// Display description of Metric specification.
+	DisplayDescription *string `json:"displayDescription,omitempty"`
+
+	// Display name of Metric specification.
+	DisplayName *string `json:"displayName,omitempty"`
+
+	// Property to specify whether to fill gap with zero.
+	FillGapWithZero *bool `json:"fillGapWithZero,omitempty"`
+
+	// The internal metric name.
+	InternalMetricName *string `json:"internalMetricName,omitempty"`
+
+	// The metric lock aggregation type.
+	LockAggregationType *string `json:"lockAggregationType,omitempty"`
+
+	// Name of metric specification.
+	Name *string `json:"name,omitempty"`
+
+	// The supported aggregation types for the metrics.
+	SupportedAggregationTypes *[]*string `json:"supportedAggregationTypes,omitempty"`
+
+	// The supported time grain types for the metrics.
+	SupportedTimeGrainTypes *[]*string `json:"supportedTimeGrainTypes,omitempty"`
+
+	// The metric unit. Possible values include: 'Bytes', 'Count', 'Milliseconds'.
+	Unit *string `json:"unit,omitempty"`
+}
+
 // A set of rules governing the network accessibility of a vault.
 type NetworkRuleSet struct {
 	// Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'. If not specified the default is 'AzureServices'.
@@ -381,10 +407,10 @@ type NetworkRuleSet struct {
 	DefaultAction *NetworkRuleAction `json:"defaultAction,omitempty"`
 
 	// The list of IP address rules.
-	IPRules *[]IPRule `json:"ipRules,omitempty"`
+	IPRules *[]*IPRule `json:"ipRules,omitempty"`
 
 	// The list of virtual network rules.
-	VirtualNetworkRules *[]VirtualNetworkRule `json:"virtualNetworkRules,omitempty"`
+	VirtualNetworkRules *[]*VirtualNetworkRule `json:"virtualNetworkRules,omitempty"`
 }
 
 // Key Vault REST API operation definition.
@@ -426,7 +452,7 @@ type OperationListResult struct {
 	NextLink *string `json:"nextLink,omitempty"`
 
 	// List of Storage operations supported by the Storage resource provider.
-	Value *[]Operation `json:"value,omitempty"`
+	Value *[]*Operation `json:"value,omitempty"`
 }
 
 // OperationListResultResponse is the response envelope for operations that return a OperationListResult type.
@@ -452,16 +478,16 @@ type OperationsListOptions struct {
 // Permissions the identity has for keys, secrets, certificates and storage.
 type Permissions struct {
 	// Permissions to certificates
-	Certificates *[]CertificatePermissions `json:"certificates,omitempty"`
+	Certificates *[]*CertificatePermissions `json:"certificates,omitempty"`
 
 	// Permissions to keys
-	Keys *[]KeyPermissions `json:"keys,omitempty"`
+	Keys *[]*KeyPermissions `json:"keys,omitempty"`
 
 	// Permissions to secrets
-	Secrets *[]SecretPermissions `json:"secrets,omitempty"`
+	Secrets *[]*SecretPermissions `json:"secrets,omitempty"`
 
 	// Permissions to storage accounts
-	Storage *[]StoragePermissions `json:"storage,omitempty"`
+	Storage *[]*StoragePermissions `json:"storage,omitempty"`
 }
 
 // Private endpoint object properties.
@@ -482,6 +508,12 @@ type PrivateEndpointConnection struct {
 
 // Private endpoint connection item.
 type PrivateEndpointConnectionItem struct {
+	// Modified whenever there is a change in the state of private endpoint connection.
+	Etag *string `json:"etag,omitempty"`
+
+	// Id of private endpoint connection.
+	ID *string `json:"id,omitempty"`
+
 	// Private endpoint connection properties.
 	Properties *PrivateEndpointConnectionProperties `json:"properties,omitempty"`
 }
@@ -550,7 +582,7 @@ type PrivateLinkResource struct {
 // A list of private link resources
 type PrivateLinkResourceListResult struct {
 	// Array of private link resources
-	Value *[]PrivateLinkResource `json:"value,omitempty"`
+	Value *[]*PrivateLinkResource `json:"value,omitempty"`
 }
 
 // PrivateLinkResourceListResultResponse is the response envelope for operations that return a PrivateLinkResourceListResult type.
@@ -568,10 +600,10 @@ type PrivateLinkResourceProperties struct {
 	GroupID *string `json:"groupId,omitempty" azure:"ro"`
 
 	// READ-ONLY; Required member names of private link resource.
-	RequiredMembers *[]string `json:"requiredMembers,omitempty" azure:"ro"`
+	RequiredMembers *[]*string `json:"requiredMembers,omitempty" azure:"ro"`
 
 	// Required DNS zone names of the the private link resource.
-	RequiredZoneNames *[]string `json:"requiredZoneNames,omitempty"`
+	RequiredZoneNames *[]*string `json:"requiredZoneNames,omitempty"`
 }
 
 // PrivateLinkResourcesListByVaultOptions contains the optional parameters for the PrivateLinkResources.ListByVault method.
@@ -603,7 +635,7 @@ type Resource struct {
 	Name *string `json:"name,omitempty" azure:"ro"`
 
 	// READ-ONLY; Tags assigned to the key vault resource.
-	Tags *map[string]string `json:"tags,omitempty" azure:"ro"`
+	Tags *map[string]*string `json:"tags,omitempty" azure:"ro"`
 
 	// READ-ONLY; Resource type of the key vault resource.
 	Type *string `json:"type,omitempty" azure:"ro"`
@@ -615,7 +647,7 @@ type ResourceListResult struct {
 	NextLink *string `json:"nextLink,omitempty"`
 
 	// The list of vault resources.
-	Value *[]Resource `json:"value,omitempty"`
+	Value *[]*Resource `json:"value,omitempty"`
 }
 
 // ResourceListResultResponse is the response envelope for operations that return a ResourceListResult type.
@@ -639,7 +671,10 @@ type SKU struct {
 // One property of operation, include log specifications.
 type ServiceSpecification struct {
 	// Log specifications of operation.
-	LogSpecifications *[]LogSpecification `json:"logSpecifications,omitempty"`
+	LogSpecifications *[]*LogSpecification `json:"logSpecifications,omitempty"`
+
+	// Metric specifications of operation.
+	MetricSpecifications *[]*MetricSpecification `json:"metricSpecifications,omitempty"`
 }
 
 // Resource information with extended details.
@@ -657,7 +692,7 @@ type Vault struct {
 	Properties *VaultProperties `json:"properties,omitempty"`
 
 	// Tags assigned to the key vault resource.
-	Tags *map[string]string `json:"tags,omitempty"`
+	Tags *map[string]*string `json:"tags,omitempty"`
 
 	// READ-ONLY; Resource type of the key vault resource.
 	Type *string `json:"type,omitempty" azure:"ro"`
@@ -693,7 +728,7 @@ type VaultAccessPolicyParametersResponse struct {
 // Properties of the vault access policy
 type VaultAccessPolicyProperties struct {
 	// An array of 0 to 16 identities that have access to the key vault. All identities in the array must use the same tenant ID as the key vault's tenant ID.
-	AccessPolicies *[]AccessPolicyEntry `json:"accessPolicies,omitempty"`
+	AccessPolicies *[]*AccessPolicyEntry `json:"accessPolicies,omitempty"`
 }
 
 // The parameters used to check the availability of the vault name.
@@ -714,7 +749,7 @@ type VaultCreateOrUpdateParameters struct {
 	Properties *VaultProperties `json:"properties,omitempty"`
 
 	// The tags that will be assigned to the key vault.
-	Tags *map[string]string `json:"tags,omitempty"`
+	Tags *map[string]*string `json:"tags,omitempty"`
 }
 
 // List of vaults
@@ -723,7 +758,7 @@ type VaultListResult struct {
 	NextLink *string `json:"nextLink,omitempty"`
 
 	// The list of vaults.
-	Value *[]Vault `json:"value,omitempty"`
+	Value *[]*Vault `json:"value,omitempty"`
 }
 
 // VaultListResultResponse is the response envelope for operations that return a VaultListResult type.
@@ -741,29 +776,37 @@ type VaultPatchParameters struct {
 	Properties *VaultPatchProperties `json:"properties,omitempty"`
 
 	// The tags that will be assigned to the key vault.
-	Tags *map[string]string `json:"tags,omitempty"`
+	Tags *map[string]*string `json:"tags,omitempty"`
+}
+
+// MarshalJSON implements the json.Marshaller interface for type VaultPatchParameters.
+func (v VaultPatchParameters) MarshalJSON() ([]byte, error) {
+	objectMap := make(map[string]interface{})
+	populate(objectMap, "properties", v.Properties)
+	populate(objectMap, "tags", v.Tags)
+	return json.Marshal(objectMap)
 }
 
 // Properties of the vault
 type VaultPatchProperties struct {
 	// An array of 0 to 16 identities that have access to the key vault. All identities in the array must use the same tenant ID as the key vault's tenant ID.
-	AccessPolicies *[]AccessPolicyEntry `json:"accessPolicies,omitempty"`
+	AccessPolicies *[]*AccessPolicyEntry `json:"accessPolicies,omitempty"`
 
 	// The vault's create mode to indicate whether the vault need to be recovered or not.
 	CreateMode *CreateMode `json:"createMode,omitempty"`
 
 	// Property specifying whether protection against purge is enabled for this vault. Setting this property to true activates protection against purge for
-	// this vault and its content - only the Key Vault
-	// service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible
-	// - that is, the property does not accept
-	// false as its value.
+// this vault and its content - only the Key Vault
+// service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible
+// - that is, the property does not accept
+// false as its value.
 	EnablePurgeProtection *bool `json:"enablePurgeProtection,omitempty"`
 
 	// Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data
-	// actions, and the access policies specified in vault
-	// properties will be ignored (warning: this is a preview feature). When false, the key vault will use the access policies specified in vault properties,
-	// and any policy stored on Azure Resource Manager
-	// will be ignored. If null or not specified, the value of this property will not change.
+// actions, and the access policies specified in vault
+// properties will be ignored (warning: this is a preview feature). When false, the key vault will use the access policies specified in vault properties,
+// and any policy stored on Azure Resource Manager
+// will be ignored. If null or not specified, the value of this property will not change.
 	EnableRbacAuthorization *bool `json:"enableRbacAuthorization,omitempty"`
 
 	// Property to specify whether the 'soft delete' functionality is enabled for this key vault. Once set to true, it cannot be reverted to false.
@@ -806,31 +849,31 @@ type VaultPollerResponse struct {
 // Properties of the vault
 type VaultProperties struct {
 	// An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use the same tenant ID as the key vault's tenant
-	// ID. When createMode is set to recover, access
-	// policies are not required. Otherwise, access policies are required.
-	AccessPolicies *[]AccessPolicyEntry `json:"accessPolicies,omitempty"`
+// ID. When createMode is set to recover, access
+// policies are not required. Otherwise, access policies are required.
+	AccessPolicies *[]*AccessPolicyEntry `json:"accessPolicies,omitempty"`
 
 	// The vault's create mode to indicate whether the vault need to be recovered or not.
 	CreateMode *CreateMode `json:"createMode,omitempty"`
 
 	// Property specifying whether protection against purge is enabled for this vault. Setting this property to true activates protection against purge for
-	// this vault and its content - only the Key Vault
-	// service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible
-	// - that is, the property does not accept
-	// false as its value.
+// this vault and its content - only the Key Vault
+// service may initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this functionality is irreversible
+// - that is, the property does not accept
+// false as its value.
 	EnablePurgeProtection *bool `json:"enablePurgeProtection,omitempty"`
 
 	// Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data
-	// actions, and the access policies specified in vault
-	// properties will be ignored (warning: this is a preview feature). When false, the key vault will use the access policies specified in vault properties,
-	// and any policy stored on Azure Resource Manager
-	// will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with
-	// RBAC.
+// actions, and the access policies specified in vault
+// properties will be ignored (warning: this is a preview feature). When false, the key vault will use the access policies specified in vault properties,
+// and any policy stored on Azure Resource Manager
+// will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with
+// RBAC.
 	EnableRbacAuthorization *bool `json:"enableRbacAuthorization,omitempty"`
 
 	// Property to specify whether the 'soft delete' functionality is enabled for this key vault. If it's not set to any value(true or false) when creating
-	// new key vault, it will be set to true by default.
-	// Once set to true, it cannot be reverted to false.
+// new key vault, it will be set to true by default.
+// Once set to true, it cannot be reverted to false.
 	EnableSoftDelete *bool `json:"enableSoftDelete,omitempty"`
 
 	// Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault.
@@ -842,11 +885,14 @@ type VaultProperties struct {
 	// Property to specify whether Azure Resource Manager is permitted to retrieve secrets from the key vault.
 	EnabledForTemplateDeployment *bool `json:"enabledForTemplateDeployment,omitempty"`
 
+	// READ-ONLY; The resource id of HSM Pool.
+	HsmPoolResourceID *string `json:"hsmPoolResourceId,omitempty" azure:"ro"`
+
 	// Rules governing the accessibility of the key vault from specific network locations.
 	NetworkACLs *NetworkRuleSet `json:"networkAcls,omitempty"`
 
 	// READ-ONLY; List of private endpoint connections associated with the key vault.
-	PrivateEndpointConnections *[]PrivateEndpointConnectionItem `json:"privateEndpointConnections,omitempty" azure:"ro"`
+	PrivateEndpointConnections *[]*PrivateEndpointConnectionItem `json:"privateEndpointConnections,omitempty" azure:"ro"`
 
 	// Provisioning state of the vault.
 	ProvisioningState *VaultProvisioningState `json:"provisioningState,omitempty"`
@@ -940,4 +986,23 @@ type VaultsUpdateOptions struct {
 type VirtualNetworkRule struct {
 	// Full resource id of a vnet subnet, such as '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
 	ID *string `json:"id,omitempty"`
+
+	// Property to specify whether NRP will ignore the check if parent subnet has serviceEndpoints configured.
+	IgnoreMissingVnetServiceEndpoint *bool `json:"ignoreMissingVnetServiceEndpoint,omitempty"`
 }
+
+func populate(m map[string]interface{}, k string, v interface{}) {
+	if azcore.IsNullValue(v) {
+		m[k] = nil
+	} else if !reflect.ValueOf(v).IsNil() {
+		m[k] = v
+	}
+}
+
+func unpopulate(data *json.RawMessage, v interface{}) error {
+	if data == nil {
+		return nil
+	}
+	return json.Unmarshal(*data, v)
+}
+

@@ -9,11 +9,8 @@ package armkeyvault
 
 import (
 	"context"
-	"errors"
-	"fmt"
 	"github.com/Azure/azure-sdk-for-go/sdk/armcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -29,7 +26,7 @@ func NewOperationsClient(con *armcore.Connection) *OperationsClient {
 }
 
 // List - Lists all of the available Key Vault Rest API operations.
-func (client *OperationsClient) List(options *OperationsListOptions) OperationListResultPager {
+func (client *OperationsClient) List(options *OperationsListOptions) (OperationListResultPager) {
 	return &operationListResultPager{
 		pipeline: client.con.Pipeline(),
 		requester: func(ctx context.Context) (*azcore.Request, error) {
@@ -52,9 +49,9 @@ func (client *OperationsClient) listCreateRequest(ctx context.Context, options *
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP := req.URL.Query()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, nil
 }
@@ -65,17 +62,15 @@ func (client *OperationsClient) listHandleResponse(resp *azcore.Response) (Opera
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return OperationListResultResponse{}, err
 	}
-	return OperationListResultResponse{RawResponse: resp.Response, OperationListResult: val}, nil
+return OperationListResultResponse{RawResponse: resp.Response, OperationListResult: val}, nil
 }
 
 // listHandleError handles the List error response.
 func (client *OperationsClient) listHandleError(resp *azcore.Response) error {
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return fmt.Errorf("%s; failed to read response body: %w", resp.Status, err)
+var err CloudError
+	if err := resp.UnmarshalAsJSON(&err); err != nil {
+		return err
 	}
-	if len(body) == 0 {
-		return azcore.NewResponseError(errors.New(resp.Status), resp.Response)
-	}
-	return azcore.NewResponseError(errors.New(string(body)), resp.Response)
+	return azcore.NewResponseError(&err, resp.Response)
 }
+

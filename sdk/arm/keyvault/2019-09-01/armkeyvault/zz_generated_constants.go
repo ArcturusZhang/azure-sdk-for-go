@@ -10,20 +10,21 @@ package armkeyvault
 type AccessPolicyUpdateKind string
 
 const (
-	AccessPolicyUpdateKindAdd     AccessPolicyUpdateKind = "add"
+	AccessPolicyUpdateKindAdd AccessPolicyUpdateKind = "add"
 	AccessPolicyUpdateKindReplace AccessPolicyUpdateKind = "replace"
-	AccessPolicyUpdateKindRemove  AccessPolicyUpdateKind = "remove"
+	AccessPolicyUpdateKindRemove AccessPolicyUpdateKind = "remove"
 )
 
 // PossibleAccessPolicyUpdateKindValues returns the possible values for the AccessPolicyUpdateKind const type.
 func PossibleAccessPolicyUpdateKindValues() []AccessPolicyUpdateKind {
-	return []AccessPolicyUpdateKind{
+	return []AccessPolicyUpdateKind{	
 		AccessPolicyUpdateKindAdd,
 		AccessPolicyUpdateKindReplace,
 		AccessPolicyUpdateKindRemove,
 	}
 }
 
+// ToPtr() returns a *AccessPolicyUpdateKind pointing to the current value.
 func (c AccessPolicyUpdateKind) ToPtr() *AccessPolicyUpdateKind {
 	return &c
 }
@@ -31,28 +32,28 @@ func (c AccessPolicyUpdateKind) ToPtr() *AccessPolicyUpdateKind {
 type CertificatePermissions string
 
 const (
-	CertificatePermissionsAll            CertificatePermissions = "all"
-	CertificatePermissionsBackup         CertificatePermissions = "backup"
-	CertificatePermissionsCreate         CertificatePermissions = "create"
-	CertificatePermissionsDelete         CertificatePermissions = "delete"
-	CertificatePermissionsDeleteissuers  CertificatePermissions = "deleteissuers"
-	CertificatePermissionsGet            CertificatePermissions = "get"
-	CertificatePermissionsGetissuers     CertificatePermissions = "getissuers"
-	CertificatePermissionsImport         CertificatePermissions = "import"
-	CertificatePermissionsList           CertificatePermissions = "list"
-	CertificatePermissionsListissuers    CertificatePermissions = "listissuers"
+	CertificatePermissionsAll CertificatePermissions = "all"
+	CertificatePermissionsBackup CertificatePermissions = "backup"
+	CertificatePermissionsCreate CertificatePermissions = "create"
+	CertificatePermissionsDelete CertificatePermissions = "delete"
+	CertificatePermissionsDeleteissuers CertificatePermissions = "deleteissuers"
+	CertificatePermissionsGet CertificatePermissions = "get"
+	CertificatePermissionsGetissuers CertificatePermissions = "getissuers"
+	CertificatePermissionsImport CertificatePermissions = "import"
+	CertificatePermissionsList CertificatePermissions = "list"
+	CertificatePermissionsListissuers CertificatePermissions = "listissuers"
 	CertificatePermissionsManagecontacts CertificatePermissions = "managecontacts"
-	CertificatePermissionsManageissuers  CertificatePermissions = "manageissuers"
-	CertificatePermissionsPurge          CertificatePermissions = "purge"
-	CertificatePermissionsRecover        CertificatePermissions = "recover"
-	CertificatePermissionsRestore        CertificatePermissions = "restore"
-	CertificatePermissionsSetissuers     CertificatePermissions = "setissuers"
-	CertificatePermissionsUpdate         CertificatePermissions = "update"
+	CertificatePermissionsManageissuers CertificatePermissions = "manageissuers"
+	CertificatePermissionsPurge CertificatePermissions = "purge"
+	CertificatePermissionsRecover CertificatePermissions = "recover"
+	CertificatePermissionsRestore CertificatePermissions = "restore"
+	CertificatePermissionsSetissuers CertificatePermissions = "setissuers"
+	CertificatePermissionsUpdate CertificatePermissions = "update"
 )
 
 // PossibleCertificatePermissionsValues returns the possible values for the CertificatePermissions const type.
 func PossibleCertificatePermissionsValues() []CertificatePermissions {
-	return []CertificatePermissions{
+	return []CertificatePermissions{	
 		CertificatePermissionsAll,
 		CertificatePermissionsBackup,
 		CertificatePermissionsCreate,
@@ -73,6 +74,7 @@ func PossibleCertificatePermissionsValues() []CertificatePermissions {
 	}
 }
 
+// ToPtr() returns a *CertificatePermissions pointing to the current value.
 func (c CertificatePermissions) ToPtr() *CertificatePermissions {
 	return &c
 }
@@ -87,12 +89,13 @@ const (
 
 // PossibleCreateModeValues returns the possible values for the CreateMode const type.
 func PossibleCreateModeValues() []CreateMode {
-	return []CreateMode{
+	return []CreateMode{	
 		CreateModeRecover,
 		CreateModeDefault,
 	}
 }
 
+// ToPtr() returns a *CreateMode pointing to the current value.
 func (c CreateMode) ToPtr() *CreateMode {
 	return &c
 }
@@ -103,15 +106,15 @@ func (c CreateMode) ToPtr() *CreateMode {
 type DeletionRecoveryLevel string
 
 const (
-	DeletionRecoveryLevelPurgeable                        DeletionRecoveryLevel = "Purgeable"
-	DeletionRecoveryLevelRecoverable                      DeletionRecoveryLevel = "Recoverable"
+	DeletionRecoveryLevelPurgeable DeletionRecoveryLevel = "Purgeable"
+	DeletionRecoveryLevelRecoverable DeletionRecoveryLevel = "Recoverable"
 	DeletionRecoveryLevelRecoverableProtectedSubscription DeletionRecoveryLevel = "Recoverable+ProtectedSubscription"
-	DeletionRecoveryLevelRecoverablePurgeable             DeletionRecoveryLevel = "Recoverable+Purgeable"
+	DeletionRecoveryLevelRecoverablePurgeable DeletionRecoveryLevel = "Recoverable+Purgeable"
 )
 
 // PossibleDeletionRecoveryLevelValues returns the possible values for the DeletionRecoveryLevel const type.
 func PossibleDeletionRecoveryLevelValues() []DeletionRecoveryLevel {
-	return []DeletionRecoveryLevel{
+	return []DeletionRecoveryLevel{	
 		DeletionRecoveryLevelPurgeable,
 		DeletionRecoveryLevelRecoverable,
 		DeletionRecoveryLevelRecoverableProtectedSubscription,
@@ -119,6 +122,7 @@ func PossibleDeletionRecoveryLevelValues() []DeletionRecoveryLevel {
 	}
 }
 
+// ToPtr() returns a *DeletionRecoveryLevel pointing to the current value.
 func (c DeletionRecoveryLevel) ToPtr() *DeletionRecoveryLevel {
 	return &c
 }
@@ -127,15 +131,15 @@ func (c DeletionRecoveryLevel) ToPtr() *DeletionRecoveryLevel {
 type JSONWebKeyCurveName string
 
 const (
-	JSONWebKeyCurveNameP256  JSONWebKeyCurveName = "P-256"
+	JSONWebKeyCurveNameP256 JSONWebKeyCurveName = "P-256"
 	JSONWebKeyCurveNameP256K JSONWebKeyCurveName = "P-256K"
-	JSONWebKeyCurveNameP384  JSONWebKeyCurveName = "P-384"
-	JSONWebKeyCurveNameP521  JSONWebKeyCurveName = "P-521"
+	JSONWebKeyCurveNameP384 JSONWebKeyCurveName = "P-384"
+	JSONWebKeyCurveNameP521 JSONWebKeyCurveName = "P-521"
 )
 
 // PossibleJSONWebKeyCurveNameValues returns the possible values for the JSONWebKeyCurveName const type.
 func PossibleJSONWebKeyCurveNameValues() []JSONWebKeyCurveName {
-	return []JSONWebKeyCurveName{
+	return []JSONWebKeyCurveName{	
 		JSONWebKeyCurveNameP256,
 		JSONWebKeyCurveNameP256K,
 		JSONWebKeyCurveNameP384,
@@ -143,6 +147,7 @@ func PossibleJSONWebKeyCurveNameValues() []JSONWebKeyCurveName {
 	}
 }
 
+// ToPtr() returns a *JSONWebKeyCurveName pointing to the current value.
 func (c JSONWebKeyCurveName) ToPtr() *JSONWebKeyCurveName {
 	return &c
 }
@@ -151,18 +156,18 @@ func (c JSONWebKeyCurveName) ToPtr() *JSONWebKeyCurveName {
 type JSONWebKeyOperation string
 
 const (
-	JSONWebKeyOperationDecrypt   JSONWebKeyOperation = "decrypt"
-	JSONWebKeyOperationEncrypt   JSONWebKeyOperation = "encrypt"
-	JSONWebKeyOperationImport    JSONWebKeyOperation = "import"
-	JSONWebKeyOperationSign      JSONWebKeyOperation = "sign"
+	JSONWebKeyOperationDecrypt JSONWebKeyOperation = "decrypt"
+	JSONWebKeyOperationEncrypt JSONWebKeyOperation = "encrypt"
+	JSONWebKeyOperationImport JSONWebKeyOperation = "import"
+	JSONWebKeyOperationSign JSONWebKeyOperation = "sign"
 	JSONWebKeyOperationUnwrapKey JSONWebKeyOperation = "unwrapKey"
-	JSONWebKeyOperationVerify    JSONWebKeyOperation = "verify"
-	JSONWebKeyOperationWrapKey   JSONWebKeyOperation = "wrapKey"
+	JSONWebKeyOperationVerify JSONWebKeyOperation = "verify"
+	JSONWebKeyOperationWrapKey JSONWebKeyOperation = "wrapKey"
 )
 
 // PossibleJSONWebKeyOperationValues returns the possible values for the JSONWebKeyOperation const type.
 func PossibleJSONWebKeyOperationValues() []JSONWebKeyOperation {
-	return []JSONWebKeyOperation{
+	return []JSONWebKeyOperation{	
 		JSONWebKeyOperationDecrypt,
 		JSONWebKeyOperationEncrypt,
 		JSONWebKeyOperationImport,
@@ -173,6 +178,7 @@ func PossibleJSONWebKeyOperationValues() []JSONWebKeyOperation {
 	}
 }
 
+// ToPtr() returns a *JSONWebKeyOperation pointing to the current value.
 func (c JSONWebKeyOperation) ToPtr() *JSONWebKeyOperation {
 	return &c
 }
@@ -181,22 +187,23 @@ func (c JSONWebKeyOperation) ToPtr() *JSONWebKeyOperation {
 type JSONWebKeyType string
 
 const (
-	JSONWebKeyTypeEc     JSONWebKeyType = "EC"
-	JSONWebKeyTypeEchsm  JSONWebKeyType = "EC-HSM"
-	JSONWebKeyTypeRsa    JSONWebKeyType = "RSA"
-	JSONWebKeyTypeRsahsm JSONWebKeyType = "RSA-HSM"
+	JSONWebKeyTypeEC JSONWebKeyType = "EC"
+	JSONWebKeyTypeECHSM JSONWebKeyType = "EC-HSM"
+	JSONWebKeyTypeRSA JSONWebKeyType = "RSA"
+	JSONWebKeyTypeRSAHSM JSONWebKeyType = "RSA-HSM"
 )
 
 // PossibleJSONWebKeyTypeValues returns the possible values for the JSONWebKeyType const type.
 func PossibleJSONWebKeyTypeValues() []JSONWebKeyType {
-	return []JSONWebKeyType{
-		JSONWebKeyTypeEc,
-		JSONWebKeyTypeEchsm,
-		JSONWebKeyTypeRsa,
-		JSONWebKeyTypeRsahsm,
+	return []JSONWebKeyType{	
+		JSONWebKeyTypeEC,
+		JSONWebKeyTypeECHSM,
+		JSONWebKeyTypeRSA,
+		JSONWebKeyTypeRSAHSM,
 	}
 }
 
+// ToPtr() returns a *JSONWebKeyType pointing to the current value.
 func (c JSONWebKeyType) ToPtr() *JSONWebKeyType {
 	return &c
 }
@@ -204,28 +211,28 @@ func (c JSONWebKeyType) ToPtr() *JSONWebKeyType {
 type KeyPermissions string
 
 const (
-	KeyPermissionsAll       KeyPermissions = "all"
-	KeyPermissionsBackup    KeyPermissions = "backup"
-	KeyPermissionsCreate    KeyPermissions = "create"
-	KeyPermissionsDecrypt   KeyPermissions = "decrypt"
-	KeyPermissionsDelete    KeyPermissions = "delete"
-	KeyPermissionsEncrypt   KeyPermissions = "encrypt"
-	KeyPermissionsGet       KeyPermissions = "get"
-	KeyPermissionsImport    KeyPermissions = "import"
-	KeyPermissionsList      KeyPermissions = "list"
-	KeyPermissionsPurge     KeyPermissions = "purge"
-	KeyPermissionsRecover   KeyPermissions = "recover"
-	KeyPermissionsRestore   KeyPermissions = "restore"
-	KeyPermissionsSign      KeyPermissions = "sign"
+	KeyPermissionsAll KeyPermissions = "all"
+	KeyPermissionsBackup KeyPermissions = "backup"
+	KeyPermissionsCreate KeyPermissions = "create"
+	KeyPermissionsDecrypt KeyPermissions = "decrypt"
+	KeyPermissionsDelete KeyPermissions = "delete"
+	KeyPermissionsEncrypt KeyPermissions = "encrypt"
+	KeyPermissionsGet KeyPermissions = "get"
+	KeyPermissionsImport KeyPermissions = "import"
+	KeyPermissionsList KeyPermissions = "list"
+	KeyPermissionsPurge KeyPermissions = "purge"
+	KeyPermissionsRecover KeyPermissions = "recover"
+	KeyPermissionsRestore KeyPermissions = "restore"
+	KeyPermissionsSign KeyPermissions = "sign"
 	KeyPermissionsUnwrapKey KeyPermissions = "unwrapKey"
-	KeyPermissionsUpdate    KeyPermissions = "update"
-	KeyPermissionsVerify    KeyPermissions = "verify"
-	KeyPermissionsWrapKey   KeyPermissions = "wrapKey"
+	KeyPermissionsUpdate KeyPermissions = "update"
+	KeyPermissionsVerify KeyPermissions = "verify"
+	KeyPermissionsWrapKey KeyPermissions = "wrapKey"
 )
 
 // PossibleKeyPermissionsValues returns the possible values for the KeyPermissions const type.
 func PossibleKeyPermissionsValues() []KeyPermissions {
-	return []KeyPermissions{
+	return []KeyPermissions{	
 		KeyPermissionsAll,
 		KeyPermissionsBackup,
 		KeyPermissionsCreate,
@@ -246,6 +253,7 @@ func PossibleKeyPermissionsValues() []KeyPermissions {
 	}
 }
 
+// ToPtr() returns a *KeyPermissions pointing to the current value.
 func (c KeyPermissions) ToPtr() *KeyPermissions {
 	return &c
 }
@@ -256,17 +264,18 @@ type NetworkRuleAction string
 
 const (
 	NetworkRuleActionAllow NetworkRuleAction = "Allow"
-	NetworkRuleActionDeny  NetworkRuleAction = "Deny"
+	NetworkRuleActionDeny NetworkRuleAction = "Deny"
 )
 
 // PossibleNetworkRuleActionValues returns the possible values for the NetworkRuleAction const type.
 func PossibleNetworkRuleActionValues() []NetworkRuleAction {
-	return []NetworkRuleAction{
+	return []NetworkRuleAction{	
 		NetworkRuleActionAllow,
 		NetworkRuleActionDeny,
 	}
 }
 
+// ToPtr() returns a *NetworkRuleAction pointing to the current value.
 func (c NetworkRuleAction) ToPtr() *NetworkRuleAction {
 	return &c
 }
@@ -276,17 +285,18 @@ type NetworkRuleBypassOptions string
 
 const (
 	NetworkRuleBypassOptionsAzureServices NetworkRuleBypassOptions = "AzureServices"
-	NetworkRuleBypassOptionsNone          NetworkRuleBypassOptions = "None"
+	NetworkRuleBypassOptionsNone NetworkRuleBypassOptions = "None"
 )
 
 // PossibleNetworkRuleBypassOptionsValues returns the possible values for the NetworkRuleBypassOptions const type.
 func PossibleNetworkRuleBypassOptionsValues() []NetworkRuleBypassOptions {
-	return []NetworkRuleBypassOptions{
+	return []NetworkRuleBypassOptions{	
 		NetworkRuleBypassOptionsAzureServices,
 		NetworkRuleBypassOptionsNone,
 	}
 }
 
+// ToPtr() returns a *NetworkRuleBypassOptions pointing to the current value.
 func (c NetworkRuleBypassOptions) ToPtr() *NetworkRuleBypassOptions {
 	return &c
 }
@@ -295,17 +305,17 @@ func (c NetworkRuleBypassOptions) ToPtr() *NetworkRuleBypassOptions {
 type PrivateEndpointConnectionProvisioningState string
 
 const (
-	PrivateEndpointConnectionProvisioningStateCreating     PrivateEndpointConnectionProvisioningState = "Creating"
-	PrivateEndpointConnectionProvisioningStateDeleting     PrivateEndpointConnectionProvisioningState = "Deleting"
+	PrivateEndpointConnectionProvisioningStateCreating PrivateEndpointConnectionProvisioningState = "Creating"
+	PrivateEndpointConnectionProvisioningStateDeleting PrivateEndpointConnectionProvisioningState = "Deleting"
 	PrivateEndpointConnectionProvisioningStateDisconnected PrivateEndpointConnectionProvisioningState = "Disconnected"
-	PrivateEndpointConnectionProvisioningStateFailed       PrivateEndpointConnectionProvisioningState = "Failed"
-	PrivateEndpointConnectionProvisioningStateSucceeded    PrivateEndpointConnectionProvisioningState = "Succeeded"
-	PrivateEndpointConnectionProvisioningStateUpdating     PrivateEndpointConnectionProvisioningState = "Updating"
+	PrivateEndpointConnectionProvisioningStateFailed PrivateEndpointConnectionProvisioningState = "Failed"
+	PrivateEndpointConnectionProvisioningStateSucceeded PrivateEndpointConnectionProvisioningState = "Succeeded"
+	PrivateEndpointConnectionProvisioningStateUpdating PrivateEndpointConnectionProvisioningState = "Updating"
 )
 
 // PossiblePrivateEndpointConnectionProvisioningStateValues returns the possible values for the PrivateEndpointConnectionProvisioningState const type.
 func PossiblePrivateEndpointConnectionProvisioningStateValues() []PrivateEndpointConnectionProvisioningState {
-	return []PrivateEndpointConnectionProvisioningState{
+	return []PrivateEndpointConnectionProvisioningState{	
 		PrivateEndpointConnectionProvisioningStateCreating,
 		PrivateEndpointConnectionProvisioningStateDeleting,
 		PrivateEndpointConnectionProvisioningStateDisconnected,
@@ -315,6 +325,7 @@ func PossiblePrivateEndpointConnectionProvisioningStateValues() []PrivateEndpoin
 	}
 }
 
+// ToPtr() returns a *PrivateEndpointConnectionProvisioningState pointing to the current value.
 func (c PrivateEndpointConnectionProvisioningState) ToPtr() *PrivateEndpointConnectionProvisioningState {
 	return &c
 }
@@ -323,15 +334,15 @@ func (c PrivateEndpointConnectionProvisioningState) ToPtr() *PrivateEndpointConn
 type PrivateEndpointServiceConnectionStatus string
 
 const (
-	PrivateEndpointServiceConnectionStatusApproved     PrivateEndpointServiceConnectionStatus = "Approved"
+	PrivateEndpointServiceConnectionStatusApproved PrivateEndpointServiceConnectionStatus = "Approved"
 	PrivateEndpointServiceConnectionStatusDisconnected PrivateEndpointServiceConnectionStatus = "Disconnected"
-	PrivateEndpointServiceConnectionStatusPending      PrivateEndpointServiceConnectionStatus = "Pending"
-	PrivateEndpointServiceConnectionStatusRejected     PrivateEndpointServiceConnectionStatus = "Rejected"
+	PrivateEndpointServiceConnectionStatusPending PrivateEndpointServiceConnectionStatus = "Pending"
+	PrivateEndpointServiceConnectionStatusRejected PrivateEndpointServiceConnectionStatus = "Rejected"
 )
 
 // PossiblePrivateEndpointServiceConnectionStatusValues returns the possible values for the PrivateEndpointServiceConnectionStatus const type.
 func PossiblePrivateEndpointServiceConnectionStatusValues() []PrivateEndpointServiceConnectionStatus {
-	return []PrivateEndpointServiceConnectionStatus{
+	return []PrivateEndpointServiceConnectionStatus{	
 		PrivateEndpointServiceConnectionStatusApproved,
 		PrivateEndpointServiceConnectionStatusDisconnected,
 		PrivateEndpointServiceConnectionStatusPending,
@@ -339,6 +350,7 @@ func PossiblePrivateEndpointServiceConnectionStatusValues() []PrivateEndpointSer
 	}
 }
 
+// ToPtr() returns a *PrivateEndpointServiceConnectionStatus pointing to the current value.
 func (c PrivateEndpointServiceConnectionStatus) ToPtr() *PrivateEndpointServiceConnectionStatus {
 	return &c
 }
@@ -348,17 +360,18 @@ type Reason string
 
 const (
 	ReasonAccountNameInvalid Reason = "AccountNameInvalid"
-	ReasonAlreadyExists      Reason = "AlreadyExists"
+	ReasonAlreadyExists Reason = "AlreadyExists"
 )
 
 // PossibleReasonValues returns the possible values for the Reason const type.
 func PossibleReasonValues() []Reason {
-	return []Reason{
+	return []Reason{	
 		ReasonAccountNameInvalid,
 		ReasonAlreadyExists,
 	}
 }
 
+// ToPtr() returns a *Reason pointing to the current value.
 func (c Reason) ToPtr() *Reason {
 	return &c
 }
@@ -372,11 +385,12 @@ const (
 
 // PossibleSKUFamilyValues returns the possible values for the SKUFamily const type.
 func PossibleSKUFamilyValues() []SKUFamily {
-	return []SKUFamily{
+	return []SKUFamily{	
 		SKUFamilyA,
 	}
 }
 
+// ToPtr() returns a *SKUFamily pointing to the current value.
 func (c SKUFamily) ToPtr() *SKUFamily {
 	return &c
 }
@@ -386,17 +400,18 @@ type SKUName string
 
 const (
 	SKUNameStandard SKUName = "standard"
-	SKUNamePremium  SKUName = "premium"
+	SKUNamePremium SKUName = "premium"
 )
 
 // PossibleSKUNameValues returns the possible values for the SKUName const type.
 func PossibleSKUNameValues() []SKUName {
-	return []SKUName{
+	return []SKUName{	
 		SKUNameStandard,
 		SKUNamePremium,
 	}
 }
 
+// ToPtr() returns a *SKUName pointing to the current value.
 func (c SKUName) ToPtr() *SKUName {
 	return &c
 }
@@ -404,20 +419,20 @@ func (c SKUName) ToPtr() *SKUName {
 type SecretPermissions string
 
 const (
-	SecretPermissionsAll     SecretPermissions = "all"
-	SecretPermissionsBackup  SecretPermissions = "backup"
-	SecretPermissionsDelete  SecretPermissions = "delete"
-	SecretPermissionsGet     SecretPermissions = "get"
-	SecretPermissionsList    SecretPermissions = "list"
-	SecretPermissionsPurge   SecretPermissions = "purge"
+	SecretPermissionsAll SecretPermissions = "all"
+	SecretPermissionsBackup SecretPermissions = "backup"
+	SecretPermissionsDelete SecretPermissions = "delete"
+	SecretPermissionsGet SecretPermissions = "get"
+	SecretPermissionsList SecretPermissions = "list"
+	SecretPermissionsPurge SecretPermissions = "purge"
 	SecretPermissionsRecover SecretPermissions = "recover"
 	SecretPermissionsRestore SecretPermissions = "restore"
-	SecretPermissionsSet     SecretPermissions = "set"
+	SecretPermissionsSet SecretPermissions = "set"
 )
 
 // PossibleSecretPermissionsValues returns the possible values for the SecretPermissions const type.
 func PossibleSecretPermissionsValues() []SecretPermissions {
-	return []SecretPermissions{
+	return []SecretPermissions{	
 		SecretPermissionsAll,
 		SecretPermissionsBackup,
 		SecretPermissionsDelete,
@@ -430,6 +445,7 @@ func PossibleSecretPermissionsValues() []SecretPermissions {
 	}
 }
 
+// ToPtr() returns a *SecretPermissions pointing to the current value.
 func (c SecretPermissions) ToPtr() *SecretPermissions {
 	return &c
 }
@@ -437,26 +453,26 @@ func (c SecretPermissions) ToPtr() *SecretPermissions {
 type StoragePermissions string
 
 const (
-	StoragePermissionsAll           StoragePermissions = "all"
-	StoragePermissionsBackup        StoragePermissions = "backup"
-	StoragePermissionsDelete        StoragePermissions = "delete"
-	StoragePermissionsDeletesas     StoragePermissions = "deletesas"
-	StoragePermissionsGet           StoragePermissions = "get"
-	StoragePermissionsGetsas        StoragePermissions = "getsas"
-	StoragePermissionsList          StoragePermissions = "list"
-	StoragePermissionsListsas       StoragePermissions = "listsas"
-	StoragePermissionsPurge         StoragePermissions = "purge"
-	StoragePermissionsRecover       StoragePermissions = "recover"
+	StoragePermissionsAll StoragePermissions = "all"
+	StoragePermissionsBackup StoragePermissions = "backup"
+	StoragePermissionsDelete StoragePermissions = "delete"
+	StoragePermissionsDeletesas StoragePermissions = "deletesas"
+	StoragePermissionsGet StoragePermissions = "get"
+	StoragePermissionsGetsas StoragePermissions = "getsas"
+	StoragePermissionsList StoragePermissions = "list"
+	StoragePermissionsListsas StoragePermissions = "listsas"
+	StoragePermissionsPurge StoragePermissions = "purge"
+	StoragePermissionsRecover StoragePermissions = "recover"
 	StoragePermissionsRegeneratekey StoragePermissions = "regeneratekey"
-	StoragePermissionsRestore       StoragePermissions = "restore"
-	StoragePermissionsSet           StoragePermissions = "set"
-	StoragePermissionsSetsas        StoragePermissions = "setsas"
-	StoragePermissionsUpdate        StoragePermissions = "update"
+	StoragePermissionsRestore StoragePermissions = "restore"
+	StoragePermissionsSet StoragePermissions = "set"
+	StoragePermissionsSetsas StoragePermissions = "setsas"
+	StoragePermissionsUpdate StoragePermissions = "update"
 )
 
 // PossibleStoragePermissionsValues returns the possible values for the StoragePermissions const type.
 func PossibleStoragePermissionsValues() []StoragePermissions {
-	return []StoragePermissions{
+	return []StoragePermissions{	
 		StoragePermissionsAll,
 		StoragePermissionsBackup,
 		StoragePermissionsDelete,
@@ -475,6 +491,7 @@ func PossibleStoragePermissionsValues() []StoragePermissions {
 	}
 }
 
+// ToPtr() returns a *StoragePermissions pointing to the current value.
 func (c StoragePermissions) ToPtr() *StoragePermissions {
 	return &c
 }
@@ -484,17 +501,19 @@ type VaultProvisioningState string
 
 const (
 	VaultProvisioningStateRegisteringDNS VaultProvisioningState = "RegisteringDns"
-	VaultProvisioningStateSucceeded      VaultProvisioningState = "Succeeded"
+	VaultProvisioningStateSucceeded VaultProvisioningState = "Succeeded"
 )
 
 // PossibleVaultProvisioningStateValues returns the possible values for the VaultProvisioningState const type.
 func PossibleVaultProvisioningStateValues() []VaultProvisioningState {
-	return []VaultProvisioningState{
+	return []VaultProvisioningState{	
 		VaultProvisioningStateRegisteringDNS,
 		VaultProvisioningStateSucceeded,
 	}
 }
 
+// ToPtr() returns a *VaultProvisioningState pointing to the current value.
 func (c VaultProvisioningState) ToPtr() *VaultProvisioningState {
 	return &c
 }
+

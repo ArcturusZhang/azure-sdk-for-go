@@ -10,10 +10,8 @@ package armkeyvault
 import (
 	"context"
 	"errors"
-	"fmt"
 	"github.com/Azure/azure-sdk-for-go/sdk/armcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -24,7 +22,7 @@ import (
 // VaultsClient contains the methods for the Vaults group.
 // Don't use this type directly, use NewVaultsClient() instead.
 type VaultsClient struct {
-	con            *armcore.Connection
+	con *armcore.Connection
 	subscriptionID string
 }
 
@@ -52,15 +50,18 @@ func (client *VaultsClient) CheckNameAvailability(ctx context.Context, vaultName
 // checkNameAvailabilityCreateRequest creates the CheckNameAvailability request.
 func (client *VaultsClient) checkNameAvailabilityCreateRequest(ctx context.Context, vaultName VaultCheckNameAvailabilityParameters, options *VaultsCheckNameAvailabilityOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/checkNameAvailability"
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
 	req, err := azcore.NewRequest(ctx, http.MethodPost, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP := req.URL.Query()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, req.MarshalAsJSON(vaultName)
 }
@@ -71,19 +72,16 @@ func (client *VaultsClient) checkNameAvailabilityHandleResponse(resp *azcore.Res
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return CheckNameAvailabilityResultResponse{}, err
 	}
-	return CheckNameAvailabilityResultResponse{RawResponse: resp.Response, CheckNameAvailabilityResult: val}, nil
+return CheckNameAvailabilityResultResponse{RawResponse: resp.Response, CheckNameAvailabilityResult: val}, nil
 }
 
 // checkNameAvailabilityHandleError handles the CheckNameAvailability error response.
 func (client *VaultsClient) checkNameAvailabilityHandleError(resp *azcore.Response) error {
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return fmt.Errorf("%s; failed to read response body: %w", resp.Status, err)
+var err CloudError
+	if err := resp.UnmarshalAsJSON(&err); err != nil {
+		return err
 	}
-	if len(body) == 0 {
-		return azcore.NewResponseError(errors.New(resp.Status), resp.Response)
-	}
-	return azcore.NewResponseError(errors.New(string(body)), resp.Response)
+	return azcore.NewResponseError(&err, resp.Response)
 }
 
 // BeginCreateOrUpdate - Create or update a key vault in the specified subscription.
@@ -100,7 +98,7 @@ func (client *VaultsClient) BeginCreateOrUpdate(ctx context.Context, resourceGro
 		return VaultPollerResponse{}, err
 	}
 	poller := &vaultPoller{
-		pt:       pt,
+		pt: pt,
 		pipeline: client.con.Pipeline(),
 	}
 	result.Poller = poller
@@ -119,7 +117,7 @@ func (client *VaultsClient) ResumeCreateOrUpdate(token string) (VaultPoller, err
 	}
 	return &vaultPoller{
 		pipeline: client.con.Pipeline(),
-		pt:       pt,
+		pt: pt,
 	}, nil
 }
 
@@ -136,23 +134,32 @@ func (client *VaultsClient) createOrUpdate(ctx context.Context, resourceGroupNam
 	if !resp.HasStatusCode(http.StatusOK, http.StatusCreated) {
 		return nil, client.createOrUpdateHandleError(resp)
 	}
-	return resp, nil
+	 return resp, nil
 }
 
 // createOrUpdateCreateRequest creates the CreateOrUpdate request.
 func (client *VaultsClient) createOrUpdateCreateRequest(ctx context.Context, resourceGroupName string, vaultName string, parameters VaultCreateOrUpdateParameters, options *VaultsBeginCreateOrUpdateOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}"
+	if resourceGroupName == "" {
+		return nil, errors.New("parameter resourceGroupName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{resourceGroupName}", url.PathEscape(resourceGroupName))
+	if vaultName == "" {
+		return nil, errors.New("parameter vaultName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{vaultName}", url.PathEscape(vaultName))
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
 	req, err := azcore.NewRequest(ctx, http.MethodPut, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP := req.URL.Query()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, req.MarshalAsJSON(parameters)
 }
@@ -163,31 +170,16 @@ func (client *VaultsClient) createOrUpdateHandleResponse(resp *azcore.Response) 
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return VaultResponse{}, err
 	}
-	return VaultResponse{RawResponse: resp.Response, Vault: val}, nil
+return VaultResponse{RawResponse: resp.Response, Vault: val}, nil
 }
 
 // createOrUpdateHandleError handles the CreateOrUpdate error response.
 func (client *VaultsClient) createOrUpdateHandleError(resp *azcore.Response) error {
-	switch resp.StatusCode {
-	case http.StatusBadRequest:
-		var err CloudError
-		if err := resp.UnmarshalAsJSON(&err); err != nil {
-			return err
-		}
-		return azcore.NewResponseError(&err, resp.Response)
-	case http.StatusConflict:
-		var err CloudError
-		if err := resp.UnmarshalAsJSON(&err); err != nil {
-			return err
-		}
-		return azcore.NewResponseError(&err, resp.Response)
-	default:
-		var err CloudError
-		if err := resp.UnmarshalAsJSON(&err); err != nil {
-			return err
-		}
-		return azcore.NewResponseError(&err, resp.Response)
+var err CloudError
+	if err := resp.UnmarshalAsJSON(&err); err != nil {
+		return err
 	}
+	return azcore.NewResponseError(&err, resp.Response)
 }
 
 // Delete - Deletes the specified Azure key vault.
@@ -209,37 +201,37 @@ func (client *VaultsClient) Delete(ctx context.Context, resourceGroupName string
 // deleteCreateRequest creates the Delete request.
 func (client *VaultsClient) deleteCreateRequest(ctx context.Context, resourceGroupName string, vaultName string, options *VaultsDeleteOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}"
+	if resourceGroupName == "" {
+		return nil, errors.New("parameter resourceGroupName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{resourceGroupName}", url.PathEscape(resourceGroupName))
+	if vaultName == "" {
+		return nil, errors.New("parameter vaultName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{vaultName}", url.PathEscape(vaultName))
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
 	req, err := azcore.NewRequest(ctx, http.MethodDelete, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP := req.URL.Query()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, nil
 }
 
 // deleteHandleError handles the Delete error response.
 func (client *VaultsClient) deleteHandleError(resp *azcore.Response) error {
-	switch resp.StatusCode {
-	case http.StatusBadRequest:
-		var err CloudError
-		if err := resp.UnmarshalAsJSON(&err); err != nil {
-			return err
-		}
-		return azcore.NewResponseError(&err, resp.Response)
-	default:
-		var err CloudError
-		if err := resp.UnmarshalAsJSON(&err); err != nil {
-			return err
-		}
-		return azcore.NewResponseError(&err, resp.Response)
+var err CloudError
+	if err := resp.UnmarshalAsJSON(&err); err != nil {
+		return err
 	}
+	return azcore.NewResponseError(&err, resp.Response)
 }
 
 // Get - Gets the specified Azure key vault.
@@ -261,17 +253,26 @@ func (client *VaultsClient) Get(ctx context.Context, resourceGroupName string, v
 // getCreateRequest creates the Get request.
 func (client *VaultsClient) getCreateRequest(ctx context.Context, resourceGroupName string, vaultName string, options *VaultsGetOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}"
+	if resourceGroupName == "" {
+		return nil, errors.New("parameter resourceGroupName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{resourceGroupName}", url.PathEscape(resourceGroupName))
+	if vaultName == "" {
+		return nil, errors.New("parameter vaultName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{vaultName}", url.PathEscape(vaultName))
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
 	req, err := azcore.NewRequest(ctx, http.MethodGet, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP := req.URL.Query()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, nil
 }
@@ -282,12 +283,12 @@ func (client *VaultsClient) getHandleResponse(resp *azcore.Response) (VaultRespo
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return VaultResponse{}, err
 	}
-	return VaultResponse{RawResponse: resp.Response, Vault: val}, nil
+return VaultResponse{RawResponse: resp.Response, Vault: val}, nil
 }
 
 // getHandleError handles the Get error response.
 func (client *VaultsClient) getHandleError(resp *azcore.Response) error {
-	var err CloudError
+var err CloudError
 	if err := resp.UnmarshalAsJSON(&err); err != nil {
 		return err
 	}
@@ -313,17 +314,26 @@ func (client *VaultsClient) GetDeleted(ctx context.Context, vaultName string, lo
 // getDeletedCreateRequest creates the GetDeleted request.
 func (client *VaultsClient) getDeletedCreateRequest(ctx context.Context, vaultName string, location string, options *VaultsGetDeletedOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}"
+	if vaultName == "" {
+		return nil, errors.New("parameter vaultName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{vaultName}", url.PathEscape(vaultName))
+	if location == "" {
+		return nil, errors.New("parameter location cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{location}", url.PathEscape(location))
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
 	req, err := azcore.NewRequest(ctx, http.MethodGet, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP := req.URL.Query()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, nil
 }
@@ -334,12 +344,12 @@ func (client *VaultsClient) getDeletedHandleResponse(resp *azcore.Response) (Del
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return DeletedVaultResponse{}, err
 	}
-	return DeletedVaultResponse{RawResponse: resp.Response, DeletedVault: val}, nil
+return DeletedVaultResponse{RawResponse: resp.Response, DeletedVault: val}, nil
 }
 
 // getDeletedHandleError handles the GetDeleted error response.
 func (client *VaultsClient) getDeletedHandleError(resp *azcore.Response) error {
-	var err CloudError
+var err CloudError
 	if err := resp.UnmarshalAsJSON(&err); err != nil {
 		return err
 	}
@@ -347,7 +357,7 @@ func (client *VaultsClient) getDeletedHandleError(resp *azcore.Response) error {
 }
 
 // List - The List operation gets information about the vaults associated with the subscription.
-func (client *VaultsClient) List(options *VaultsListOptions) ResourceListResultPager {
+func (client *VaultsClient) List(options *VaultsListOptions) (ResourceListResultPager) {
 	return &resourceListResultPager{
 		pipeline: client.con.Pipeline(),
 		requester: func(ctx context.Context) (*azcore.Request, error) {
@@ -365,19 +375,22 @@ func (client *VaultsClient) List(options *VaultsListOptions) ResourceListResultP
 // listCreateRequest creates the List request.
 func (client *VaultsClient) listCreateRequest(ctx context.Context, options *VaultsListOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/resources"
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
 	req, err := azcore.NewRequest(ctx, http.MethodGet, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("$filter", "resourceType eq 'Microsoft.KeyVault/vaults'")
+	reqQP := req.URL.Query()
+	reqQP.Set("$filter", "resourceType eq 'Microsoft.KeyVault/vaults'")
 	if options != nil && options.Top != nil {
-		query.Set("$top", strconv.FormatInt(int64(*options.Top), 10))
+		reqQP.Set("$top", strconv.FormatInt(int64(*options.Top), 10))
 	}
-	query.Set("api-version", "2015-11-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP.Set("api-version", "2015-11-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, nil
 }
@@ -388,23 +401,20 @@ func (client *VaultsClient) listHandleResponse(resp *azcore.Response) (ResourceL
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return ResourceListResultResponse{}, err
 	}
-	return ResourceListResultResponse{RawResponse: resp.Response, ResourceListResult: val}, nil
+return ResourceListResultResponse{RawResponse: resp.Response, ResourceListResult: val}, nil
 }
 
 // listHandleError handles the List error response.
 func (client *VaultsClient) listHandleError(resp *azcore.Response) error {
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return fmt.Errorf("%s; failed to read response body: %w", resp.Status, err)
+var err CloudError
+	if err := resp.UnmarshalAsJSON(&err); err != nil {
+		return err
 	}
-	if len(body) == 0 {
-		return azcore.NewResponseError(errors.New(resp.Status), resp.Response)
-	}
-	return azcore.NewResponseError(errors.New(string(body)), resp.Response)
+	return azcore.NewResponseError(&err, resp.Response)
 }
 
 // ListByResourceGroup - The List operation gets information about the vaults associated with the subscription and within the specified resource group.
-func (client *VaultsClient) ListByResourceGroup(resourceGroupName string, options *VaultsListByResourceGroupOptions) VaultListResultPager {
+func (client *VaultsClient) ListByResourceGroup(resourceGroupName string, options *VaultsListByResourceGroupOptions) (VaultListResultPager) {
 	return &vaultListResultPager{
 		pipeline: client.con.Pipeline(),
 		requester: func(ctx context.Context) (*azcore.Request, error) {
@@ -422,19 +432,25 @@ func (client *VaultsClient) ListByResourceGroup(resourceGroupName string, option
 // listByResourceGroupCreateRequest creates the ListByResourceGroup request.
 func (client *VaultsClient) listByResourceGroupCreateRequest(ctx context.Context, resourceGroupName string, options *VaultsListByResourceGroupOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults"
+	if resourceGroupName == "" {
+		return nil, errors.New("parameter resourceGroupName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{resourceGroupName}", url.PathEscape(resourceGroupName))
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
 	req, err := azcore.NewRequest(ctx, http.MethodGet, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
+	reqQP := req.URL.Query()
 	if options != nil && options.Top != nil {
-		query.Set("$top", strconv.FormatInt(int64(*options.Top), 10))
+		reqQP.Set("$top", strconv.FormatInt(int64(*options.Top), 10))
 	}
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, nil
 }
@@ -445,23 +461,20 @@ func (client *VaultsClient) listByResourceGroupHandleResponse(resp *azcore.Respo
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return VaultListResultResponse{}, err
 	}
-	return VaultListResultResponse{RawResponse: resp.Response, VaultListResult: val}, nil
+return VaultListResultResponse{RawResponse: resp.Response, VaultListResult: val}, nil
 }
 
 // listByResourceGroupHandleError handles the ListByResourceGroup error response.
 func (client *VaultsClient) listByResourceGroupHandleError(resp *azcore.Response) error {
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return fmt.Errorf("%s; failed to read response body: %w", resp.Status, err)
+var err CloudError
+	if err := resp.UnmarshalAsJSON(&err); err != nil {
+		return err
 	}
-	if len(body) == 0 {
-		return azcore.NewResponseError(errors.New(resp.Status), resp.Response)
-	}
-	return azcore.NewResponseError(errors.New(string(body)), resp.Response)
+	return azcore.NewResponseError(&err, resp.Response)
 }
 
 // ListBySubscription - The List operation gets information about the vaults associated with the subscription.
-func (client *VaultsClient) ListBySubscription(options *VaultsListBySubscriptionOptions) VaultListResultPager {
+func (client *VaultsClient) ListBySubscription(options *VaultsListBySubscriptionOptions) (VaultListResultPager) {
 	return &vaultListResultPager{
 		pipeline: client.con.Pipeline(),
 		requester: func(ctx context.Context) (*azcore.Request, error) {
@@ -479,18 +492,21 @@ func (client *VaultsClient) ListBySubscription(options *VaultsListBySubscription
 // listBySubscriptionCreateRequest creates the ListBySubscription request.
 func (client *VaultsClient) listBySubscriptionCreateRequest(ctx context.Context, options *VaultsListBySubscriptionOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/vaults"
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
 	req, err := azcore.NewRequest(ctx, http.MethodGet, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
+	reqQP := req.URL.Query()
 	if options != nil && options.Top != nil {
-		query.Set("$top", strconv.FormatInt(int64(*options.Top), 10))
+		reqQP.Set("$top", strconv.FormatInt(int64(*options.Top), 10))
 	}
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, nil
 }
@@ -501,23 +517,20 @@ func (client *VaultsClient) listBySubscriptionHandleResponse(resp *azcore.Respon
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return VaultListResultResponse{}, err
 	}
-	return VaultListResultResponse{RawResponse: resp.Response, VaultListResult: val}, nil
+return VaultListResultResponse{RawResponse: resp.Response, VaultListResult: val}, nil
 }
 
 // listBySubscriptionHandleError handles the ListBySubscription error response.
 func (client *VaultsClient) listBySubscriptionHandleError(resp *azcore.Response) error {
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return fmt.Errorf("%s; failed to read response body: %w", resp.Status, err)
+var err CloudError
+	if err := resp.UnmarshalAsJSON(&err); err != nil {
+		return err
 	}
-	if len(body) == 0 {
-		return azcore.NewResponseError(errors.New(resp.Status), resp.Response)
-	}
-	return azcore.NewResponseError(errors.New(string(body)), resp.Response)
+	return azcore.NewResponseError(&err, resp.Response)
 }
 
 // ListDeleted - Gets information about the deleted vaults in a subscription.
-func (client *VaultsClient) ListDeleted(options *VaultsListDeletedOptions) DeletedVaultListResultPager {
+func (client *VaultsClient) ListDeleted(options *VaultsListDeletedOptions) (DeletedVaultListResultPager) {
 	return &deletedVaultListResultPager{
 		pipeline: client.con.Pipeline(),
 		requester: func(ctx context.Context) (*azcore.Request, error) {
@@ -535,15 +548,18 @@ func (client *VaultsClient) ListDeleted(options *VaultsListDeletedOptions) Delet
 // listDeletedCreateRequest creates the ListDeleted request.
 func (client *VaultsClient) listDeletedCreateRequest(ctx context.Context, options *VaultsListDeletedOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/deletedVaults"
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
 	req, err := azcore.NewRequest(ctx, http.MethodGet, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP := req.URL.Query()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, nil
 }
@@ -554,19 +570,16 @@ func (client *VaultsClient) listDeletedHandleResponse(resp *azcore.Response) (De
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return DeletedVaultListResultResponse{}, err
 	}
-	return DeletedVaultListResultResponse{RawResponse: resp.Response, DeletedVaultListResult: val}, nil
+return DeletedVaultListResultResponse{RawResponse: resp.Response, DeletedVaultListResult: val}, nil
 }
 
 // listDeletedHandleError handles the ListDeleted error response.
 func (client *VaultsClient) listDeletedHandleError(resp *azcore.Response) error {
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return fmt.Errorf("%s; failed to read response body: %w", resp.Status, err)
+var err CloudError
+	if err := resp.UnmarshalAsJSON(&err); err != nil {
+		return err
 	}
-	if len(body) == 0 {
-		return azcore.NewResponseError(errors.New(resp.Status), resp.Response)
-	}
-	return azcore.NewResponseError(errors.New(string(body)), resp.Response)
+	return azcore.NewResponseError(&err, resp.Response)
 }
 
 // BeginPurgeDeleted - Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
@@ -583,7 +596,7 @@ func (client *VaultsClient) BeginPurgeDeleted(ctx context.Context, vaultName str
 		return HTTPPollerResponse{}, err
 	}
 	poller := &httpPoller{
-		pt:       pt,
+		pt: pt,
 		pipeline: client.con.Pipeline(),
 	}
 	result.Poller = poller
@@ -602,7 +615,7 @@ func (client *VaultsClient) ResumePurgeDeleted(token string) (HTTPPoller, error)
 	}
 	return &httpPoller{
 		pipeline: client.con.Pipeline(),
-		pt:       pt,
+		pt: pt,
 	}, nil
 }
 
@@ -619,49 +632,43 @@ func (client *VaultsClient) purgeDeleted(ctx context.Context, vaultName string, 
 	if !resp.HasStatusCode(http.StatusOK, http.StatusAccepted) {
 		return nil, client.purgeDeletedHandleError(resp)
 	}
-	return resp, nil
+	 return resp, nil
 }
 
 // purgeDeletedCreateRequest creates the PurgeDeleted request.
 func (client *VaultsClient) purgeDeletedCreateRequest(ctx context.Context, vaultName string, location string, options *VaultsBeginPurgeDeletedOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}/purge"
+	if vaultName == "" {
+		return nil, errors.New("parameter vaultName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{vaultName}", url.PathEscape(vaultName))
+	if location == "" {
+		return nil, errors.New("parameter location cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{location}", url.PathEscape(location))
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
 	req, err := azcore.NewRequest(ctx, http.MethodPost, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP := req.URL.Query()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, nil
 }
 
 // purgeDeletedHandleError handles the PurgeDeleted error response.
 func (client *VaultsClient) purgeDeletedHandleError(resp *azcore.Response) error {
-	switch resp.StatusCode {
-	case http.StatusBadRequest:
-		var err CloudError
-		if err := resp.UnmarshalAsJSON(&err); err != nil {
-			return err
-		}
-		return azcore.NewResponseError(&err, resp.Response)
-	case http.StatusNotFound:
-		var err CloudError
-		if err := resp.UnmarshalAsJSON(&err); err != nil {
-			return err
-		}
-		return azcore.NewResponseError(&err, resp.Response)
-	default:
-		var err CloudError
-		if err := resp.UnmarshalAsJSON(&err); err != nil {
-			return err
-		}
-		return azcore.NewResponseError(&err, resp.Response)
+var err CloudError
+	if err := resp.UnmarshalAsJSON(&err); err != nil {
+		return err
 	}
+	return azcore.NewResponseError(&err, resp.Response)
 }
 
 // Update - Update a key vault in the specified subscription.
@@ -683,17 +690,26 @@ func (client *VaultsClient) Update(ctx context.Context, resourceGroupName string
 // updateCreateRequest creates the Update request.
 func (client *VaultsClient) updateCreateRequest(ctx context.Context, resourceGroupName string, vaultName string, parameters VaultPatchParameters, options *VaultsUpdateOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}"
+	if resourceGroupName == "" {
+		return nil, errors.New("parameter resourceGroupName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{resourceGroupName}", url.PathEscape(resourceGroupName))
+	if vaultName == "" {
+		return nil, errors.New("parameter vaultName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{vaultName}", url.PathEscape(vaultName))
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
 	req, err := azcore.NewRequest(ctx, http.MethodPatch, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP := req.URL.Query()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, req.MarshalAsJSON(parameters)
 }
@@ -704,31 +720,16 @@ func (client *VaultsClient) updateHandleResponse(resp *azcore.Response) (VaultRe
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return VaultResponse{}, err
 	}
-	return VaultResponse{RawResponse: resp.Response, Vault: val}, nil
+return VaultResponse{RawResponse: resp.Response, Vault: val}, nil
 }
 
 // updateHandleError handles the Update error response.
 func (client *VaultsClient) updateHandleError(resp *azcore.Response) error {
-	switch resp.StatusCode {
-	case http.StatusBadRequest:
-		var err CloudError
-		if err := resp.UnmarshalAsJSON(&err); err != nil {
-			return err
-		}
-		return azcore.NewResponseError(&err, resp.Response)
-	case http.StatusConflict:
-		var err CloudError
-		if err := resp.UnmarshalAsJSON(&err); err != nil {
-			return err
-		}
-		return azcore.NewResponseError(&err, resp.Response)
-	default:
-		var err CloudError
-		if err := resp.UnmarshalAsJSON(&err); err != nil {
-			return err
-		}
-		return azcore.NewResponseError(&err, resp.Response)
+var err CloudError
+	if err := resp.UnmarshalAsJSON(&err); err != nil {
+		return err
 	}
+	return azcore.NewResponseError(&err, resp.Response)
 }
 
 // UpdateAccessPolicy - Update access policies in a key vault in the specified subscription.
@@ -750,18 +751,30 @@ func (client *VaultsClient) UpdateAccessPolicy(ctx context.Context, resourceGrou
 // updateAccessPolicyCreateRequest creates the UpdateAccessPolicy request.
 func (client *VaultsClient) updateAccessPolicyCreateRequest(ctx context.Context, resourceGroupName string, vaultName string, operationKind AccessPolicyUpdateKind, parameters VaultAccessPolicyParameters, options *VaultsUpdateAccessPolicyOptions) (*azcore.Request, error) {
 	urlPath := "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/accessPolicies/{operationKind}"
+	if resourceGroupName == "" {
+		return nil, errors.New("parameter resourceGroupName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{resourceGroupName}", url.PathEscape(resourceGroupName))
+	if vaultName == "" {
+		return nil, errors.New("parameter vaultName cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{vaultName}", url.PathEscape(vaultName))
+	if operationKind == "" {
+		return nil, errors.New("parameter operationKind cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{operationKind}", url.PathEscape(string(operationKind)))
+	if client.subscriptionID == "" {
+		return nil, errors.New("parameter client.subscriptionID cannot be empty")
+	}
 	urlPath = strings.ReplaceAll(urlPath, "{subscriptionId}", url.PathEscape(client.subscriptionID))
 	req, err := azcore.NewRequest(ctx, http.MethodPut, azcore.JoinPaths(client.con.Endpoint(), urlPath))
 	if err != nil {
 		return nil, err
 	}
 	req.Telemetry(telemetryInfo)
-	query := req.URL.Query()
-	query.Set("api-version", "2019-09-01")
-	req.URL.RawQuery = query.Encode()
+	reqQP := req.URL.Query()
+	reqQP.Set("api-version", "2019-09-01")
+	req.URL.RawQuery = reqQP.Encode()
 	req.Header.Set("Accept", "application/json")
 	return req, req.MarshalAsJSON(parameters)
 }
@@ -772,35 +785,15 @@ func (client *VaultsClient) updateAccessPolicyHandleResponse(resp *azcore.Respon
 	if err := resp.UnmarshalAsJSON(&val); err != nil {
 		return VaultAccessPolicyParametersResponse{}, err
 	}
-	return VaultAccessPolicyParametersResponse{RawResponse: resp.Response, VaultAccessPolicyParameters: val}, nil
+return VaultAccessPolicyParametersResponse{RawResponse: resp.Response, VaultAccessPolicyParameters: val}, nil
 }
 
 // updateAccessPolicyHandleError handles the UpdateAccessPolicy error response.
 func (client *VaultsClient) updateAccessPolicyHandleError(resp *azcore.Response) error {
-	switch resp.StatusCode {
-	case http.StatusBadRequest:
-		var err CloudError
-		if err := resp.UnmarshalAsJSON(&err); err != nil {
-			return err
-		}
-		return azcore.NewResponseError(&err, resp.Response)
-	case http.StatusNotFound:
-		var err CloudError
-		if err := resp.UnmarshalAsJSON(&err); err != nil {
-			return err
-		}
-		return azcore.NewResponseError(&err, resp.Response)
-	case http.StatusConflict:
-		var err CloudError
-		if err := resp.UnmarshalAsJSON(&err); err != nil {
-			return err
-		}
-		return azcore.NewResponseError(&err, resp.Response)
-	default:
-		var err CloudError
-		if err := resp.UnmarshalAsJSON(&err); err != nil {
-			return err
-		}
-		return azcore.NewResponseError(&err, resp.Response)
+var err CloudError
+	if err := resp.UnmarshalAsJSON(&err); err != nil {
+		return err
 	}
+	return azcore.NewResponseError(&err, resp.Response)
 }
+
